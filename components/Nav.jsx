@@ -111,7 +111,7 @@ export default function Nav() {
     };
   }, []);
   return (
-    <header style={{backgroundColor : colors.four}} className='d-flex  align-items-center px-4 py-3 justify-content-between flex-row-reverse flex-sm-row'>
+    <header style={{backgroundColor : colors.four,position:"sticky",top : '0px'}} className='d-flex  align-items-center px-4 py-3 justify-content-between flex-row-reverse flex-sm-row'>
       <Link href={'/'} ><img src="./images/LOGO_OFFECIAL.png" width={50} /></Link>
       <nav className='d-flex gap-5'>
          <div className='navbarLinksName nav gap-4 text-capitalize align-items-center d-none d-lg-flex'>

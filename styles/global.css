@@ -8,6 +8,7 @@
     --two: #CFDAC8;
     --three: #E8EAE6;
     --four: #CDD0CB;
+    --five: rgba(243,243,243,255);
   }
   /* Use the custom font for your elements */
 *{
@@ -15,6 +16,7 @@
     margin: 0px;
     box-sizing: border-box;
 }
+/* navbar */
 header{
     font-family: 'nunito-regular';
 
@@ -66,9 +68,59 @@ header{
     backdrop-filter : blur(10px);
     border-radius: 10px;
 }
-.collection img{
-  
+/* collection */
+.couv1{
+    background-color: rgba(246,246,246,255);
+    width: 60%;
+    height: 50%;
 }
+.couv2{
+    background-color: rgba(246,246,246,255);
+    width: 60%;
+    height: 60%;
+}
+.couv3,.couv4{
+    background-color: var(--five);
+    width: 40%;
+    height: 50%;
+}
+.couv1 img{
+    width: 40%;
+}
+.couv2 img{
+    width: 26.7%;
+}
+.couv3 img{
+    width: 60%;
+}
+.couv4 img{
+    width: 40%;
+}
+.couv1 small,.couv2 small,.couv3 small,.couv4 small{
+    color: rgb(120, 120, 120);
+}
+#test {
+    animation: test 2s ease-in;
+    stroke: #191919;
+    stroke-width: 12;
+    stroke-miterlimit:10;
+    stroke-linecap: round;
+    stroke-linejoin:round;
+    
+}
+@keyframes test {
+    to{
+        stroke-dasharray:80% ,100%,  100% ;
+    }
+}
+
+
+
+
+
+
+
+/* responsive part */  
 @media screen and (max-width : 600px) {
     .navbarListDrawer li{
         width : 100%
@@ -78,5 +130,30 @@ header{
         height: 100%;
         border-radius: 0px;
     }
+    .collection .coll1,.coll2{
+        flex-wrap: wrap;
+    }
+    .collection .couv1,.couv2,.couv3,.couv4{
+        width: 100%;
+        height: calc(100%/4);
+    } 
+    .collection .couv1 img,.couv2 img,.couv3 img,.couv4 img{
+        width: 30%;
+    }
+    .collection h5{
+        font-size: 16px;
+    }
 }
 
+@media screen and (min-width : 600px) and (max-width:1000px) {
+    .collection .coll1,.coll2{
+        flex-wrap: wrap;
+    }
+    .collection .couv1,.couv2,.couv3,.couv4{
+        width: 100%;
+        height: calc(100%/4);
+    } 
+    .collection .couv1 img,.couv2 img,.couv3 img,.couv4 img{
+        width: 30%;
+    }
+}

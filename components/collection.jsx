@@ -1,14 +1,19 @@
-import { Grid,Container,Paper } from "@mui/material"
+import Couv1 from "./couv1";
+import Couv2 from "./couv2";
+import Couv3 from "./couv3";
+import Couv4 from "./couv4";
+
 export default function Collection() {
   return (
-    <section className="collection w-100 d-flex bg-danger">
-        <img className="collection1" src="./images/T-shirt/collection.jpg" alt="" style={{width : '1fr',height:'89vh'}} />
-        <div className="w-100 d-flex flex-wrap">
-            <img className="collection3" src="./images/T-shirt/collection5.jpg" alt=""style={{width : '1fr',height:'50vh'}}/>
-            <img className="collection3" src="./images/T-shirt/collection6.jpg" alt=""style={{width : '1fr',height:'50vh'}}/>
-            <img src="./images/T-shirt/collection2.jpg" alt="" />
-        </div>
-        
-    </section>
+   <section className="collection w-100">
+      <div className="coll1 d-flex gap-2 mt-2">
+        <Couv1/>
+        <Couv3/>
+      </div>
+      <div className="coll2 d-flex gap-2 mt-2">
+         <Couv4/>
+         <Couv2/>
+      </div>
+   </section>
   )
 }
