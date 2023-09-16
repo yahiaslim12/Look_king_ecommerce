@@ -1,7 +1,14 @@
 @font-face {
     font-family: 'nunito-regular';
     src: url('../styles/fonts/NunitoSans_10pt-Regular.ttf') format('truetype');
-    
+  }
+  @font-face {
+    font-family: "footer-font";
+    src: url("../styles/fonts/Oswald-Regular.ttf") format('truetype');
+  }
+  @font-face {
+    font-family: "BolderFont";
+    src: url("../styles/fonts/LilitaOne-Regular.ttf") format('truetype');
   }
   :root{
     --one: #7C9473;
@@ -15,11 +22,34 @@
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
+    font-family: 'nunito-regular';
+}
+ul{
+    padding-left: 0;
+}
+li{
+    list-style: none;
 }
 /* navbar */
-header{
-    font-family: 'nunito-regular';
-
+.search{
+   width: 90%;
+   border-top: 1px solid rgba(0, 0, 0, 0.125);
+   border-left: 1px solid rgba(0, 0, 0, 0.125);
+   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+   border-right: none;
+   outline: none;
+   border-top-left-radius: 7px;
+   border-bottom-left-radius: 7px;
+}
+header .LinksH6{
+    transition: 0.5s;
+    color: black;
+}
+header .LinksH6:hover{
+   color: #7C9473;
+}
+header .location:focus{
+    outline: 5px solid #7c947385;
 }
 .navdrawerHeader{
     backdrop-filter: blur(10px);
@@ -99,28 +129,156 @@ header{
 .couv1 small,.couv2 small,.couv3 small,.couv4 small{
     color: rgb(120, 120, 120);
 }
-#test {
-    animation: test 2s ease-in;
-    stroke: #191919;
-    stroke-width: 12;
-    stroke-miterlimit:10;
-    stroke-linecap: round;
-    stroke-linejoin:round;
-    
+
+.firstCollection {
+    /*background: linear-gradient(0deg, var(--two) , white );*/
 }
-@keyframes test {
-    to{
-        stroke-dasharray:80% ,100%,  100% ;
+/*seconde collection */
+.secondCollection div button,.firstCollection button{
+   border: 1px solid var(--one);
+   color: var(--one);
+}
+.firstCollection button:focus{
+    outline: 5px solid #7c947385;
+    border: none;
+}
+.firstCollection button:hover{
+    border: 1px solid var(--one);
+   color: var(--one);
+}
+.secondCollection div button:hover{
+    color: var(--three);
+    background-color: var(--one);
+
+}
+.secondCollection div button:focus{
+    background-color: var(--one);
+    color: var(--three);
+}
+
+.secondCollection .thirdCardContent{
+    width: 800px;
+}
+
+.thirdCollection .livraison,.instagram,.serviceClient,.vitesse{
+    width: 200px; 
+ }
+ .thirdCollection .livraison img,.instagram img,.serviceClient img,.vitesse img{
+    width: 30%;
+ }
+footer .LogoPart,.companyPart,.helpPart,.servicePart,.contactPart{
+     width: calc(100%/4);
+}
+footer h2{
+    font-size: 20px;
+    font-family: footer-font;
+}
+footer li{
+    font-size: 14px;
+    text-transform: capitalize;
+    transition: 0.5s;
+    position: relative;
+    color: rgb(120, 120, 120);
+    margin-top: 5px;
+}
+footer li:hover{
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    color: black;
+}
+footer .otherPart {
+    display: flex ;
+    gap: 1rem;
+    width: 100%;
+
+}
+/* category page */
+.categoryPage .categoryList h1{
+    font-size: 18px;
+    font-weight: bold;
+}
+.categoryPage .categoryList .one,.two,.three,.four{
+    border-bottom: 1px solid var(--three);
+}
+.categoryPage .categoryList ul{
+    padding-left: 0px;
+}
+
+.categoryPage .categoryList  li:hover{
+    cursor:pointer;
+    color: #7C9473;
+    border: 1px solid var(--three)
+
+}
+.categoryPage .categoryList .three .search{
+    width: 60%;
+    border: 1px solid var(--three);
+}
+.categoryPage .categoryList .three .search:focus{
+    outline: 5px solid #7c94737f;
+}
+.categoryPage .categoryList .three button{
+    background-color: var(--one);
+    color: var(--three);
+    font-weight : bold;
+}
+.categoryPage .categoryList .radio{
+    width: 150px;
+    border: 1px solid var(--three);
+}
+.categoryPage .categoryList .radio:hover{
+    border-color: var(--one);
+    cursor: pointer;
+}
+.categoryPage .categoryList .rating{
+    border: 1px solid var(--three);
+}
+.categoryPage .categoryList .rating:hover{
+    border-color: var(--one);
+    cursor: pointer;
+}
+.categoryPage .categoryContent .titleContainer{
+    height: 100px;
+    background-color: var(--three);
+    border-radius: 10px;
+}
+.categoryPage .categoryContent .selectionElement select{
+    height: 40px;
+    border: 1px solid var(--three);
+}
+.categoryPage .categoryContent .selectionElement select:hover{
+    border-color: var(--one);
+    cursor: pointer;
+}
+.categoryPage .categoryContent .selectionElement select:focus{
+    outline: 5px solid #7c94737f;
+}
+.categoryPage .categoryContent .selectionElement button:focus{
+    outline: 5px solid #7c94737f;
+}
+
+/* responsive part */
+@media (max-width :400px){
+    footer .otherPart{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    footer .companyPart,.helpPart,.servicePart,.contactPart{
+        width: 100%;
+    }
+    .categoryPage .pagination{
+        width: 80%;
     }
 }
-
-
-
-
-
-
-
-/* responsive part */  
+@media (min-width:400px) and (max-width:700px) {
+    footer .otherPart{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    footer .companyPart,.helpPart,.servicePart,.contactPart{
+        width: 47%;
+    }
+}
 @media screen and (max-width : 600px) {
     .navbarListDrawer li{
         width : 100%
@@ -142,6 +300,9 @@ header{
     }
     .collection h5{
         font-size: 16px;
+    }
+    .secondCollection div button{
+        font-size:  12px ;
     }
 }
 

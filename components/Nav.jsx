@@ -9,12 +9,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import ContactMailIcon from '@mui/icons-material/ContactMail';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import FiberNewIcon from '@mui/icons-material/FiberNew';
-import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
-import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import { useState ,useEffect} from 'react';
 import { makeStyles } from '@mui/styles';
@@ -111,7 +105,7 @@ export default function Nav() {
     };
   }, []);
   return (
-    <header style={{backgroundColor : colors.four,position:"sticky",top : '0px'}} className='d-flex  align-items-center px-4 py-3 justify-content-between flex-row-reverse flex-sm-row'>
+    <header style={{backgroundColor : colors.four,zIndex:'5'}} className='d-flex  align-items-center px-4 py-3 justify-content-between flex-row-reverse flex-sm-row'>
       <Link href={'/'} ><img src="./images/LOGO_OFFECIAL.png" width={50} /></Link>
       <nav className='d-flex gap-5'>
          <div className='navbarLinksName nav gap-4 text-capitalize align-items-center d-none d-lg-flex'>
@@ -131,13 +125,13 @@ export default function Nav() {
             </button>
             
              <Badge badgeContent={5} color='secondary' className='d-none d-sm-block' >
-               <Link href={'/'} style={{color:"black",textDecoration:"none"}} title='Shopping Cart' ><ShoppingCartOutlinedIcon/></Link>
+               <Link href={'/'} style={{color:"black",textDecoration:"none"}} title='Shopping Cart' ><img src='./images/icons/panier.png' width={25} alt=''/></Link>
              </Badge>
              <Badge badgeContent={1} color='secondary'  className='d-none d-sm-block'>
-              <Link  href={'/'} style={{color:"black",textDecoration:"none"}} title='Favorite Products'><FavoriteBorderIcon/></Link>
+              <Link  href={'/'} style={{color:"black",textDecoration:"none"}} title='Favorite Products'><img src='./images/icons/coeur.png' width={20} alt=''/></Link>
              </Badge>
              <Badge badgeContent = {2} color='secondary'  className='d-none d-sm-block'>
-              <Link  href={'/'} style={{color:"black",textDecoration:"none"}} title='Profil' ><PermIdentityOutlinedIcon/></Link>
+              <Link  href={'/'} style={{color:"black",textDecoration:"none"}} title='Profil' ><img src='./images/icons/la-personne.png' width={30} alt=''/></Link>
              </Badge>
          </div>
       </nav>
@@ -165,16 +159,16 @@ export default function Nav() {
           </IconButton>
         </div>
           <ul className='navbarListDrawer px-3'>
-            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><HomeOutlinedIcon/><span>home</span></Link></li>
-            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><ShoppingCartOutlinedIcon/><span>Shopping Card</span></Link></li>
-            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><FavoriteBorderIcon/><span>Favorit Products</span></Link></li>
-            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><PermIdentityOutlinedIcon/><span>Profil</span></Link></li>
-            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><CategoryOutlinedIcon/><span>Categorys</span></Link></li>
-            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><FiberNewIcon/><span>New Collection</span></Link></li>
-            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><InventoryIcon/><span>Create Your store</span></Link></li>
-            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><AnnouncementOutlinedIcon/><span>Chat of Reclamation</span></Link></li>
+            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><img src='./images/icons/bouton-daccueil.png' width={20} alt=''/><span>home</span></Link></li>
+            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><img src='./images/icons/panier.png' width={20} alt=''/> <span>Shopping Card</span></Link></li>
+            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><img src='./images/icons/coeur.png' width={20} alt=''/><span>Favorit Products</span></Link></li>
+            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><img src='./images/icons/la-personne.png' width={30} alt=''/><span>Profil</span></Link></li>
+            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href="./Category"><img src='./images/icons/categorie.png' width={20} alt=''/><span>Categorys</span></Link></li>
+            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><img src='./images/icons/nouveau.png' width={25} alt=''/><span>New Collection</span></Link></li>
+            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><img src='./images/icons/magasin.png' width={25} alt=''/><span>Create Your store</span></Link></li>
+            <li className='d-flex gap-2 align-items-center text-capitalize px-2'><Link className='d-flex gap-2 align-items-center text-decoration-none' href={'./'}><img src='./images/icons/avertissement.png' width={25} alt=''/><span>Chat of Reclamation</span></Link></li>
           </ul>
-     </Drawer>
+      </Drawer>
         <Modal
           open={openModal}
           onClose={()=>setOpenModal(false)}
@@ -213,7 +207,7 @@ export default function Nav() {
                 {
                   listSearch.map((item,index)=>{
                     return(
-                      <li className='searchList w-100  px-2 my-2 py-2 rounded d-flex justify-content-center align-items-center ' >
+                      <li className='searchList w-100  px-2 my-2 py-2 rounded d-flex justify-content-center align-items-center ' key={index}>
                         <Link href={'./'} className='d-flex align-items-center text-decoration-none text-dark gap-2 mx-2 w-100 '>
                         
                         <img src={item.image} alt="" width={50} height={50} />

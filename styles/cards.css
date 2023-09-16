@@ -1,0 +1,120 @@
+:root{
+    --one: #7C9473;
+    --two: #CFDAC8;
+    --three: #E8EAE6;
+    --four: #CDD0CB;
+    --five: rgba(243,243,243,255);
+  }
+/* firstCard */
+.firstCard{
+    width: 280px;
+    position: relative;
+}
+.firstCard:hover {
+    cursor: pointer;
+}
+.firstCard img{
+    width: 100%;
+    object-fit: cover;
+}
+.firstCard .productStatus{
+    color: rgb(162, 162, 162);
+    font-size: 14px;
+}
+.firstCard .productPrice{
+    font-size: 14px;
+    font-weight: bold;
+}
+.firstCard span{
+    position: absolute;
+    color: var(--three);
+    top: 10px;
+    left:10px;
+    font-size: 12px;
+}
+/* SecondCard */
+.secondCard {
+    width: 500px;
+}
+.secondCard:hover{
+    cursor: pointer;
+}
+.secondCard img{
+    width: 100%;
+}
+/* thirdCard */
+.thirdCard {
+    width: 250px;
+}
+.thirdCard img{
+    width: 100%;
+}
+.thirdCard .productDesc{
+    font-size: 14px;
+}
+.thirdCard .productPrice{
+    font-size: 14px;
+}
+/* category card */
+.categoryCardContent {
+    width: 280px;
+    border: 1px solid var(--three);
+}
+.categoryCardContent:hover{
+    border-color: #7C9473;
+    cursor: pointer;
+}
+.categoryCardContent img{
+    width: 100%;
+}
+/* responsive */
+
+@media (max-width : 608px){
+    .firstCard,.categoryCardContent{
+        width: 40%;
+    }
+    .firstCard .productName,.categoryCardContent .productName,.categoryName{
+        font-size: 12px;
+    }
+    .firstCard .productStatus{
+        font-size: 12px !important ;
+    }
+    .firstCard span{
+        font-size: 10px;
+    }
+    .secondCard{
+        width: 100%;
+    }
+    .secondCard .productName,.productDesc,.productPrice{
+        font-size: 14px;
+    }
+    .secondCard .productRating{
+        font-size: 17px;
+    }
+    .thirdCard{
+        width: 40%;
+    }
+    .thirdCard .productName{
+        font-size: 12px;
+    }
+    .thirdCard .productDesc,.productPrice{
+        font-size : 12px;
+        word-break: break-all;
+    }
+    .categoryCardContent > div button {
+        font-size: 12px;
+        width: 60px;
+    }
+}
+@media (min-width : 608px) and (max-width:1300px){
+    .thirdCard{
+        width: calc(100%/4);
+    }
+    .thirdCard .productName{
+        font-size: 14px;
+    }
+    .thirdCard .productDesc,.productPrice{
+        font-size : 14px;
+        word-break: break-all;
+    }
+}
