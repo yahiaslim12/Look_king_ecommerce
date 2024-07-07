@@ -1,15 +1,16 @@
 "use client"
 import { useState } from "react"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/global.css'
-import colors from "../styles/colors";
+import '../../../styles/global.css'
+import colors from "../../../styles/colors";
 import {Box,Drawer,Pagination,Rating,Slider} from '@mui/material'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import FirstCard from "../components/cards/FirstCard";
-import SecondCard from "../components/cards/SecondCard";
-import ThirdCard from "../components/cards/ThirdCard";
-import '../styles/cards.css'
-import CategoryCard from "../components/cards/CategoryCard";
+import FirstCard from "../../../components/cards/FirstCard";
+import SecondCard from "../../../components/cards/SecondCard";
+import ThirdCard from "../../../components/cards/ThirdCard";
+import '../../..//styles/cards.css'
+import CategoryCard from "../../../components/cards/CategoryCard";
+
 export default function Category() {
     const [list,setList] = useState([
         {id: 1,name:"men"},
@@ -30,7 +31,7 @@ export default function Category() {
   };
 
   return (
-    <section className="categoryPage d-flex w-100">
+    <section className="categoryPage d-flex w-100 mt-3">
         <section className="categoryList d-none d-lg-block">
            <div className="one ps-3 mt-2">
            <h1>Category</h1>

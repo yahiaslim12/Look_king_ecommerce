@@ -31,6 +31,101 @@ li{
     list-style: none;
 }
 /* navbar */
+#cartIcon path {
+    stroke-dashoffset: 1500;
+    stroke-dasharray: 1500;
+    fill: black;
+    stroke: black;
+    stroke-width: 0.5;
+    opacity: 1
+}
+/*panier */
+.panier {
+    width: 500px;
+    position: relative;
+}
+.panier .title {
+    border-bottom: 1px solid var(--three);
+}
+.panierCart{
+    border-top : 1px solid var(--three)
+}
+.panierCart h6{
+    margin-bottom: 0px;
+}
+.panier .counterButton{
+    border : 1px solid var(--three)
+}
+.panier .counterButton:hover{
+    border : 1px solid var(--one)
+}
+.panier .counterButton button{
+    background-color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+}
+.panier .counterButton .dec{
+    border-right: 1px solid var(--three);
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
+.panier .counterButton p{
+    width: 25px;
+    height: 35px;
+}
+.panier .counterButton .acr{
+    border-left: 1px solid var(--three);
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.panier small {
+    color: rgb(120, 120, 120);
+}
+.panier ul {
+    height: 514px;
+    overflow-y: scroll;
+}
+.panier input[type='text']{
+    border : 1px solid var(--three);
+    height: 40px;
+}
+.panier input[type='text']:hover{
+    border : 1px solid var(--one)
+}
+.panier input[type='text']:focus{
+    border:none;
+    outline: 5px solid var(--two);
+}
+.panier .panierButton{
+    position: absolute;
+    bottom: 1rem;
+}
+.panier .panierButton button:nth-child(1){
+    border: 1px solid var(--three);
+    color: black;
+    background-color: var(--three);
+}
+.panier .panierButton button:nth-child(2) {
+    border: 1px solid var(--one);
+    color: white;
+    background:var(--one);
+}
+@keyframes cartAnimation {
+    0% {
+        fill: transparent;
+    }
+  to {
+    stroke-dashoffset: 0;
+    fill: black;
+  }
+}
+#cartIcon:hover path{
+    animation: cartAnimation 3s ease-in forwards;
+}
+#favIcon:hover path {
+    animation : favAnimation 3s ease-in forwards;
+}
 .search{
    width: 90%;
    border-top: 1px solid rgba(0, 0, 0, 0.125);
@@ -256,7 +351,41 @@ footer .otherPart {
 .categoryPage .categoryContent .selectionElement button:focus{
     outline: 5px solid #7c94737f;
 }
-
+/* favorite page */
+#removeIcon:hover{
+    cursor: pointer;
+}
+#removeIcon path {
+    /* Propriétés de style par défaut */
+    stroke: #191919; /* Couleur du trait par défaut */
+    stroke-width: 12; /* Largeur du trait par défaut */
+    stroke-linecap: round; /* Style de terminaison de ligne par défaut (round) */
+    fill: transparent; /* Remplissage par défaut (transparent) */
+    transition: stroke 0.3s ease, stroke-width 0.3s ease, stroke-linecap 0.3s ease, fill 0.3s ease; /* Transition pour la couleur du trait, la largeur du trait, le style de terminaison de ligne et le remplissage */
+}
+  
+#removeIcon:hover path {
+    stroke: red; 
+    stroke-width: 20; 
+    stroke-linecap: square; 
+    stroke-linejoin: bevel;
+    fill:#ff8d6e !important ; 
+}
+.FavoriteContainer td button{
+    background-color:var(--one);
+    color: white;
+    font-size: 12px;
+}
+.FavoriteContainer td button:hover{
+    background-color:var(--one);
+    color: white;
+}
+.FavoriteContainer table{
+    width: 1300px;
+}
+.FavoriteContainer > div{
+    overflow-y: scroll;
+}
 /* responsive part */
 @media (max-width :400px){
     footer .otherPart{
@@ -305,7 +434,6 @@ footer .otherPart {
         font-size:  12px ;
     }
 }
-
 @media screen and (min-width : 600px) and (max-width:1000px) {
     .collection .coll1,.coll2{
         flex-wrap: wrap;
