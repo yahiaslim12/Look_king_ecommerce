@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
     font-family: 'nunito-regular';
     src: url('../styles/fonts/NunitoSans_10pt-Regular.ttf') format('truetype');
@@ -22,7 +26,6 @@
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
-    font-family: 'nunito-regular';
 }
 ul{
     padding-left: 0;
@@ -385,6 +388,21 @@ footer .otherPart {
 }
 .FavoriteContainer > div{
     overflow-y: scroll;
+}
+/* button person in navbar */
+.per:hover{
+    cursor: pointer;
+}
+.login_modal{
+    width: 500px;
+    height: auto;
+    background-color: white;
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    padding: 1rem 2rem;
+    border-radius: 10px;
 }
 /* responsive part */
 @media (max-width :400px){

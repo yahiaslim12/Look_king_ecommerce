@@ -1,5 +1,6 @@
 "use client"
 import colors from '../styles/colors';
+import { Close } from '../svg';
 import Link from 'next/link';
 import {Badge,IconButton ,Drawer,Modal,Box,Typography,TextField} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -75,6 +76,13 @@ const QontoStepIconRoot = styled('div')(({ theme, ownerState }) => ({
 }));
 
 export default function Nav() {
+  const [change,setChange] = useState(false)
+  const [values,setValues] = useState({
+    name : '',
+    email : '',
+    password : '',
+
+  })
   const steps = ['Commande info', 'Payment', 'Confirmation'];
   const [open,setOpen] = useState(false)
   const [openModal,setOpenModal] = useState(false)
@@ -201,6 +209,7 @@ export default function Nav() {
       },
     },
   }));
+
   const styleHeaderSearch = {
     height : "20%",
     background : 'rgb(255,255,255)',
@@ -278,12 +287,10 @@ export default function Nav() {
             </svg>             
               </Link>
               </Badge>
-             <Badge badgeContent = {2} color='secondary'  className='d-none d-sm-block'>
-              <Link href={'./Profil'}>
-              
+             
+              <Link className='per d-none d-sm-block' href={'/login'}>
                 <svg id='accountIcon' xmlns="http://www.w3.org/2000/svg" width={25} viewBox="0 0 64 64" strokeWidth="3" stroke="#000000" fill="none"><circle cx="32" cy="18.14" r="11.14"/><path d="M54.55,56.85A22.55,22.55,0,0,0,32,34.3h0A22.55,22.55,0,0,0,9.45,56.85Z"/></svg>             
               </Link>
-              </Badge>
          </div>
       </nav>
       <Drawer
@@ -579,6 +586,7 @@ export default function Nav() {
           }
         </section>
       </Drawer>
+      
     </header>
   )
 }
