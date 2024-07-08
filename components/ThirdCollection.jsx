@@ -46,28 +46,28 @@ export default function ThirdCollection() {
   },[isInView4])
   return (
     <div className="thirdCollection d-flex justify-content-center gap-5 mt-4 flex-wrap flex-sm-nowrap">
-        <div className="livraison text-center py-1" ref={reference1}>
+        <div className="livraison text-center py-1 flex flex-col items-center" ref={reference1}>
             <img src="./images/icons/livraison-rapide.png" alt="" />
             <h6 style={{color: colors.one}} className="mt-1">Yalidin Livraison</h6>
         <p style={{fontSize : '14px'}}>Quick delivery to your home or your community.</p>
         </div>
-        <div className="instagram text-center py-1" ref={reference2}>
-            <Link href={'./'}>
+        <div className="instagram text-center py-1 flex flex-col items-center" ref={reference2}>
+            <Link href={'./'} className="w-full flex justify-center">
             <img src="./images/icons/instagram.png" alt="" />
             </Link>
             <h6 style={{color: colors.one}} className="mt-1">Look King Store</h6>
         <p style={{fontSize : '14px'}}>Click on the logo to visit our Instagram page.</p>
             
         </div>
-        <div className="serviceClient text-center py-1" ref={reference3}>
+        <div className="serviceClient text-center py-1 flex flex-col items-center" ref={reference3}>
             <img src="./images/icons/fidelisation-de-la-clientele.png" alt="" />
             <h6 style={{color: colors.one}} className="mt-1">Customer Service</h6>
         <p style={{fontSize : '14px'}}>We provide excellent customer service.</p>
         </div>
-        <div className="vitesse text-center py-1" ref={reference4}>
+        <div className="vitesse text-center py-1 flex flex-col items-center" ref={reference4}>
             <img src="./images/icons/compteur-de-vitesse.png" alt="" />
             <h6 style={{color: colors.one}} className="mt-1">Fast Response</h6>
-        <p style={{fontSize : '14px'}}>We respond quickly to our clients' needs.</p>
+            <p style={{fontSize : '14px'}}>We respond quickly to our clients' needs.</p>
         </div>
     </div>
   )

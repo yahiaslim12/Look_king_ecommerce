@@ -17,10 +17,11 @@ export default function FirstCollection() {
       <h1 style={{
           transform: isInView ? "none" : "translateX(-200px)",
           opacity: isInView ? 1 : 0,
-          transition: "all 0.4s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
-        }} ref={titleRef}  className="text-capitalize text-center px-2">Products Recommended for You</h1>
+          transition: "all 0.4s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+          
+        }} ref={titleRef}  className="text-capitalize text-center px-2 text-3xl">Products Recommended for You</h1>
       <p className="text-center text-capitalize" style={{transform: isInView ? "none" : "translateY(10px)",opacity: isInView ? 1 : 0,transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",color: "rgb(162, 162, 162)"}}>This section features products you might be interested in.</p>
-      <div className="d-flex gap-3 gap-md-5 mx-2 flex-wrap  justify-content-center">
+      <div className="d-flex gap-3 gap-md-5 mx-2 flex-wrap  justify-content-center mt-4">
         <FirstCard/>
         <FirstCard/>
         <FirstCard/>

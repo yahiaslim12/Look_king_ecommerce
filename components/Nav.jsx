@@ -1,6 +1,6 @@
 "use client"
 import colors from '../styles/colors';
-import { Close } from '../svg';
+import { Close, Search } from '../svg';
 import Link from 'next/link';
 import {Badge,IconButton ,Drawer,Modal,Box,Typography,TextField} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -336,27 +336,12 @@ export default function Nav() {
       <Box className = "navModalSearch" >
         <div className='px-3 py-3' style={styleHeaderSearch}>
           <div className='d-flex gap-3 justify-content-between align-items-center border-bottom pb-4'>
-            <SearchIcon style={{color : colors.one,fontSize : '28px' }} />
-            <TextField
-              variant="filled"
-              label="Search"
-              style={{width : "100%"}}
-              className={classes.textField}
-              InputProps={{
-              style: {
-                borderRadius: '8px',
-              },
-              endAdornment : 
-                (
-                  <IconButton className='d-flex justify-content-center align-items-center bg-light border' onClick={()=>setSearch('')}><BackspaceOutlinedIcon/></IconButton>
-                )
-              
-          }}
-              value={search}
-              onChange={(e)=>setSearch(e.target.value)}
-        />
-      
-            <button className='btn border text-danger bg-light ' onClick={()=>setOpenModal(false)}>close</button>
+          <div className='search flex gap-2 items-center w-full rounded px-2 py-2 border'>
+            <Search color={'black'} width={20} height={20} />
+            <input type="text" name="search" id="" placeholder='search' className='border-none outline-none w-full' />
+          </div>
+
+            <button onClick={()=>setOpenModal(false)}><Close color={'black'} width={25} height={25}/></button>
           </div>
           <small style={{color : colors.one,width : '600px'}} className='text-align-center fw-bold' >4</small>
         </div>
@@ -371,8 +356,8 @@ export default function Nav() {
                         <img src={item.image} alt="" width={50} height={50} />
                         <div className='searchListDesc d-flex justify-content-between flex-wrap flew-sm-nowrap w-100 '>
                           <div className=''>
-                            <h4>{item.name}</h4>
-                            <p >{item.description}</p>
+                            <h4 className='font-semibold'>{item.name}</h4>
+                            <p className='text-gray_text'>{item.description}</p>
                           </div>
                           <h6 style={{color : colors.one}} className='fw-bold text-capitalize'>{item.price}</h6>
                         </div>
