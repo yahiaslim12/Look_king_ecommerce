@@ -1,8 +1,8 @@
 'use client'
 import { useState ,useRef} from "react"
 import colors from "../styles/colors"
-import SecondCard from "./cards/secondCard"
-import ThirdCard from "./cards/thirdCard"
+import SecondCard from "./cards/SecondCard"
+import ThirdCard from "./cards/ThirdCard"
 import {motion,useInView} from 'framer-motion'
 export default function SecondCollection() {
     const [colorButton,setColorButton] = useState(1)

@@ -14,7 +14,6 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Check from '@mui/icons-material/Check';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
-import MasterCard from './cards/masterCard';
 import VisaCard from './cards/VisaCard';
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
