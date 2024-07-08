@@ -7,8 +7,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import { useState ,useEffect} from 'react';
-import { makeStyles } from '@mui/styles';
-import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import Stepper from '@mui/material/Stepper';
@@ -191,24 +189,7 @@ export default function Nav() {
     borderRadius : 8,
     
   }
-  const useStyles = makeStyles((theme) => ({
-    textField: {
-      '& .MuiFilledInput-root': {
-        '&:before': {
-          borderBottom: 'none', // Remove the default bottom border
-        },
-        '&:hover:before': {
-          borderBottom: 'none', // Remove the bottom border on hover
-        },
-        '&.Mui-focused:before': {
-          borderBottom: 'none', // Remove the bottom border when focused
-        },
-      },
-      '& .MuiFilledInput-underline:before': {
-        borderBottom: 'none', // Remove the underline when focused
-      },
-    },
-  }));
+  
 
   const styleHeaderSearch = {
     height : "20%",
@@ -216,7 +197,6 @@ export default function Nav() {
     width : '100%',
     borderRadius : '10px'
   }
-  const classes = useStyles();
   const openModalWithKeyboard = (event) =>{
     if(event.ctrlKey && event.key === 'k'){
       setOpenModal(true)
