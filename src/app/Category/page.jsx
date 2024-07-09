@@ -167,7 +167,7 @@ export default function Category() {
             </div>
             <div className="d-flex flex-column gap-3 align-items-center">
 
-            <div className="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-3">
+            <div className="d-flex flex-wrap align-items-center justify-content-center gap-x-6 xl:gap-x-2 gap-y-6 mt-3">
                 <CategoryCard/>
                 <CategoryCard/>
                 <CategoryCard/>
