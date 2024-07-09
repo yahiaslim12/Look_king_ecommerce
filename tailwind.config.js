@@ -13,7 +13,13 @@ module.exports = {
           three: "#E8EAE6",
           four: "#CDD0CB",
           gray_text : "#64748b"
+        },
+        screens : {
+          md_ta3i : '608px',
+          lg_ta3i : '1500px'
+
         }
+
       },
     },
     plugins: [],

@@ -27,6 +27,17 @@
     margin: 0px;
     box-sizing: border-box;
 }
+body::-webkit-scrollbar{
+    width: 5px;
+}
+body::-webkit-scrollbar-track{
+    background: #f1f1f1; 
+    border-radius: 10px;
+}
+body::-webkit-scrollbar-thumb{
+    background: #888; 
+    border-radius: 10px;
+}
 ul{
     padding-left: 0;
 }
@@ -284,54 +295,73 @@ footer .otherPart {
 
 }
 /* category page */
-.categoryPage .categoryList h1{
+
+.categoryPage .categoryList::-webkit-scrollbar{
+    width: 5px;
+}
+.categoryPage .categoryList::-webkit-scrollbar-thumb{
+    background: #888; 
+    border-radius: 10px;
+}
+.categoryPage .categoryList::-webkit-scrollbar-track{
+    background: #f1f1f1; 
+    border-radius: 10px;
+}
+.categoryPage .categoryList h1,.categoryList h1{
     font-size: 18px;
     font-weight: bold;
 }
-.categoryPage .categoryList .one,.two,.three,.four{
+.categoryPage .categoryList :where(.one,.two,.three,.four),.categoryList :where(.one,.two,.three,.four){
     border-bottom: 1px solid var(--three);
 }
-.categoryPage .categoryList ul{
+.categoryPage .categoryList ul,.categoryList ul{
     padding-left: 0px;
 }
 
-.categoryPage .categoryList  li:hover{
+.categoryPage .categoryList  li:hover,.categoryList  li:hover{
     cursor:pointer;
     color: #7C9473;
     border: 1px solid var(--three)
 
 }
-.categoryPage .categoryList .three .search{
+.categoryPage .categoryList .three .search,.categoryList .three .search{
     width: 60%;
     border: 1px solid var(--three);
 }
-.categoryPage .categoryList .three .search:focus{
+.categoryPage .categoryList .three .search:focus,.categoryList .three .search:focus{
     outline: 5px solid #7c94737f;
 }
-.categoryPage .categoryList .three button{
+.categoryPage .categoryList .three button,.categoryList .three button{
     background-color: var(--one);
     color: var(--three);
     font-weight : bold;
 }
-.categoryPage .categoryList .radio{
+.categoryPage .categoryList .radio ,.categoryList .radio{
     width: 150px;
     border: 1px solid var(--three);
 }
-.categoryPage .categoryList .radio:hover{
+.categoryPage .categoryList .radio:hover,.categoryList .radio:hover{
     border-color: var(--one);
     cursor: pointer;
 }
-.categoryPage .categoryList .rating{
+.categoryPage .categoryList .rating ,.categoryList .rating{
     border: 1px solid var(--three);
 }
-.categoryPage .categoryList .rating:hover{
+.categoryPage .categoryList .rating:hover,.categoryList .rating:hover{
     border-color: var(--one);
     cursor: pointer;
 }
-.categoryPage .categoryContent .titleContainer{
+
+.categoryPage .categoryContent .titleContainer,.categoryPage .categoryContent .titleContainerGlass{
     height: 100px;
-    background-color: var(--three);
+    background-color: #e8eae67a;
+    position: sticky;
+    top: 0px;
+    backdrop-filter: blur(10px);
     border-radius: 10px;
+}
+.categoryPage .categoryContent .selectionElement{
+    background-color: rgba(255, 255, 255);
 }
 .categoryPage .categoryContent .selectionElement select{
     height: 40px;
@@ -419,6 +449,7 @@ footer .otherPart {
         width: 47%;
     }
 }
+
 @media screen and (max-width : 600px) {
     .navbarListDrawer li{
         width : 100%

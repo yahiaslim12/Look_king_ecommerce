@@ -10,6 +10,8 @@ import SecondCard from "../../../components/cards/SecondCard";
 import ThirdCard from "../../../components/cards/ThirdCard";
 import '../../..//styles/cards.css'
 import CategoryCard from "../../../components/cards/CategoryCard";
+import { Close } from "../../../svg";
+import Page from "../../../components/category/CustomPagination";
 
 export default function Category() {
     const [list,setList] = useState([
@@ -134,40 +136,41 @@ export default function Category() {
            
         </section>
         <section className="categoryContent w-100 ms-0 ms-md-3">
-            <div className="titleContainer d-flex justify-content-center align-items-center">
-                <h1 className="text-capitalize fw-bold">{title}</h1>
-            </div>
-            <div className="selectionElement mt-3 pe-2 d-flex gap-2 align-items-start align-items-lg-center justify-content-between">
-                   <span className="productCount text-capitalize ps-2"><b>24</b> product found</span>
-                   <div className="d-flex flex-column gap-2 align-items-end">
-                    <button className="btn border d-flex align-items-center d-lg-none px-3" onClick={()=>setOpenDrawer(true)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-filter me-2">
-                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                            </svg>
-                            <b>Filter</b>
-                        </button>
-                        <div className="d-flex gap-2">
-                            <select name="" id="" className="rounded px-1">
-                                <option value="50">Show : 50</option>
-                                <option value="40">Show : 40</option>
-                                <option value="30">Show : 30</option>
-                                <option value="20">Show : 20</option>
-                                <option value="10">Show : 10</option>
-                            </select>
-                            <select name="" id="" className="rounded px-1">
-                                <option value="">Sort by: Featured</option>
-                                <option value="">Price : Low to high</option>
-                                <option value="">Price : high to Low</option>
-                                <option value="">Release Date</option>
-                                <option value="">Avg. Rating</option>
-                            </select>
+                <div className="titleContainer z-2 d-flex justify-content-center align-items-center mx-2">
+                    <h1 className="text-capitalize fw-bold">{title}</h1>
+                </div>
+                <div className="selectionElement mt-3 pe-2 d-flex gap-2 align-items-start align-items-lg-center justify-content-between">
+                    <span className="productCount text-capitalize ps-2 text-xs md:text-base"><b>24</b></span>
+                    <div className="d-flex flex-column gap-2 align-items-end">
+                        <button className="btn border d-flex align-items-center d-lg-none px-3" onClick={()=>setOpenDrawer(true)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-filter me-2">
+                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                                </svg>
+                                <b>Filter</b>
+                            </button>
+                            <div className="d-flex gap-2">
+                                <select name="" id="" className="rounded px-1">
+                                    <option value="50">Show : 50</option>
+                                    <option value="40">Show : 40</option>
+                                    <option value="30">Show : 30</option>
+                                    <option value="20">Show : 20</option>
+                                    <option value="10">Show : 10</option>
+                                </select>
+                                <select name="" id="" className="rounded px-1">
+                                    <option value="">Sort by: Featured</option>
+                                    <option value="">Price : Low to high</option>
+                                    <option value="">Price : high to Low</option>
+                                    <option value="">Release Date</option>
+                                    <option value="">Avg. Rating</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                   
-            </div>
+                    
+                </div>
+
             <div className="d-flex flex-column gap-3 align-items-center">
 
-            <div className="d-flex flex-wrap align-items-center justify-content-center gap-x-6 xl:gap-x-2 gap-y-6 mt-3">
+            <div className="d-flex flex-wrap align-items-center justify-between  px-2 gap-x-6 xl:gap-x-2 gap-y-6 mt-3">
                 <CategoryCard/>
                 <CategoryCard/>
                 <CategoryCard/>
@@ -179,7 +182,9 @@ export default function Category() {
                 <CategoryCard/>
                 <CategoryCard/>
             </div>
-            <Pagination count={10} variant="outlined" color="primary" className="pagination"/>
+            <div className="bg-white w-full flex justify-center items-center px-2 py-2" style={{position : 'sticky',bottom : '0px'}}>
+                <Page count={10} page={1}/>
+            </div>
             </div>
         </section>
         <Drawer
@@ -199,13 +204,9 @@ export default function Category() {
                 },
             }}
     >
-        <section className="categoryList w-100">
+        <section className="categoryList">
            <div className="one ps-3 mt-2">
-           <h1 className="d-flex align-items-center justify-content-between">Category 
-             
-             <button type="button" className="btn-close" data-bs-dismiss="offcanvas" ariaLabel="Close" style={{fontSize : '16px'}} onClick={()=>setOpenDrawer(false)}></button>
-            
-            </h1>
+           <h1 className="flex justify-between items-center mb-0">Category <button onClick={()=>setOpenDrawer(false)} className="btn"><Close width={25} height={25} color={'black'}/></button></h1>
             <ul>
                 {
                 list.map((item)=>(
@@ -302,6 +303,7 @@ export default function Category() {
                    <Rating value={1} readOnly/>
                </div>
            </div>
+           
         </section>
           </Drawer>
     </section>

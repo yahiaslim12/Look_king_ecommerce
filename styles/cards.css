@@ -61,7 +61,7 @@
 }
 /* category card */
 .categoryCardContent {
-    width: 280px;
+    width: 30%;
     border: 1px solid var(--three);
 }
 .categoryCardContent:hover{
@@ -151,10 +151,18 @@
     border-bottom-right-radius: 10px;
 }
 /* responsive */
-
+@media screen and (min-width : 608px) and (max-width:1272px) {
+    .categoryCardContent{
+        width: 30%;
+    }
+    
+}
 @media (max-width : 608px){
-    .firstCard,.categoryCardContent{
+    .firstCard{
         width: 40%;
+    }
+    .categoryCardContent{
+        width:46%;
     }
     .firstCard .productName,.categoryCardContent .productName,.categoryName{
         font-size: 12px;
