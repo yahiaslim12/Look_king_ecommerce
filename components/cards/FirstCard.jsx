@@ -20,11 +20,11 @@ export default function FirstCard() {
       }
   },[isInView])
   return (
-    <motion.div className="firstCard p-1" ref={reference}  >
+    <motion.div className="firstCard p-1 rounded hover:border" ref={reference}  >
       <span className='rounded px-2 py-1 text-uppercase' style={{backgroundColor : status === 'new' ? '#28a745' : '#dc3545' }}>{status}</span>
-        <img loading='lazy' src="./images/T-shirt/nike1.webp" alt="" />
+        <img loading='lazy' className='rounded' src="./images/T-shirt/nike1.webp" alt="" />
         <div className='d-flex justify-content-between'>
-        <div className='pt-2'>
+        <div className='pt-2 bg-white'>
           <h6 className='productName'>Product Name</h6>
           <p className="productStatus text-capitalize">This T-shirt have a good quality</p>
           <p className='productPrice' style={{color : colors.one}}>2800 DA</p>

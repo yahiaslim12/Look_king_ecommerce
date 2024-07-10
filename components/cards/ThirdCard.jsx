@@ -13,12 +13,13 @@ export default function ThirdCard() {
      }
   },[isInView])
   return (
-    <div ref={reference} className="thirdCard rounded" style={{backgroundColor : 'rgb(246,246,246)'}}>
+    <div ref={reference} className="thirdCard rounded hover:border" style={{backgroundColor : 'rgb(246,246,246)'}}>
+        
           <img loading="lazy" src="./images/T-shirt/nike2.webp" className="rounded" alt="" />
           <div className="d-flex flex-column align-items-center mt-2" >
              <h6 className="productName text-capitalize fw-bold">ProductName</h6>
              <p className="productDesc text-capitalize px-2" style={{color : 'rgb(162, 162, 162)'}}>this t-shirt have a good quality</p>
-             <p className="productPrice text-uppercase" style={{color : colors.one}}>2800 da</p>
+             <p className="productPrice text-uppercase" style={{color : colors.one,fontWeight : '500 !important'}}>2800 da</p>
           </div>
     </div>
   )

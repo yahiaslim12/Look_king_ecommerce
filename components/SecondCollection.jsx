@@ -23,9 +23,9 @@ export default function SecondCollection() {
             <button className="btn" onClick={(e)=>setColorButton(2)}>Top Rated</button>
             <button className="btn" onClick={(e)=>setColorButton(3)}>On Sale</button>
         </div>
-        <div className="d-flex gap-2 px-lg-3 px-2 flex-wrap flex-md-nowrap justify-content-center mt-4">
+        <div className="d-flex gap-2 px-lg-3 px-2 flex-wrap flex-lg-nowrap justify-content-center mt-3">
           <SecondCard/>
-          <div className="thirdCardContent d-flex gap-3 flex-wrap justify-content-center">
+          <div className="thirdCardContent d-flex gap-3  flex-wrap justify-between md_ta3i:justify-center py-2">
             <ThirdCard/>
             <ThirdCard/>
             <ThirdCard/>

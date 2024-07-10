@@ -155,11 +155,13 @@
     .categoryCardContent{
         width: 30%;
     }
-    
+    .firstCard{
+        width: 30%;
+    }
 }
 @media (max-width : 608px){
     .firstCard{
-        width: 40%;
+        width: 46%;
     }
     .categoryCardContent{
         width:46%;
@@ -183,7 +185,7 @@
         font-size: 17px;
     }
     .thirdCard{
-        width: 40%;
+        width: 46%;
     }
     .thirdCard .productName{
         font-size: 12px;
@@ -233,8 +235,9 @@
     }
 }
 @media (min-width : 608px) and (max-width:1300px){
+    
     .thirdCard{
-        width: calc(100%/4);
+        width: 30%;
     }
     .thirdCard .productName{
         font-size: 14px;

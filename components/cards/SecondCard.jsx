@@ -15,8 +15,9 @@ export default function SecondCard() {
       }
   },[isInView])
   return (
-    <div className="secondCard " ref={reference}>
-        <img loading="lazy" src="./images/T-shirt/nike3.webp" className="rounded" alt="" />
+    <div className="secondCard hover:border rounded p-2 bg-white" ref={reference}>
+      <div>
+      <img loading="lazy" src="./images/T-shirt/nike3.webp" className="rounded" alt="" />
         <div className="d-flex justify-content-between mt-2">
            <h6 className="productName">Tshirt Nike black</h6>
            <Rating className="productRating"value={5} readOnly/>
@@ -25,6 +26,8 @@ export default function SecondCard() {
                 <p className="productDesc" style={{color: "rgb(162, 162, 162)"}}>This Tshirt have a good quality</p>
                 <p className="productPrice text-uppercase" style={{color : colors.one}}>2800 da</p>
             </div>
+      </div>
+        
     </div>
   )
 }

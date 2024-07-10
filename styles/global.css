@@ -355,9 +355,7 @@ footer .otherPart {
 .categoryPage .categoryContent .titleContainer,.categoryPage .categoryContent .titleContainerGlass{
     height: 100px;
     background-color: #e8eae67a;
-    position: sticky;
-    top: 0px;
-    backdrop-filter: blur(10px);
+    
     border-radius: 10px;
 }
 .categoryPage .categoryContent .selectionElement{
