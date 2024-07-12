@@ -1,10 +1,12 @@
 import "../../styles/global.css"
 import { Inter } from 'next/font/google'
+import 'tailwindcss/tailwind.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/cards.css'
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 import { GeistSans } from 'geist/font/sans';
+import GlobalProvider from "../../components/providers/GlobalProvider";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,9 +19,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={GeistSans.className}>
-        <Nav/>
+        <GlobalProvider>
         {children}
-        <Footer/>
+        </GlobalProvider>
         </body>
     </html>
   )

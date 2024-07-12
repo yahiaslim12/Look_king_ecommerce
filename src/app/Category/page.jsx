@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../styles/global.css'
 import colors from "../../../styles/colors";
@@ -12,6 +12,7 @@ import '../../..//styles/cards.css'
 import CategoryCard from "../../../components/cards/CategoryCard";
 import { Close } from "../../../svg";
 import Page from "../../../components/category/CustomPagination";
+import { pathContext } from "../../../components/providers/GlobalProvider";
 
 export default function Category() {
     const [list,setList] = useState([
@@ -31,7 +32,7 @@ export default function Category() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  const {textEnter,textLeave} = useContext(pathContext)
   return (
     <section className="categoryPage d-flex w-100 mt-3">
         <section className="categoryList d-none d-lg-block">
@@ -137,7 +138,7 @@ export default function Category() {
         </section>
         <section className="categoryContent w-100 ms-0 ms-md-3">
                 <div className="titleContainer z-2 d-flex justify-content-center align-items-center mx-2">
-                    <h1 className="text-capitalize fw-bold">{title}</h1>
+                    <h1 className="text-capitalize fw-bold text-lg" onMouseEnter={textEnter} onMouseLeave={textLeave}>{title}</h1>
                 </div>
                 <div className="selectionElement mt-3 pe-2 d-flex gap-2 align-items-start align-items-lg-center justify-content-between">
                     <span className="productCount text-capitalize ps-2 text-xs md:text-base"><b>24</b></span>

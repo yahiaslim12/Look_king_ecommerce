@@ -1,23 +1,27 @@
 'use client'
-import { useState ,useRef} from "react"
+import { useState ,useRef, useContext} from "react"
 import colors from "../styles/colors"
 import SecondCard from "./cards/SecondCard"
 import ThirdCard from "./cards/ThirdCard"
 import {motion,useInView} from 'framer-motion'
+import { pathContext } from "./providers/GlobalProvider"
 export default function SecondCollection() {
     const [colorButton,setColorButton] = useState(1)
     const titleRef = useRef(null)
     const buttonsRef = useRef(null)
     const isInView1 = useInView(titleRef,{once : true})
     const isInView2 = useInView(buttonsRef,{once : true})
+    const {textEnter,textLeave} = useContext(pathContext)
   return (
     <div className="secondCollection mt-4">
-        <h1 ref={titleRef} className="text-capitalize px-2 text-center text-3xl" style={{
+      <div className="flex flex-col items-center">
+        <h1 ref={titleRef} className="text-capitalize px-2 text-3xl" style={{
           transform: isInView1 ? "none" : "translateX(-200px)",
           opacity: isInView1 ? 1 : 0,
           transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
-        }}>Best seeling</h1>
-        <p ref={titleRef} style={{transform: isInView1 ? "none" : "translateY(10px)",opacity: isInView1 ? 1 : 0,transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",color: "rgb(162, 162, 162)"}} className="text-capitalize text-center" >top view in this week</p>
+        }} onMouseEnter={textEnter} onMouseLeave={textLeave}>Best seeling</h1>
+        <p onMouseEnter={textEnter} onMouseLeave={textLeave} ref={titleRef} style={{transform: isInView1 ? "none" : "translateY(10px)",opacity: isInView1 ? 1 : 0,transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",color: "rgb(162, 162, 162)"}} className="text-capitalize" >top view in this week</p>
+      </div>
         <div ref={buttonsRef} style={{transform:isInView2 ? "none" : "translateY(30px)",opacity: isInView2 ? 1 : 0,transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"}} className="d-flex justify-content-center gap-5 mt-4">
             <button className="btn" onClick={(e)=>setColorButton(1)} autoFocus>Featured</button>
             <button className="btn" onClick={(e)=>setColorButton(2)}>Top Rated</button>

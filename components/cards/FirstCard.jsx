@@ -2,10 +2,12 @@
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Rating , Box } from '@mui/material';
-import { useState , useRef, useEffect } from 'react';
+import { useState , useRef, useEffect, useContext } from 'react';
 import colors from '../../styles/colors';
 import {motion,useInView,useAnimate,useAnimation} from "framer-motion"
+import { pathContext } from '../providers/GlobalProvider';
 export default function FirstCard() {
+  const {productEnter , productLeave} = useContext(pathContext)
   const [value,setValue] = useState(1)
   const [heart,setHeart] = useState(false)
   const [status,setStatus] = useState('new')
@@ -20,7 +22,7 @@ export default function FirstCard() {
       }
   },[isInView])
   return (
-    <motion.div className="firstCard p-1 rounded hover:border" ref={reference}  >
+    <motion.div className="firstCard p-1 rounded hover:border" ref={reference} onMouseEnter={productEnter} onMouseLeave={productLeave} >
       <span className='rounded px-2 py-1 text-uppercase' style={{backgroundColor : status === 'new' ? '#28a745' : '#dc3545' }}>{status}</span>
         <img loading='lazy' className='rounded' src="./images/T-shirt/nike1.webp" alt="" />
         <div className='d-flex justify-content-between'>
