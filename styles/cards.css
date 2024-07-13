@@ -150,6 +150,30 @@
     border-top-left-radius: 100%;
     border-bottom-right-radius: 10px;
 }
+/* cartcard */
+button:hover #removeIcon{
+    cursor: pointer;
+}
+button #removeIcon path {
+    /* Propriétés de style par défaut */
+    stroke: #191919; /* Couleur du trait par défaut */
+    stroke-width: 12; /* Largeur du trait par défaut */
+    stroke-linecap: round; /* Style de terminaison de ligne par défaut (round) */
+    fill: transparent; /* Remplissage par défaut (transparent) */
+    transition: stroke 0.3s ease, stroke-width 0.3s ease, stroke-linecap 0.3s ease, fill 0.3s ease; /* Transition pour la couleur du trait, la largeur du trait, le style de terminaison de ligne et le remplissage */
+}
+  
+button:hover #removeIcon path {
+    stroke: red; 
+    stroke-width: 20; 
+    stroke-linecap: square; 
+    stroke-linejoin: bevel;
+    fill:#ff8d6e !important ; 
+}
+.cartcard img{
+    width: 150px;
+    height: 150px;
+}
 /* responsive */
 @media screen and (min-width : 608px) and (max-width:1272px) {
     .categoryCardContent{
@@ -233,6 +257,10 @@
     .masterCard small{
         font-size: 10px;
     }
+    .cartcard img{
+        width: 30vw;
+        height: 30vw;
+    }
 }
 @media (min-width : 608px) and (max-width:1300px){
     
@@ -246,4 +274,5 @@
         font-size : 14px;
         word-break: break-all;
     }
+    
 }

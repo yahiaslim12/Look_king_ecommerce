@@ -2,8 +2,10 @@
 import { Rating } from "@mui/material";
 import colors from "../../styles/colors";
 import { useInView,useAnimate ,motion} from "framer-motion";
-import { useEffect } from "react";
+import { useEffect ,useContext} from "react";
+import { pathContext } from "../providers/GlobalProvider";
 export default function SecondCard() {
+  const {productEnter,productLeave} = useContext(pathContext)
   const [reference,animate] = useAnimate()
   const isInView = useInView(reference)
   useEffect(()=>{
@@ -15,7 +17,7 @@ export default function SecondCard() {
       }
   },[isInView])
   return (
-    <div className="secondCard hover:border rounded p-2 bg-white" ref={reference}>
+    <div className="secondCard hover:border rounded p-2 bg-white" ref={reference} onMouseEnter={productEnter} onMouseLeave={productLeave}>
       <div>
       <img loading="lazy" src="./images/T-shirt/nike3.webp" className="rounded" alt="" />
         <div className="d-flex justify-content-between mt-2">

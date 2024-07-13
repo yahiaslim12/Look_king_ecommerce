@@ -21,11 +21,7 @@ export default function GlobalProvider({ children }) {
       border: "1px solid var(--one)",
       width: "16px",
       height: "16px",
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 20,
-      },
+      
     },
     text: {
       x: position.x - 50,
@@ -34,25 +30,17 @@ export default function GlobalProvider({ children }) {
       width: "100px",
       height: "100px",
       mixBlendMode: 'difference',
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 20,
-      },
+      
     },
     product: {
-      x: position.x - 8,
-      y: position.y - 8,
+      x: position.x - 16,
+      y: position.y - 16,
       border: "1px solid var(--one)",
-      width: "16px",
+      width: "32px",
       backgroundColor : 'var(--one)',
-      height: "16px",
+      height: "32px",
       mixBlendMode: 'difference',
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 20,
-      },
+      
     }
   }
 
@@ -63,15 +51,17 @@ export default function GlobalProvider({ children }) {
   }
 
   const removePath = () => {
-    const temp = [...path]
-    temp.pop()
-    setPath(temp)
+    if(path.length > 2){
+      const temp = [...path]
+      temp.pop()
+      setPath(temp)
+    }
   }
 
   useEffect(() => {
-    const onMove = throttle((e) => {
+    const onMove = (e) => {
       setPosition({ x: e.clientX, y: e.clientY })
-    }, 2) // Adjust the throttling interval as needed
+    }
 
     window.addEventListener('mousemove', onMove)
     return () => {

@@ -1,9 +1,13 @@
+'use client'
 import { Rating } from "@mui/material";
 import colors from "../../styles/colors";
+import { useContext } from "react";
+import { pathContext } from "../providers/GlobalProvider";
 
 export default function CategoryCard() {
+   const {productEnter,productLeave} = useContext(pathContext)
   return (
-   <div className="categoryCardContent rounded p-2">
+   <div className="categoryCardContent rounded p-2" onMouseEnter={productEnter} onMouseLeave={productLeave}>
       <img className="rounded" src="./images/T-shirt/nike3.webp" alt="" />
          <small className="categoryName text-capitalize d-block my-2" style={{color : 'rgb(162, 162, 162)'}}><b>Category Name</b></small>
          <h6 className="productName text-capitalize fw-bold">product name</h6>

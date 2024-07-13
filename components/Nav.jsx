@@ -87,7 +87,7 @@ export default function Nav() {
   const steps = ['Commande info', 'Payment', 'Confirmation'];
   const [open,setOpen] = useState(false)
   const [openModal,setOpenModal] = useState(false)
-  const [openCart,setOpenCart] = useState(false)
+  
   const [search,setSearch] = useState('')
   const [changePage,setChangePage] = useState(false)
   const [step,setStep] = useState(0)
@@ -230,8 +230,12 @@ export default function Nav() {
   }
   
   const handleChangePage = (page) => {
-    addPath('Favorite')
-    router.push('/Favorite')
+    if(page === 'Favorite'){
+      addPath('favorite')
+    }else if(page === 'cart'){
+      addPath('cart')
+    }
+    router.push('/'+page)
   }
   useEffect(() => {
     window.addEventListener('keydown',openModalWithKeyboard);
@@ -261,7 +265,7 @@ export default function Nav() {
             
              <Badge badgeContent={shoppingCard.length} color='secondary' className='d-none d-sm-block' >
               
-              <svg onClick={()=>setOpenCart(true)} id='cartIcon' xmlns="http://www.w3.org/2000/svg" width={25}  viewBox="0 -2.55 20.095 20.095">
+              <svg onClick={()=>handleChangePage('cart')} id='cartIcon' xmlns="http://www.w3.org/2000/svg" width={25}  viewBox="0 -2.55 20.095 20.095">
                 <path id="Path_13" dataName="Path 13" d="M437.249,829.36a1.874,1.874,0,0,0,1.72,1.633H447.1c.9,0,1.24-.72,1.626-1.633l1.93-4.382H440l-.136-.964h12.2l-2.262,5.346c-.678,1.556-1.213,2.66-2.709,2.66h-8.128a2.664,2.664,0,0,1-2.71-2.66l-.8-7.36h-3.484v-1h4.406Zm1.225,3.64a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,438.474,833Zm-.531,1.969h1V834h-1ZM446.474,833a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,446.474,833Zm-.531,1.969h1V834h-1Z" transform="translate(-431.973 -821)" fill="#444"/>
                </svg>     
          
@@ -359,207 +363,7 @@ export default function Nav() {
         </div>
         </Box>
       </Modal>
-      <Drawer 
-        open = {openCart} 
-        onClose={()=>setOpenCart(false)} 
-        anchor='right'
-        PaperProps={{
-          style: {
-            width: '', // Default width
-          },
-        }}
-        sx={{
-          '@media (max-width: 600px)': {
-            '& .MuiDrawer-paper': {
-              width: '100%', // Adjust width for small screens
-            },
-          },
-        }}>
-        <section className='panier mx-3 pt-3 h-100'>
-          {
-            !changePage && (
-              <div className='title d-flex justify-content-between align-items-center'>
-            <div>
-              <h5 style={{marginBottom:'0px'}} className='fw-bold'>Shop Cart</h5>
-              <small style={{fontSize : '14px'}} className='text-capitalize'>Delivry with <b>yalidin</b> </small>
-            </div>
-            <svg onClick={()=>setOpenCart(false)} xmlns="http://www.w3.org/2000/svg" width={30} viewBox="0 0 24 24" fill="none">
-              <rect width={24} height={24} fill="white"/>
-              <path d="M7 17L16.8995 7.10051" stroke="#000000" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M7 7.00001L16.8995 16.8995" stroke="#000000" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-            )
-          }
-          {
-            !changePage && (
-              <div className="alert alert-danger p-2 mt-3" role="alert" >
-                You’ve got FREE delivery. Start <a href="#!" class="alert-link">checkout now!</a>
-              </div>
-            )
-          }
-         {changePage ? 
-           (<><Stack sx={{ width: '100%' }} spacing={4} className='mt-3'>
-            <Stepper alternativeLabel activeStep={step} connector={<QontoConnector />}>
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel StepIconComponent={QontoStepIcon} >{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          </Stack>
-          <h5 style={{marginBottom : '0px',borderTop:`1px solid ${colors.three}`}} className='mt-3 pt-3 fw-bold text-capitalize'>
-           { step === 0 ? 'Fill your information' : (
-            step === 1 ? 'payment form' : 'Confirm your operation'
-           )}
-          </h5>
-          <small className='text-danger'>{
-             (step === 0 || step === 1) ? 'Check your information carefully' : 'You must confirm your operation to finish it'
-          }
-          </small>
-          {
-            step === 0 && (
-              <>
-              <form action="" className='info d-flex flex-wrap gap-3 justify-content-center '>
-                <div className='d-flex flex-column gap-2 mt-3'>
-                  <label htmlFor="">Firstname :</label>
-                  <input type="text" name="" id="" className='rounded px-2'/>
-                </div>
-                <div className='d-flex flex-column gap-2 mt-3'>
-                  <label htmlFor="">Lastname :</label>
-                  <input type="text" name="" id="" className='rounded px-2'/>
-                </div>
-                <div className='d-flex flex-column gap-2'>
-                  <label htmlFor="">Number :</label>
-                  <input type="text" name="" id="" className='rounded px-2'/>
-                </div>
-                <div className='d-flex flex-column gap-2'>
-                  <label htmlFor="">Colis Content :</label>
-                  <input type="text" name='' id='' className='rounded px-2'/>
-                </div>
-                <div className='d-flex flex-column gap-2'>
-                  <label htmlFor="">Wilaya :</label>
-                  <input type="text" name="" id="" className='rounded px-2'/>
-                </div>
-                <div className='d-flex flex-column gap-2'>
-                  <label htmlFor="">City :</label>
-                  <input type="text" name="" id="" className='rounded px-2'/>
-                </div>
-              </form>
-                  </>
-            )
-          }
-          {
-            step === 1 && (
-              <>
-
-                <div className='d-flex flex-column gap-3 align-items-center'>
-                  <VisaCard/>
-                  <form action="">
-                      <div className='d-flex gap-2 justify-content-center align-items-center'>
-                        <div className='d-flex flex-column gap-2 mt-3'>
-                          <label htmlFor="">Card Number :</label>
-                          <input type="text" name="" id="" className='rounded px-2'/>
-                        </div>
-                        <div className='d-flex flex-column gap-2 mt-3'>
-                          <label htmlFor="">Card Number :</label>
-                          <select name="" id="">
-                            <option value="">Choose the type of card</option>
-                            <option value="">Edahabia card</option>
-                            <option value="">Visa card</option>
-                            <option value="">Master Card</option>
-                          </select>
-                        </div>
-                        
-                      </div>
-                      <div className='d-flex gap-2 justify-content-center align-items-center'>
-                        <div className='d-flex flex-column gap-2'>
-                          <label htmlFor="">Name :</label>
-                          <input type="text" name="" id="" className='rounded px-2'/>
-                        </div>
-                        <div className='d-flex flex-column gap-2'>
-                          <label htmlFor="">Email :</label>
-                          <input type="text" name="" id="" className='rounded px-2'/>
-                        </div>
-
-                      </div>
-                      <div className='d-flex gap-2 justify-content-center align-items-center'>
-                        <div className='d-flex flex-column gap-2'>
-                          <label htmlFor="">Thru Valid :</label>
-                          <input type="text" name="" id="" className='rounded px-2'/>
-                        </div>
-                        <div className='d-flex flex-column gap-2'>
-                          <label htmlFor="">CVV :</label>
-                          <input type="text" name='' id='' className='rounded px-2'/>
-                        </div>
-                      </div>
-                  </form>
-                </div>
-              </>
-            )
-          }
-           <div className='panierButton d-flex justify-content-between align-items-center w-100 px-5 mt-5'>
-                    <button className='d-flex align-items-center justify-content-center gap-1 rounded px-3 py-1' onClick={handleBack}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} viewBox="0 0 24 24" fill="none" className='rounded'>
-                      <rect width={24} height={24} fill={colors.three}/>
-                      <path d="M14.5 17L9.5 12L14.5 7" stroke="black" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                      Back 
-                    </button>
-                    <button className='d-flex align-items-center justify-content-center gap-1 rounded  px-3 py-1' onClick={handleNext}>
-                      {step === 2 ? 'Valider' : 'Next'}
-                      <svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} viewBox="0 0 24 24" fill="none" className='rounded'>
-                      <rect width="24" height="24" fill="#7C9473"/>
-                      <path d="M9.5 7L14.5 12L9.5 17" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </button>
-                  </div>
-          </>
-          ) : (
-            <ul style={{paddingLeft:'0px'}}>
-              {
-                shoppingCard.map((item)=>(
-                  <li key={item.id} className='panierCart d-flex align-items-center py-2 px-2 gap-2'>
-                    <img src={item.imgSrc} alt="" width={50} height={50}/>
-                    <div className='d-flex align-items-center justify-content-between w-100'>
-                      <div className='cardDetail'>
-                        <h6 className='text-capitalize fw-bold'>{item.name}</h6>
-                        <small>{item.count}</small>
-                        <div className='deletePart d-flex align-items-center justify-content-center gap-1'>
-                          <svg id="removeIcon"  xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 400 400" fill="none" >
-                                  <path d="M251.52 350H148.48C120.49 350 97.8 327.31 97.8 299.32V85.51H302.2V299.32C302.2 327.31 279.51 350 251.52 350Z" stroke="red" strokeWidth={12} strokeMiterlimit={10} strokeLinecap="round" strokeLinejoin="round"/>
-                                  <path d="M150.79 149.42V286.65" stroke="black" strokeWidth={12} strokeMiterlimit={10} strokeLinecap="round" strokeLinejoin="round"/>
-                                  <path d="M200 149.42V286.65"    stroke="black" strokeWidth={12} strokeMiterlimit={10} strokeLinecap="round" strokeLinejoin="round"/>
-                                  <path d="M249.21 149.42V286.65" stroke="black" strokeWidth={12} strokeMiterlimit={10} strokeLinecap="round" strokeLinejoin="round"/>
-                                  <path d="M82.6599 85.51H317.34" stroke="black" strokeWidth={12} strokeMiterlimit={10} strokeLinecap="round" strokeLinejoin="round"/>
-                                  <path d="M82.6599 85.51H317.34" stroke="black" strokeWidth={12} strokeMiterlimit={10} strokeLinecap="round" strokeLinejoin="round"/>
-                                  <path d="M162.25 85.51V73.25C162.25 60.41 172.66 50 185.5 50H214.5C227.34 50 237.75 60.41 237.75 73.25V85.51" stroke="black" strokeWidth={12} strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                          <small>Remove</small>
-                        </div>
-                      </div>
-                      <div className='counterButton rounded d-flex align-items-center justify-content-center gap-1'>
-                             <button className='dec' onClick={()=>updateCountItem(item.id,'dec')}>-</button>
-                             <p style={{marginBottom : '0px'}} className='d-flex align-items-center justify-content-center'><span>{item.count}</span></p>
-                             <button className='acr' onClick={()=>updateCountItem(item.id,'acr')}>+</button>
-                      </div>
-                      <p className='price' style={{marginBottom : '0px'}}><b>{item.price}</b></p>
-                    </div>
-                  </li>
-                ))
-              }
-            </ul>
-          )}
-          {
-            !changePage && (
-            <div className='d-flex justify-content-between py-3' style={{borderTop : `1px solid ${colors.three}`}}>
-              <button className='btn' style={{backgroundColor : 'black',color : 'white'}}>Update Cart</button>
-              <button onClick={()=>setChangePage(true)} className='btn' style={{backgroundColor : colors.one,color : colors.three}}>Continue Shopping</button>
-            </div>
-            )
-          }
-        </section>
-      </Drawer>
+      
       
     </header>
   )

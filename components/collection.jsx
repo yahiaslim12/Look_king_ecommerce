@@ -1,7 +1,7 @@
-import Couv1 from "./couv1";
-import Couv2 from "./couv2";
-import Couv3 from "./couv3";
-import Couv4 from "./couv4";
+import Couv1 from "./couvs/couv1"
+import Couv2 from "./couvs/couv2"
+import Couv3 from "./couvs/couv3"
+import Couv4 from "./couvs/couv4"
 
 export default function Collection() {
   return (

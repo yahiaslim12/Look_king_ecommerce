@@ -1,8 +1,11 @@
 "use client"
 import colors from "../../styles/colors"
-import { useEffect } from "react"
+import { useEffect ,useContext} from "react"
 import {motion , useInView,useAnimate} from 'framer-motion'
+import { pathContext } from "../providers/GlobalProvider"
+
 export default function ThirdCard() {
+  const {productEnter,productLeave} = useContext(pathContext)
   const [reference,animate] = useAnimate()
   const isInView = useInView(reference)
   useEffect(()=>{
@@ -13,7 +16,7 @@ export default function ThirdCard() {
      }
   },[isInView])
   return (
-    <div ref={reference} className="thirdCard rounded hover:border" style={{backgroundColor : 'rgb(246,246,246)'}}>
+    <div ref={reference} className="thirdCard rounded hover:border" style={{backgroundColor : 'rgb(246,246,246)'}} onMouseEnter={productEnter} onMouseLeave={productLeave}>
         
           <img loading="lazy" src="./images/T-shirt/nike2.webp" className="rounded" alt="" />
           <div className="d-flex flex-column align-items-center mt-2" >
