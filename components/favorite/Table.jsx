@@ -68,9 +68,8 @@ export default function Table() {
                         <p className='mb-0 ml-1 text-sm text-gray-600'>(14) Person</p>
                 </div>
                 <div className='td flex items-center text-capitalize'>
-                    <Title text={'Add cart'}>
-                        <button className='mb-0 text-sm flex justify-center gap-2 items-center rounded bg-green-500 text-white font-semibold px-2 py-2 text-capitalize' style={{borderBottom : 'none',fontWeight :'500 !important',color : '#666666'}}>Add <Cart width={20} height={20}  color={'white'}/></button>
-                    </Title>
+                        <button  className='mb-0 text-sm flex justify-center gap-2 items-center rounded bg-green-500 text-white font-semibold px-2 py-2 text-capitalize' style={{borderBottom : 'none',fontWeight :'500 !important',color : '#666666'}}>Add <Cart width={20} height={20}  color={'white'}/></button>
+                   
                 </div>
                 <div className='td flex  items-center text-capitalize'>
                     <div className='d-flex gap-1 text-green_dark items-center text-sm'>
@@ -79,9 +78,8 @@ export default function Table() {
                     </div>
                 </div>
                 <div className='td flex  items-center'>
-                    <Title text={'Delete product'}>
+                    
                         <button className='mb-0 text-sm flex  justify-center items-center gap-2 rounded bg-red-500 text-white font-semibold px-2 py-2 text-capitalize' style={{borderBottom : 'none',fontWeight :'500 !important',color : '#666666'}}>delete <Delete width={20} height={20} color={'white'}/></button>
-                    </Title>
                 </div>
             </div>
             <div className='tr flex px-6 py-2'>

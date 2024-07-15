@@ -13,7 +13,7 @@ export default function Title({text,children}) {
           {children}
         </div>
         {isVisible && (
-          <div className="absolute bottom-full mb-2 w-max px-2 py-1 bg-gray-800 text-white text-sm rounded shadow-md rounded">
+          <div className="absolute bottom-full mb-2 w-max px-2 py-1 bg-gray-800 text-white text-sm rounded shadow-md">
             {text}
           </div>
         )}

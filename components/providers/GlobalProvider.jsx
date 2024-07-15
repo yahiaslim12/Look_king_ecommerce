@@ -82,9 +82,6 @@ export default function GlobalProvider({ children }) {
     setCursor('default')
   }
 
-  useEffect(() => {
-    console.log('Cursor state:', cursor)
-  }, [cursor])
 
   return (
     <pathContext.Provider value={{ path, addPath, removePath, textEnter, textLeave, productEnter, productLeave }}>

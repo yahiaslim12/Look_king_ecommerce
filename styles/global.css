@@ -27,6 +27,9 @@
     margin: 0px;
     box-sizing: border-box;
 }
+body{
+    overflow-x: hidden !important;
+}
 body::-webkit-scrollbar{
     width: 5px;
 }
@@ -235,9 +238,7 @@ header .location:focus{
     color: rgb(120, 120, 120);
 }
 
-.firstCollection {
-    /*background: linear-gradient(0deg, var(--two) , white );*/
-}
+
 /*seconde collection */
 .secondCollection div button,.firstCollection button{
    border: 1px solid var(--one);

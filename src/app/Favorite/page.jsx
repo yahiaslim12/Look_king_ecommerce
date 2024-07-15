@@ -25,7 +25,7 @@ export default function Favorite() {
   return (
     <section className='FavoriteContainer mt-5'>
       <div className="flex justify-start">
-        <h1 className='text-capitalize fw-bold md:text-4xl text-xl' onMouseEnter={textEnter} onMouseLeave={textLeave}>
+        <h1 className='text-capitalize sm:text-4xl text-2xl font-bold' onMouseEnter={textEnter} onMouseLeave={textLeave}>
           my favorite products
         </h1>
       </div>

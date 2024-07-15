@@ -1,14 +1,19 @@
 'use server'
-import Connection from "./db";
 import { hash,genSalt } from "bcrypt";
 export async function create(data) {
     try {
-        const query = `insert into users (name,email,password) values (?,?,?)`
-        const con = await Connection()
         const salt = await genSalt(10)
         const [name,email,password] = data
         const passwordHashed = await hash(password,salt)
-        const result = await con.query(query,[name,email,passwordHashed])
+        const res = await fetch('http://localhost:8000/createUser/',
+          {
+          method : 'post',
+          body : JSON.stringify({name,email,password : passwordHashed}),headers : {'Content-Type' : 'application/json'}
+        })
+        console.log(res);
+        if(res.status === 201){
+           console.log('user created successfuly');
+        }
     } catch (error) {
         console.log(error);
         throw error;

@@ -33,12 +33,12 @@ export default function Card() {
                         <button className="btn rounded border ml-4">+</button>
                     </div>
                     <div className="flex gap-3">
-                        <Title text={"add to wishlist"}>
+                        <Title text={"Add to wishlist"}>
                             <button className="flex justify-center items-center border rounded-full p-2" onClick={()=>setFavorite(!favorite)}>
                                 {!favorite ? <Heart width={20} height={20} color={'black'}/> : <Heart2 width={20} height={20} color={'red'}/>}
                             </button>
                         </Title>
-                        <Title text={'Delete product'}>
+                        <Title text={'Delete'}>
                             <button className="flex justify-center items-center border rounded-full p-2">
                                 <Remove width={20} height={20}/>
                             </button>
@@ -59,7 +59,7 @@ export default function Card() {
                                 {!favorite ? <Heart width={20} height={20} color={'black'}/> : <Heart2 width={20} height={20} color={'red'}/>}
                             </button>
                         </Title>
-                        <Title text={'Delete product'}>
+                        <Title text={'Delete'}>
                             <button className="flex justify-center items-center border rounded-full p-2">
                                 <Remove width={20} height={20}/>
                             </button>

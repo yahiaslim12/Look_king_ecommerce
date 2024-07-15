@@ -24,7 +24,7 @@ export default function SecondCollection() {
           <p ref={titleRef} style={{transform: isInView1 ? "none" : "translateY(10px)",opacity: isInView1 ? 1 : 0,transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",color: "rgb(162, 162, 162)"}} className="text-capitalize" >top view in this week</p>
         </div>
       </div>
-        <div ref={buttonsRef} style={{transform:isInView2 ? "none" : "translateY(30px)",opacity: isInView2 ? 1 : 0,transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"}} className="d-flex justify-content-center gap-5 mt-4">
+        <div ref={buttonsRef} style={{transform:isInView2 ? "none" : "translateY(30px)",opacity: isInView2 ? 1 : 0,transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"}} className="d-flex justify-content-center gap-5 mt-4 px-2">
             <button className="btn" onClick={(e)=>setColorButton(1)} autoFocus>Featured</button>
             <button className="btn" onClick={(e)=>setColorButton(2)}>Top Rated</button>
             <button className="btn" onClick={(e)=>setColorButton(3)}>On Sale</button>

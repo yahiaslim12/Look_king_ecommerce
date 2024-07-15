@@ -22,8 +22,8 @@ export default function FirstCollection() {
               opacity: isInView ? 1 : 0,
               transition: "all 0.4s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
               
-            }} ref={titleRef}  className="text-capitalize px-2 text-3xl">Products Recommended for You</h1>
-          <p className="text-capitalize" style={{transform: isInView ? "none" : "translateY(10px)",opacity: isInView ? 1 : 0,transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",color: "rgb(162, 162, 162)"}}>This section features products you might be interested in.</p>
+            }} ref={titleRef}  className="text-capitalize px-2 text-xl sm:text-3xl text-center">Products Recommended for You</h1>
+          <p className="text-capitalize text-center text-sm sm:text-base" style={{transform: isInView ? "none" : "translateY(10px)",opacity: isInView ? 1 : 0,transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",color: "rgb(162, 162, 162)"}}>This section features products you might be interested in.</p>
         </div>
       </div>
       <div className="d-flex gap-3 gap-md-5 mx-2 flex-wrap  md_ta3i:justify-center justify-between mt-4">
