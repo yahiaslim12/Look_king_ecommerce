@@ -3,7 +3,9 @@ import { useEffect, useReducer } from "react";
 import { create } from "@/app/api/create";
 import { CircularProgress, Alert } from "@mui/material";
 import { Check, Error } from "../../svg";
-
+import { signIn } from 'next-auth/react'
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 function reducer(state, action) {
   switch (action.type) {
     case "update_value":
@@ -76,6 +78,8 @@ function reducer(state, action) {
 }
 
 export default function Form({ login, handleLogin }) {
+  const {data:session,status} = useSession()
+  const router = useRouter()
   const [state, dispatch] = useReducer(reducer, {
     values: {
       name: "",
@@ -99,7 +103,6 @@ export default function Form({ login, handleLogin }) {
       type: "",
     },
   });
-
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -160,7 +163,26 @@ export default function Form({ login, handleLogin }) {
 
     dispatch({ type: "loading", payload: false });
   };
+  const LOGIN = async(e)=>{
+     e.preventDefault()
+     dispatch({type:"loading",payload:true})
+     signIn('credentials',{
+      redirect:false,
+      email:state.credentials.email,
+      password:state.credentials.password
 
+     }).then(res => {
+       if(res.ok){
+         console.log(res);
+       }else{
+        console.log(res);
+       }
+     }).catch(err => {
+        console.log(err);
+     })
+     dispatch({type:"loading",payload:false})
+  }
+  
   useEffect(() => {
     if (!isValidEmail(state.values.email) && state.values.email !== "") {
       dispatch({ type: "errors_email", payload: true });
@@ -181,11 +203,12 @@ export default function Form({ login, handleLogin }) {
       dispatch({ type: "errors_cpassword", payload: false });
     }
   }, [state.values]);
+ 
 
   return (
     <form
       className={`flex justify-center flex-col items-center mt-5 ${login && "mb-5"}`}
-      onSubmit={(e) => !login && CREATE(e)}
+      onSubmit={(e) => !login ? CREATE(e) : LOGIN(e)}
     >
       {login ? (
         <div className="form_container lg:w-5/12 w-full px-4 py-6 border flex flex-col gap-2 rounded-xl">
@@ -193,7 +216,7 @@ export default function Form({ login, handleLogin }) {
             email*
           </label>
           <input
-            type="text"
+            type="email"
             name="email"
             id="email"
             className={`rounded border px-3 py-2 outline-none`}
@@ -215,9 +238,17 @@ export default function Form({ login, handleLogin }) {
             <input type="checkbox" name="terms" id="terms" />
             <p className="text-one mb-0">Terms of Use & Privacy Policy</p>
           </div>
-          <button className="bg-one text-white font-semibold px-2 py-2 rounded">
-            Login
-          </button>
+          {
+            state.loading ? (
+              <div className="flex justify-center items-center bg-one cursor-not-allowed">
+                <CircularProgress style={{ width: "15px", height: "15px" }} />
+              </div>
+            ) : (
+              <button className="bg-one text-white font-semibold px-2 py-2 rounded" type="submit">
+                Login
+              </button>
+            )
+          }
         </div>
       ) : (
         <div className="form_container lg:w-5/12 w-full px-4 py-6 border flex flex-col gap-2 rounded-xl">

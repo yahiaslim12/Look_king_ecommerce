@@ -510,6 +510,8 @@ footer .otherPart {
 .SearchFilter button:hover svg{
     stroke: var(--one) !important;
 }
+/* profile */
+
 /* responsive part */
 @media (max-width :400px){
     footer .otherPart{

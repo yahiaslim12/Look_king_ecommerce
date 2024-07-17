@@ -1,54 +1,64 @@
+import { compare } from 'bcrypt';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { compare } from 'bcryptjs';
-import { GET_USER } from './login';
 
 const handler = NextAuth({
-  session : {
-    strategy : 'jwt'
+  session: {
+    strategy: 'jwt',
   },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        email: { label: 'email*', type: 'email' },
+        password: { label: 'password*', type: 'password' },
       },
       async authorize(credentials, req) {
-        const data = {email : credentials.email ,password: credentials.password}
-        var user = null
-        const res = await fetch('http://localhost:8000/getuser',{
-          method : 'post',
-          headers : {'Content-Type' : 'application/json'},
-          body : JSON.stringify({email : data.email})
-        })
-        console.log(res);
-        if(res){
-            user = res[0]
-        }else{
-            throw 'login failed'
+        console.log("Credentials received:", credentials);
+        try {
+          const res = await fetch('http://localhost:8000/getuser/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: credentials.email }),
+          });
+
+          if (!res.ok) {
+            console.error('Failed to fetch user:', res.statusText);
+            throw new Error('Network response was not ok');
+          }
+
+          const user = await res.json();
+          console.log("User found:", user);
+          const validPassword = await compare(credentials.password,user.password)
+
+          if(!validPassword){
+              throw new Error("User email or password incorrect")
+          }
+
+          return user
+        } catch (error) {
+           console.log(error);
+           return null
         }
-        return user
-      }
-    })
+      },
+    }),
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // Add user data to the token if the user exists
       if (user) {
         token.id = user.email;
         token.email = user.email;
-        token.name = user.firstname+' '+user.lastname;  // Include other fields as needed
+        token.name = user.name;
       }
-      console.log(token);
+      console.log("JWT token:", token);
       return token;
     },
     async session({ session, token }) {
-      // Add token data to the session
       if (token) {
         session.user.id = token.id;
         session.user.email = token.email;
-        session.user.name = token.name;  
+        session.user.name = token.name;
       }
       return session;
     },

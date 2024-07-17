@@ -6,7 +6,7 @@ import Footer from "../Footer"
 import { motion } from 'framer-motion'
 import colors from "../../styles/colors"
 import { throttle } from "lodash"
-
+import { SessionProvider } from "next-auth/react"
 export const pathContext = createContext()
 
 export default function GlobalProvider({ children }) {
@@ -84,16 +84,18 @@ export default function GlobalProvider({ children }) {
 
 
   return (
-    <pathContext.Provider value={{ path, addPath, removePath, textEnter, textLeave, productEnter, productLeave }}>
-      <motion.div
-        className="fixed rounded-full"
-        style={{ zIndex: '2', pointerEvents: 'none' }}
-        variants={variantsOne}
-        animate={cursor}
-      />
-      <Nav />
-      {children}
-      <Footer />
-    </pathContext.Provider>
+    <SessionProvider>
+      <pathContext.Provider value={{ path, addPath, removePath, textEnter, textLeave, productEnter, productLeave }}>
+        <motion.div
+          className="fixed rounded-full"
+          style={{ zIndex: '2', pointerEvents: 'none' }}
+          variants={variantsOne}
+          animate={cursor}
+        />
+        <Nav />
+        {children}
+        <Footer />
+      </pathContext.Provider>
+    </SessionProvider>
   )
 }

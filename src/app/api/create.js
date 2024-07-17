@@ -10,7 +10,7 @@ export async function create(data) {
           method : 'post',
           body : JSON.stringify({name,email,password : passwordHashed}),headers : {'Content-Type' : 'application/json'}
         })
-        console.log(res);
+        const user = await res.json()
         if(res.status === 201){
            console.log('user created successfuly');
         }
