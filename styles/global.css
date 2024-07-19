@@ -510,10 +510,23 @@ footer .otherPart {
 .SearchFilter button:hover svg{
     stroke: var(--one) !important;
 }
-/* profile */
-
+/* modals*/
+.confirmation_modal{
+    width: 400px;
+    height: auto;
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 15px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
 /* responsive part */
 @media (max-width :400px){
+    .confirmation_modal {
+        width: 90%;
+    }
     footer .otherPart{
         flex-wrap: wrap;
         justify-content: center;

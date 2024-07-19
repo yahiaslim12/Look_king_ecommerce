@@ -10,14 +10,14 @@ export default function ONE({ handleList, list }) {
     }
     const { data: session ,status} = useSession();
   return (
-    <div className="ONE border-end pr-14 w-3/12 hidden md:block">
+    <div className="ONE border-end pr-4 xl:pr-14 md:w-4/12 lg:w-3/12 hidden md:block">
       <ul className="pl-0 pt-5 pb-3 border-bottom w-full">
         <li
           className={`px-4 py-1.5 rounded flex items-center gap-2 hover:cursor-pointer ${list.settings ? 'bg-gray-800 text-white' : ' text-black'} ${!list.settings ? 'hover:bg-gray-100' : ''}`}
           onClick={() => handleList('settings')}
         >
           <Settings color={list.settings ? 'white' : 'black'} width={15} height={15} />
-          <span>Settings</span>
+          <span className="text-sm lg:text-base">Settings</span>
         </li>
 
         <li
@@ -27,7 +27,7 @@ export default function ONE({ handleList, list }) {
           onClick={() => handleList('commands')}
         >
           <Order color={list.commands ? 'white' : 'black'} width={15} height={15} />
-          <span>My commandes</span>
+          <span className="text-sm lg:text-base">Ordre</span>
         </li>
       </ul>
       <button
@@ -37,7 +37,7 @@ export default function ONE({ handleList, list }) {
         onClick={() => LOGOUT() }
       >
         <Logout width={15} height={15} color={list.logout ? 'white' : 'black'} />
-        <span>{status === 'loading' ? <CircularProgress style={{width:"15px" , height : '15px'}}/> : 'Logout'}</span>
+        <span className="text-sm lg:text-base">{status === 'loading' ? <CircularProgress style={{width:"15px" , height : '15px'}}/> : 'Logout'}</span>
       </button>
     </div>
   );
