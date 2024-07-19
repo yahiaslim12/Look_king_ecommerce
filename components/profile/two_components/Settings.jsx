@@ -95,7 +95,7 @@ export default function Settings({handleOpenDrawer}) {
                 number : user.number,
             }))
             console.log(user.number)
-            setIsEmptyNumber(user.number === null)
+            setIsEmptyNumber(user.number !== null && user.number !== '' ?  false : true)
            
         }else{
             console.log(`Error : ${res.status} - ${res.statusText}`);
@@ -110,6 +110,7 @@ export default function Settings({handleOpenDrawer}) {
   }
   const UPDATE = async () => {
     if (open.type === 'details') {
+        setLoading(true)
         try {
             const res = await fetch('http://localhost:8000/userUpdate/', {
                 method: 'PUT',
@@ -124,7 +125,8 @@ export default function Settings({handleOpenDrawer}) {
                     name : data.name,
                     number : data.number,
                 }))
-                setIsEmptyNumber(data.number !== null ?  false : true)
+                console.log(data.number)
+                setIsEmptyNumber(data.number !== null && data.number !== '' ?  false : true)
                 setAlert(prev => ({
                     ...prev,
                     open : true,
@@ -168,6 +170,8 @@ export default function Settings({handleOpenDrawer}) {
                     open : false,
                 }))
             }, 4000);
+        }finally{
+            setLoading(false)
         }
     }else if(open.type === 'daccount'){
         try {
@@ -372,7 +376,7 @@ export default function Settings({handleOpenDrawer}) {
                                 {loading && <CircularProgress className="text-green-500" style={{width : '20px',height : '20px'}}/>}
                             </div>
                             {
-                                (isEmptyNumber) && <small className="text-red-500 flex items-center gap-1"><Errors width={10} height={10} color={"#ef4444"}/>You do not have a number in this account. Please add one.</small>
+                                (isEmptyNumber && !loading) && <small className="text-red-500 flex items-center gap-1"><Errors width={10} height={10} color={"#ef4444"}/>You do not have a number in this account. Please add one.</small>
                             }
                         </div>
                     </Suspense>
