@@ -8,7 +8,7 @@ export default function SearchFilter() {
             <Search width={20} height={20} color="#484848" />
             <input type="text" name="" id="" placeholder="Search..." className="outline-none bg-transparent w-100" />
         </div>
-        <div className='d-flex font-bold gap-3 items-center justify-content-between w-full md:w-2/12'>
+        <div className='d-flex font-bold gap-3 items-center justify-between lg:justify-end w-full md:w-2/12'>
             <small className='text-gray-500'>0</small>
             <button className='d-flex items-center gap-2 btn rounded border text-capitalize text-gray-600 font-semibold'>
                 <Filter width={15} height={15} />filter

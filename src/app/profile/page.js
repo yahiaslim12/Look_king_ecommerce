@@ -13,6 +13,13 @@ export default function Profile() {
     commands : false,
     logout : false
   })
+  const [openDrawer,setOpenDrawer] = useState(false)
+  const handleOpen = () => {
+    setOpenDrawer(true)
+  }
+  const handleClose = () => {
+    setOpenDrawer(false)
+  }
   const handleList = (type) => {
     if(type === 'settings'){
       setList({...list,settings:true,commands:false,logout:false})
@@ -26,24 +33,21 @@ export default function Profile() {
     if(status === "loading") return
     if(!session) router.push('/login')
   },[status,session])
-  useEffect(()=>{
-    console.log(list);
-  },[list])
   if(status==='unauthenticated'){
-    return <div className="flex justify-center items-center" style={{height : '400px'}}>
-             <h1 className="mb-0">Loading... <CircularProgress style={{width:"20px",height : '20px'}}/></h1>
+    return <div className="flex justify-center items-center" style={{height : '600px'}}>
+             <h1 className="mb-0">Loading... <CircularProgress style={{width:"20px",height : '20px'}} className="text-one"/></h1>
            </div>
   }
   if(status === 'loading'){
-    return <div className="flex justify-center items-center" style={{height : '400px'}}>
-        <h1 className="mb-0">Loading... <CircularProgress style={{width:"20px",height : '20px'}}/></h1>
+    return <div className="flex justify-center items-center" style={{height : '600px'}}>
+        <h1 className="mb-0">Loading... <CircularProgress style={{width:"20px",height : '20px'}} className="text-one"/></h1>
     </div>
   }
   if(session){
       return (
          <section className="flex container">
-            <ONE list = {list} handleList = {handleList}/>
-            <TWO list = {list}/>
+            <ONE list = {list} handleList = {handleList} handleOpen = {handleOpen} handleClose = {handleClose} open ={openDrawer}/>
+            <TWO list = {list} handleOpen={handleOpen}/>
          </section>
       )
   }

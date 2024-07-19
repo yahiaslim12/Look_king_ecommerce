@@ -20,13 +20,13 @@ export default function Login() {
  },[status,session])
 
   if(status === 'authenticated'){
-    return <div className="flex justify-center items-center" style={{height : '400px'}}>
-        <h1 className="mb-0">Loading... <CircularProgress style={{width:"20px",height : '20px'}}/></h1>
+    return <div className="flex justify-center items-center" style={{height : '600px'}}>
+        <h1 className="mb-0">Loading... <CircularProgress style={{width:"20px",height : '20px'}} className="text-one"/></h1>
     </div>
   }
   if(status === 'loading'){
-    return <div className="flex justify-center items-center" style={{height : '400px'}}>
-        <h1 className="mb-0">Loading... <CircularProgress style={{width:"20px",height : '20px'}}/></h1>
+    return <div className="flex justify-center items-center" style={{height : '600px'}}>
+        <h1 className="mb-0">Loading... <CircularProgress style={{width:"20px",height : '20px'}} className="text-one"/></h1>
     </div>
   }
   return (

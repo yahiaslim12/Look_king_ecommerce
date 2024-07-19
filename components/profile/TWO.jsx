@@ -1,10 +1,9 @@
+
 import Settings from "./two_components/Settings";
+import Order from "./two_components/Order";
 
-
-export default function TWO({list}) {
+export default function TWO({list,handleOpen}) {
   return (
-    <section className="pt-5 pl:2  md:pl-16 md:w-8/12 lg:w-9/12 justify-center flex md:justify-start w-full">
-       <Settings/>
-    </section>
+    list.settings ? <Settings handleOpenDrawer={handleOpen}/> : list.commands ? <Order handleOpenDrawer={handleOpen}/> : ''
   )
 }

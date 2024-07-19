@@ -424,16 +424,16 @@ footer .otherPart {
     border-radius: 10px;
 }
 /* table design */
-.table_container{
+.table_container,.order_container{
     overflow-x: auto;
 }
-.table_container::-webkit-scrollbar{
+.table_container::-webkit-scrollbar , .order_container::-webkit-scrollbar{
     height: 5px;
 }
-.table_container::-webkit-scrollbar-track{
+.table_container::-webkit-scrollbar-track,.order_container::-webkit-scrollbar-track{
     background-color: white;
 }
-.table_container::-webkit-scrollbar-thumb{
+.table_container::-webkit-scrollbar-thumb,.order_container::-webkit-scrollbar-thumb{
     background-color: #a8a8a8;
     border-radius: 20px;
 }
@@ -453,17 +453,15 @@ footer .otherPart {
     background-color: #a8a8a8;
     border-radius: 20px;
 }
-.myTable::-webkit-scrollbar{
-    width: 5px;
-}
-.myTable .thead{
+
+.myTable .thead,.myOrder .thead{
     position: sticky;
     top: 0px;
     background-color: #f1f1f1b5;
     backdrop-filter: blur(20px);
     z-index: 2;
 }
-.myTable div {
+.myTable div,.myOrder div {
     border: none !important;
 }
 .myTable .thead .th:nth-child(1), .myTable .tbody .td:nth-child(1){
@@ -496,6 +494,46 @@ footer .otherPart {
 .myTable .tr .td:nth-child(4) > div > div {
     z-index: 1 !important;
 }
+.myOrder {
+    width: 900px;
+    height: 500px;
+    overflow-y: auto; /* Ensure that the overflow property is set to enable scrolling */
+}
+
+.myOrder::-webkit-scrollbar {
+    width: 5px; /* Only set the width once */
+}
+
+.myOrder::-webkit-scrollbar-track {
+    background-color: white;
+}
+
+.myOrder::-webkit-scrollbar-thumb {
+    background-color: #a8a8a8;
+    border-radius: 20px;
+}
+
+.myOrder .thead .th:nth-child(1),.myOrder .tbody .td:nth-child(1){
+    width : 5%;
+}
+.myOrder .thead .th:nth-child(2),.myOrder .tbody .td:nth-child(2){
+    width : 20%;
+}
+.myOrder .thead .th:nth-child(3),.myOrder .tbody .td:nth-child(3){
+    width : 10%;
+}
+.myOrder .thead .th:nth-child(4),.myOrder .tbody .td:nth-child(4){
+    width : 15%;
+}
+.myOrder .thead .th:nth-child(5),.myOrder .tbody .td:nth-child(5){
+    width : 20%;
+}
+.myOrder .thead .th:nth-child(6),.myOrder .tbody .td:nth-child(6){
+    width : 10%;
+}
+.myOrder .thead .th:nth-child(7),.myOrder .tbody .td:nth-child(7){
+    width : 20%;
+}
 /* Search in favorite page */ 
 .Search:focus-within{
     outline: 2px solid var(--one) !important;
@@ -522,7 +560,10 @@ footer .otherPart {
     top: 50%;
     transform: translate(-50%, -50%);
 }
+/* drawers */
+
 /* responsive part */
+
 @media (max-width :400px){
     .confirmation_modal {
         width: 90%;
