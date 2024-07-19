@@ -27,7 +27,7 @@ export default function Settings({handleOpenDrawer}) {
     same : false,
     valid : true,
   })
-  const [isEmptyNumber,setIsEmptyNumber] = useState(values.number === '')
+  const [isEmptyNumber,setIsEmptyNumber] = useState(false)
   /* handle functions */
 
   const isValidPassword = (pass) => {
@@ -84,16 +84,19 @@ export default function Settings({handleOpenDrawer}) {
 
   const GET_USER = async() => {
      setLoading(true)
+     let user
       try {
         const res = await fetch('http://localhost:8000/getuser/',{method : 'POST',headers : {'Content-Type' : 'application/json'},body : JSON.stringify( {email : session.user.email})})
         if(res.ok){
-            const user = await res.json()
+            user = await res.json()
             setValues(prev => ({
                 ...prev,
                 name : user.name,
                 number : user.number,
             }))
-            setIsEmptyNumber(user.number !== '' ? false : true)
+            console.log(user.number)
+            setIsEmptyNumber(user.number === null)
+           
         }else{
             console.log(`Error : ${res.status} - ${res.statusText}`);
         }
@@ -101,6 +104,7 @@ export default function Settings({handleOpenDrawer}) {
         console.log(error);
       }finally{
           setLoading(false)
+          setIsEmptyNumber(user.number === null)
       }
       
   }
@@ -120,7 +124,7 @@ export default function Settings({handleOpenDrawer}) {
                     name : data.name,
                     number : data.number,
                 }))
-                setIsEmptyNumber(data.number !== '' ?  false : true,)
+                setIsEmptyNumber(data.number !== null ?  false : true)
                 setAlert(prev => ({
                     ...prev,
                     open : true,
@@ -368,7 +372,7 @@ export default function Settings({handleOpenDrawer}) {
                                 {loading && <CircularProgress className="text-green-500" style={{width : '20px',height : '20px'}}/>}
                             </div>
                             {
-                                (isEmptyNumber && !loading) && <small className="text-danger">You do not have a number in this account. Please add one.</small>
+                                (isEmptyNumber) && <small className="text-red-500 flex items-center gap-1"><Errors width={10} height={10} color={"#ef4444"}/>You do not have a number in this account. Please add one.</small>
                             }
                         </div>
                     </Suspense>

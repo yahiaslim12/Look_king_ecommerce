@@ -4,9 +4,9 @@ import { Logout, Order, Settings } from "../../svg";
 import { useSession } from "next-auth/react";
 import { Box, CircularProgress ,Drawer} from "@mui/material";
 export default function ONE({ handleList, list ,handleOpen,handleClose,open}) {
-    const LOGOUT =() => {
+    const LOGOUT =async () => {
+        await signOut()
         handleList('logout')
-        signOut()
     }
     const { data: session ,status} = useSession();
   return (
