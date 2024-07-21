@@ -562,6 +562,13 @@ footer .otherPart {
 }
 /* drawers */
 
+/* product page */
+.detail .size div:hover{
+    border:1px solid var(--one);
+}
+.detail .size div:focus-within{
+    border:4px solid var(--one);
+}
 /* responsive part */
 
 @media (max-width :400px){

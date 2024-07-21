@@ -1,3 +1,4 @@
+
 // tailwind.config.js
 module.exports = {
   content: [
@@ -22,6 +23,9 @@ module.exports = {
         md_ta3i: '608px',
         lg_ta3i: '1500px',
       },
+      font : {
+        bold_mine : '500 !important'
+      }
     },
     container: false, 
   },
