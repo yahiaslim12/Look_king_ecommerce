@@ -2,16 +2,20 @@ import React from 'react'
 import { Etoile } from '../../svg'
 import { Rating } from '@mui/material'
 
-export default function Images() {
+export default function Images({img1,img2,img3,img4}) {
   return (
-    <div className='w-1/2'>
-        <div className='w-full flex gap-3 flex-wrap'>
-            <img src={'.././images/products/1.webp'} alt="" width={300} height={300} className='rounded'/>
-            <img src={'.././images/products/2.webp'} alt="" width={300} height={300} className='rounded'/>
-            <img src={'.././images/products/3.webp'} alt="" width={300} height={300} className='rounded'/>
-            <img src={'.././images/products/4.webp'} alt="" width={300} height={300} className='rounded'/>
+    <div className='images lg:w-1/2 w-full'>
+        <div className='w-full flex justify-between gap-3 flex-col'>
+            <div className='flex gap-3 w-full'>
+                <img src={`../.${img1}`} alt=""  className='rounded'/>
+                <img src={`../.${img2}`} alt=""  className='rounded'/>
+            </div>
+            <div className='w-full flex gap-3'>
+                <img src={`../.${img3}`} alt=""  className='rounded'/>
+                <img src={`../.${img4}`} alt=""  className='rounded'/>
+            </div>
         </div>
-        <div className='mt-3'>
+        <div className='mt-3 hidden lg:block'>
             <h2 className="text-xl mb-0 font-semibold capitalize py-6">Ratings & Reviews</h2>
             <h1 className='text-5xl mb-0 mt-3 text-gray-900 font-bold'>4.1</h1>
             <p className='text-gray-600 text-sm mt-2'>12 Verified Buyers</p>

@@ -5,6 +5,12 @@ import { useEffect, useState } from "react"
 import ONE from "../../../components/profile/ONE"
 import TWO from "../../../components/profile/TWO"
 import { CircularProgress } from "@mui/material"
+import { bouncy } from 'ldrs'
+
+bouncy.register()
+
+
+
 export default function Profile() {
   const {data: session,status} = useSession()
   const router = useRouter()
@@ -34,13 +40,13 @@ export default function Profile() {
     if(!session) router.push('/login')
   },[status,session])
   if(status==='unauthenticated'){
-    return <div className="flex justify-center items-center" style={{height : '600px'}}>
-             <h1 className="mb-0">Loading... <CircularProgress style={{width:"20px",height : '20px'}} className="text-one"/></h1>
+    return <div className="flex justify-center items-center gap-2" style={{height : '600px'}}>
+             <h1 className="mb-0">Loading<l-bouncy size="20" speed="1.75" color="black" ></l-bouncy></h1>
            </div>
   }
   if(status === 'loading'){
-    return <div className="flex justify-center items-center" style={{height : '600px'}}>
-        <h1 className="mb-0">Loading... <CircularProgress style={{width:"20px",height : '20px'}} className="text-one"/></h1>
+    return <div className="flex justify-center items-center gap-2" style={{height : '600px'}}>
+        <h1 className="mb-0">Loading<l-bouncy size="20" speed="1.75" color="black" ></l-bouncy></h1>
     </div>
   }
   if(session){

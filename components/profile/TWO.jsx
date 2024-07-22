@@ -2,12 +2,14 @@
 import Settings from "./two_components/Settings";
 import Order from "./two_components/Order";
 import { CircularProgress } from "@mui/material";
-
+import { bouncy ,hourglass} from "ldrs";
+import colors from "../../styles/colors";
+hourglass.register()
 export default function TWO({list,handleOpen}) {
   return (
-    list.settings ? <Settings handleOpenDrawer={handleOpen}/> : list.commands ? <Order handleOpenDrawer={handleOpen}/> : <div style={{height : '600px'}} className="flex gap-2 justify-center items-center w-full">
-        <h1>Loading...</h1>
-        <CircularProgress className="bg-green-500 text-green-500" style={{width : '20px' ,height : '20px'}}/>
-    </div>
+    list.settings ? <Settings handleOpenDrawer={handleOpen}/> : list.commands ? <Order handleOpenDrawer={handleOpen}/> : <div className="flex justify-center items-center gap-2 w-full" style={{height : '600px'}}>
+    <l-hourglass size={30} color={colors.one} bg-opacity={0.1} speed={1.75}></l-hourglass>
+</div>
+
   )
 }

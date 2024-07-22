@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useState, useEffect } from "react"
+import { createContext, useState, useEffect, Suspense } from "react"
 import Nav from "../Nav"
 import Footer from "../Footer"
 import { motion } from 'framer-motion'
@@ -8,7 +8,6 @@ import colors from "../../styles/colors"
 import { throttle } from "lodash"
 import { SessionProvider } from "next-auth/react"
 export const pathContext = createContext()
-
 export default function GlobalProvider({ children }) {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [cursor, setCursor] = useState('default')
@@ -93,7 +92,7 @@ export default function GlobalProvider({ children }) {
           animate={cursor}
         />
         <Nav />
-        {children}
+          {children}
         <Footer />
       </pathContext.Provider>
     </SessionProvider>

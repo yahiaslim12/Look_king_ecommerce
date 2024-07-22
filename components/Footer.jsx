@@ -2,7 +2,7 @@ import Link from "next/link"
 import colors from "../styles/colors"
 export default function Footer() {
   return (
-    <footer className="w-100 d-flex flex-column mt-3 px-3" style={{backgroundColor: colors.three}}>
+    <footer className="w-100 d-flex flex-column mt-3 px-3 " style={{backgroundColor: colors.three,borderTopLeftRadius : '50px',borderTopRightRadius : '50px'}}>
         <div className="LogoPart container pb-4 mt-5 d-flex gap-2 align-items-end w-100  " style={{borderBottom : "1px solid rgb(190,190,190)"}}>
             <img src="./images/LOGO_OFFECIAL.png" alt="" width={50} title="Look King Store" />
             <h6 className="text-uppercase fw-bold" style={{fontFamily:'footer-font',fontSize:'25px',marginBottom: "-3px",fontFamily : "footer-font"}}>look king store</h6>

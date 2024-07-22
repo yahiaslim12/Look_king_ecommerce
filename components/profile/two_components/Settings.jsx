@@ -2,8 +2,10 @@
 import { signOut, useSession } from "next-auth/react"
 import { Errors, List, Success } from "../../../svg"
 import { Suspense, useEffect, useState } from "react"
-import { Box,CircularProgress,Modal } from "@mui/material"
+import { Box,Modal } from "@mui/material"
+import { lineSpinner } from "ldrs"
 import passwordUpdate from "@/app/api/passwordUpdate"
+lineSpinner.register()
 export default function Settings({handleOpenDrawer}) {
   /* variables and states */
   const {data:session,status} = useSession()
@@ -373,7 +375,7 @@ export default function Settings({handleOpenDrawer}) {
                                     value={values.number}
                                     onChange={(e)=>handleChange(e)}
                                 />
-                                {loading && <CircularProgress className="text-green-500" style={{width : '20px',height : '20px'}}/>}
+                                {loading && <l-line-spinner size = {20} color={'gray'} speed={1}></l-line-spinner>}
                             </div>
                             {
                                 (isEmptyNumber && !loading) && <small className="text-red-500 flex items-center gap-1"><Errors width={10} height={10} color={"#ef4444"}/>You do not have a number in this account. Please add one.</small>
