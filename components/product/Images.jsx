@@ -1,18 +1,29 @@
-import React from 'react'
+'use client'
+import { useEffect, useState } from 'react'
 import { Etoile } from '../../svg'
 import { Rating } from '@mui/material'
-
+import { lineSpinner } from 'ldrs'
+import colors from '../../styles/colors'
+lineSpinner.register()
 export default function Images({img1,img2,img3,img4}) {
+  const [isLoading,setIsLoading] = useState({one : true,two : true,three : true, four : true})
+  useEffect(()=>{
+    console.log(img1,img2,img3,img4);
+    if(img1 && img1.includes('/')) setIsLoading(prev => ({...prev,one : false}))
+    if(img2 && img2.includes('/')) setIsLoading(prev => ({...prev,two : false}))
+    if(img3 && img3.includes('/')) setIsLoading(prev => ({...prev,three : false}))
+    if(img4 && img4.includes('/')) setIsLoading(prev => ({...prev,four : false}))
+  },[img1,img2,img3,img4])
   return (
     <div className='images lg:w-1/2 w-full'>
         <div className='w-full flex justify-between gap-3 flex-col'>
             <div className='flex gap-3 w-full'>
-                <img src={`../.${img1}`} alt=""  className='rounded'/>
-                <img src={`../.${img2}`} alt=""  className='rounded'/>
+                {!isLoading.one ? <img src={`../.${img1}`} alt="image 1"  className='rounded'/> : <div style={{width : 'calc(50% - .5rem)'}} className='h-40 flex justify-center items-center'><l-line-spinner size="40" stroke="3" speed="1"  color="black" ></l-line-spinner></div>}
+                {!isLoading.two ? <img src={`../.${img2}`} alt="image 2"  className='rounded'/> : <div style={{width : 'calc(50% - .5rem)'}} className='h-40 flex justify-center items-center'><l-line-spinner size="40" stroke="3" speed="1"  color="black" ></l-line-spinner></div>}
             </div>
             <div className='w-full flex gap-3'>
-                <img src={`../.${img3}`} alt=""  className='rounded'/>
-                <img src={`../.${img4}`} alt=""  className='rounded'/>
+            {!isLoading.three ? <img src={`../.${img3}`} alt="image 3"  className='rounded'/> : <div style={{width : 'calc(50% - .5rem)'}} className='h-40 flex justify-center items-center'><l-line-spinner size="40" stroke="3" speed="1"  color="black" ></l-line-spinner></div>}
+            {!isLoading.four ? <img src={`../.${img4}`} alt="image 4"  className='rounded'/> :  <div style={{width : 'calc(50% - .5rem)'}} className='h-40 flex justify-center items-center'><l-line-spinner size="40" stroke="3" speed="1"  color="black" ></l-line-spinner></div>}
             </div>
         </div>
         <div className='mt-3 hidden lg:block'>

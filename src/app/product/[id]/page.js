@@ -54,7 +54,7 @@ export default function index({params}) {
         <Head id={id}/>
         <main className='mt-3 flex gap-5 flex-wrap flex-lg-nowrap'>
             <Images img1={product.img1} img2={product.img2} img3={product.img3} img4={product.img4}/>
-            <Detail name = {product.name} small = {product.desc_small} big = {product.desc_big} price = {product.price} category = {product.category} qte = {product.qte} sizes={sizes}/>
+            <Detail id={id} name = {product.name} small = {product.desc_small} big = {product.desc_big} price = {product.price} category = {product.category} qte = {product.qte} sizes={sizes}/>
         </main>
         <div className='mt-3'>
             <h3 className='capitalize text-gray-900 text-2xl font-semibold pb-3'>similar products</h3>

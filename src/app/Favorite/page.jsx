@@ -4,11 +4,40 @@ import Table from "../../../components/favorite/Table"
 import Paths from "../../../components/Paths"
 import { pathContext } from "../../../components/providers/GlobalProvider"
 import colors from "../../../styles/colors"
-import { useContext, useEffect } from "react"
-
+import { useContext, useEffect ,useState} from "react"
+import { useSession } from "next-auth/react"
 export default function Favorite() {
   const { textEnter, textLeave, path, addPath, removePath } = useContext(pathContext)
+  const [favs,setFavs] = useState([])
+  const {data :session , status} = useSession()
+  const handleFav = (data)=>{
+    setFavs(data)
+  }
+  const GET = async ()=>{
+    try {
+      const res = await fetch("http://localhost:8000/products/getFavs/"+session?.user.email,{
+        method:"GET",
+        headers:{"Content-Type":"application/json"},
+      })
+      if(res.ok){
+        const data = await res.json()
+        setFavs(data)
+      }else{
+        throw new Error(`${res.status} - ${res.statusText}`)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    
 
+  }
+  useEffect(()=>{
+        if (status === 'loading') return
+        if (!session) router.push('/')
+        if(session){
+          GET()
+        }
+  },[session,status])
   useEffect(() => {
     console.log('Favorite component mounted')
     if (!path.includes('favorite')) {
@@ -32,7 +61,7 @@ export default function Favorite() {
       <Paths />
       <SearchFilter />
       <div className="table_container">
-        <Table />
+        <Table favs={favs} handleFav={handleFav}/>
       </div>
     </section>
   )

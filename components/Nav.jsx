@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { useRouter } from 'next/navigation';
 import { pathContext } from './providers/GlobalProvider';
+import Image from 'next/image';
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 10,
@@ -239,7 +240,7 @@ export default function Nav() {
   }, []);
   return (
     <header style={{backgroundColor : '#cdd0cb84',backdropFilter : 'blur(15px)',position : 'sticky',top : '0px'}} className='d-flex align-items-center px-4 py-3 justify-content-between flex-row-reverse flex-sm-row'>
-      <Link href={'/'} ><img src="./images/LOGO_OFFECIAL.png" width={50} /></Link>
+      <Link href={'/'} ><Image src={'/images/LOGO_OFFECIAL.png'} width={50} height={50}/></Link>
       <nav className='d-flex gap-5'>
          <div className='navbarLinksName nav gap-4 text-capitalize align-items-center d-none d-lg-flex'>
            <Link href={'/'} style={{textDecoration:'none'}}><h6 style = {{color : "black",}}>Home</h6></Link>

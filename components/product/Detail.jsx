@@ -1,28 +1,96 @@
 'use client'
-import { Bottom, Cart, Heart, Heart2, Tags ,Etoile} from "../../svg";
+import { Bottom, Cart, Heart, Heart2, Tags ,Etoile, Errors, Success} from "../../svg";
 import { useEffect, useState } from "react";
 import { Rating } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-export default function Detail({small,big,name,price,category,qte,sizes,}) {
+import { lineSpinner } from "ldrs";
+lineSpinner.register()
+export default function Detail({id,small,big,name,price,category,qte,sizes}) {
    const {data:session,status} = useSession()
    const router = useRouter()
    const [addWishList,setAddWishList] = useState(false)
-  const handleWishList = () => {
+   const [size,setSize] = useState({value : '' , show : false})
+   const [alert,setAlert] = useState({
+      open : false,
+      message : '',
+      type: ''
+   })
+  const handleWishList = async() => {
     
     if(!session){
         router.push('/login')
     }else{
-        setAddWishList(!addWishList)
+        try {
+            const res = await fetch('http://localhost:8000/products/addfavorite/',{
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                    },
+                body : JSON.stringify({id_product : id,email : session.user.email})
+            })
+            if(res.ok){
+                const data = await res.json()
+                setAlert({open : true,message : 'Product add to wishlist',type: 'success'})
+                console.log(res);
+            }else{
+                console.log(`${res.status} - ${res.text}`);
+                throw new Error(`${res.status} - ${res.text}`)
+            }
+        } catch (error) {
+            console.log(error);
+            setAlert({open : true, message : error,type : 'error'})
+            setTimeout(() => {
+                setAlert({open : false, message : '', type: ''})
+            }, 3000);
+        }
     }
   }
-  const addCart = () => {
+  const addCart = async() => {
+    console.log(size);
      if(!session){
         router.push('/login')
+     }else if (size.value === ''){
+        setSize(prev => ({
+            ...prev,
+            show : true
+        }))
+     }else{
+        try {
+            const res = await fetch('http://localhost:8000/products/addcart/',{
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                    },
+                body : JSON.stringify({id_product : id,email : session.user.email})
+            })
+            if(res.ok){
+                const data = await res.json()
+                setAlert({open : true,message : 'Product add to cart',type: 'success'})
+                console.log(res);
+            }else{
+                console.log(`${res.status} - ${res.text}`);
+                throw new Error(`${res.status} - ${res.text}`)
+            }
+        } catch (error) {
+            console.log(error);
+            setAlert({open : true, message : error,type : 'error'})
+            setTimeout(() => {
+                setAlert({open : false, message : '', type: ''})
+            }, 3000);
+        }
      }
   }
   return (
     <div className="detail w-full lg:w-1/2">
+        {
+                alert.open && (
+                    <div style={{transform : 'translate(-50%,-50%)'}} className={`w-11/12 sm:w-6/12 md:w-auto rounded ${alert.type === 'error' ? 'bg-red-500' : 'bg-green-500'} flex gap-3 items-center fixed top-32 left-1/2 px-3 py-3 text-white`}>
+                        {alert.type !== 'error' ?  <Success width={20} height={20} color={'white'}/> : <Errors  width={20} height={20} color={'white'}/>} 
+                        <span>{alert.message}</span>
+                    </div>
+                )
+        }
         <div className="w-full">
             <h2 className="text-3xl mb-0 font-bold capitalize">{name}</h2>
             <p className="mb-0 capitalize text-base pb-8 border-b-2" style={{color : '#484848'}}>{small}</p>
@@ -36,21 +104,38 @@ export default function Detail({small,big,name,price,category,qte,sizes,}) {
                 <span className="text-gray-800 text-sm" style={{fontWeight : '500 !important'}}>Select size</span>
                 <span className="text-gray-800 text-xs underline hover:text-one" >size guide</span>
             </div>
+            {
+              size.show && <p className="text-red-500 mb-0 text-sm flex items-center gap-1"><Errors width={12} height={12} color={'red'}/>You must select a size before</p>
+            }
             <div className="size flex gap-3 flex-wrap">
                 {sizes && sizes.map((size,index) =>{
-                    return <div key={index} tabIndex={0} className="rounded bg-white py-1.5 px-2 hover:cursor-pointer border-2 border-gray-200"><span>{size.size}</span></div>
+                    return <div key={index} tabIndex={0} onClick={()=>setSize(prev => ({show : false,value : size.size}))} className="rounded bg-white py-1.5 px-2 hover:cursor-pointer border-2 border-gray-200"><span>{size.size}</span></div>
                 })}
             </div>
         </div>
         <div className="flex gap-4 mt-5 pb-5 border-b-2 border-gray-200 flex-col sm:flex-row">
-            <button onClick={addCart} className="flex px-2 py-2.5 text-lg bg-one text-white w-full sm:w-1/2 items-center justify-center gap-1 rounded">
-                <Cart width={20} height={20} color={'white'}/>
-                Add Cart
-            </button>
-            <button className="flex px-2 py-2.5 text-lg items-center justify-center w-full sm:w-1/2 gap-1 rounded border-2 border-gray-200 hover:border-one hover:text-one" onClick={handleWishList}>
-                {!addWishList ? <Heart width={20} height={20} color={'black'}/> : <Heart2 color={'red'} width={20} height={20}/>}
-                Add Wishlist
-            </button>
+            {status === 'loading' ? (
+                <>
+                    <div className="flex px-2 py-2.5 text-lg bg-one text-white w-full sm:w-1/2 items-center justify-center gap-1 rounded cursor-wait">
+                        <l-line-spinner size="20" stroke="3" speed="1"  color="white" ></l-line-spinner>
+                    </div>
+                    <div className="cursor-wait flex px-2 py-2.5 text-lg items-center justify-center w-full sm:w-1/2 gap-1 rounded border-2 border-gray-200 hover:border-one hover:text-one">
+                        <l-line-spinner size="20" stroke="3" speed="1"  color="black" ></l-line-spinner>
+                    </div>
+                </>
+            ):(
+                <>
+                    <button onClick={addCart} className="flex px-2 py-2.5 text-lg bg-one text-white w-full sm:w-1/2 items-center justify-center gap-1 rounded">
+                        <Cart width={20} height={20} color={'white'}/>
+                        Add Cart
+                    </button>
+                    <button className="flex px-2 py-2.5 text-lg items-center justify-center w-full sm:w-1/2 gap-1 rounded border-2 border-gray-200 hover:border-one hover:text-one" onClick={handleWishList}>
+                        {!addWishList ? <Heart width={20} height={20} color={'black'}/> : <Heart2 color={'red'} width={20} height={20}/>}
+                        Add Wishlist
+                    </button>
+                </>
+            )}
+            
         </div>
         <div className="mt-4 pb-7 border-b-2 border-gray-200">
             <div className="flex justify-between items-center">
