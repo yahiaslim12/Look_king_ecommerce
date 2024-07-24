@@ -71,15 +71,10 @@ const QontoStepIconRoot = styled('div')(({ theme, ownerState }) => ({
 export default function Nav() {
   
   const router = useRouter()
-  const {path,addPath,removePath} = useContext(pathContext)
+  const {path,addPath,removePath,carts,favs} = useContext(pathContext)
+  const [count,setCount] = useState({cart : 0,fav : 0})
   const [change,setChange] = useState(false)
-  const [values,setValues] = useState({
-    name : '',
-    email : '',
-    password : '',
-
-  })
-  const steps = ['Commande info', 'Payment', 'Confirmation'];
+  
   const [open,setOpen] = useState(false)
   const [openModal,setOpenModal] = useState(false)
   
@@ -200,29 +195,7 @@ export default function Nav() {
       setOpenModal(true)
     }
   }
-  const updateCountItem = (id,operationType)=>{
-    if(operationType === 'dec'){
-      setShoppingCard((prevShoppingCard) =>
-      prevShoppingCard.map((item) =>
-        (item.id === id && item.count !== 0 )? { ...item, count: item.count - 1 } : item
-      )
-    );
-    }else{
-      setShoppingCard((prevShoppingCard) =>
-      prevShoppingCard.map((item) =>
-        item.id === id ? { ...item, count: item.count + 1 } : item
-      )
-    );
-    }
-  }
-  const handleBack = () => {
-    if(step === 0) setChangePage(false)
-    else setStep(prevStep => prevStep - 1)
-  }
-  const handleNext = () => {
-     setStep(prevStep => prevStep + 1)
-     console.log(step)
-  }
+  
   
   const handleChangePage = (page) => {
     if(page === 'Favorite'){
@@ -238,6 +211,13 @@ export default function Nav() {
       window.removeEventListener('keydown', openModalWithKeyboard);
     };
   }, []);
+  useEffect(()=>{
+    setCount(prev => ({
+      ...prev,
+      cart : carts.length,
+      fav : favs.length,
+    }))
+  },[carts,favs])
   return (
     <header style={{backgroundColor : '#cdd0cb84',backdropFilter : 'blur(15px)',position : 'sticky',top : '0px'}} className='d-flex align-items-center px-4 py-3 justify-content-between flex-row-reverse flex-sm-row'>
       <Link href={'/'} ><Image src={'/images/LOGO_OFFECIAL.png'} width={50} height={50}/></Link>
@@ -258,7 +238,7 @@ export default function Nav() {
             <MenuIcon/>
             </button>
             
-             <Badge badgeContent={shoppingCard.length} color='secondary' className='d-none d-sm-block' >
+             <Badge badgeContent={count.cart} color='secondary' className='d-none d-sm-block' >
               
               <svg onClick={()=>handleChangePage('cart')} id='cartIcon' xmlns="http://www.w3.org/2000/svg" width={25}  viewBox="0 -2.55 20.095 20.095">
                 <path id="Path_13" dataName="Path 13" d="M437.249,829.36a1.874,1.874,0,0,0,1.72,1.633H447.1c.9,0,1.24-.72,1.626-1.633l1.93-4.382H440l-.136-.964h12.2l-2.262,5.346c-.678,1.556-1.213,2.66-2.709,2.66h-8.128a2.664,2.664,0,0,1-2.71-2.66l-.8-7.36h-3.484v-1h4.406Zm1.225,3.64a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,438.474,833Zm-.531,1.969h1V834h-1ZM446.474,833a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,446.474,833Zm-.531,1.969h1V834h-1Z" transform="translate(-431.973 -821)" fill="#444"/>
@@ -266,7 +246,7 @@ export default function Nav() {
          
               </Badge>
 
-             <Badge badgeContent={1} color='secondary'  className='d-none d-sm-block'>
+             <Badge badgeContent={count.fav} color='secondary'  className='d-none d-sm-block'>
               <div className='hover:cursor-pointer' onClick={()=>handleChangePage('Favorite')}>
 
                 <svg id='favIcon' xmlns="http://www.w3.org/2000/svg" width={25} viewBox="0 0 24 24" fill="none">

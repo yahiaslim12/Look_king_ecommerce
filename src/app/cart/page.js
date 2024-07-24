@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { bouncy } from "ldrs";
 import { pathContext } from "../../../components/providers/GlobalProvider";
+import { NoProduct } from "../../../svg";
 bouncy.register()
 export default function Index() {
   const [count,setCount] = useState(0)
@@ -70,9 +71,17 @@ export default function Index() {
             <div className="lg:w-8/12 flex-justify-center items-center w-full flex-col">
                 <small className="font-semibold">{count}</small>
                 {
-                  carts.map((cart)=>(
-                    <Card key={cart.id_product} qte_cart={cart.qte_cart} handleCarts = {handleCarts} id={cart.id_product} src = {cart.img1} name = {cart.name} price = {cart.price} small = {cart.desc_small} qte = {cart.qte} size = {cart.size}/>
-                  ))
+                  carts.length === 0 ? (
+                    <div className="flex gap-2 flex-col justify-center h-64 items-center">
+                      <NoProduct width={40} height={40} color={'black'}/>
+                      <small className="text-gray-700 font-medium">No product in the cart</small>
+                    </div>
+                  ) : (
+                      carts.map((cart)=>(
+                        <Card key={cart.id_product} qte_cart={cart.qte_cart} handleCarts = {handleCarts} id={cart.id_product} src = {cart.img1} name = {cart.name} price = {cart.price} small = {cart.desc_small} qte = {cart.qte} size = {cart.size}/>
+                      ))
+                    
+                  )
                 }
             </div>
             <Payment total = {total} subTotal = {subTotal} tax = {tax} shipping = {shipping}/>
