@@ -1,13 +1,15 @@
 'use client'
 import { Bottom, Cart, Heart, Heart2, Tags ,Etoile, Errors, Success} from "../../svg";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Rating } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { lineSpinner } from "ldrs";
+import { pathContext } from "../providers/GlobalProvider";
 lineSpinner.register()
 export default function Detail({id,small,big,name,price,category,qte,sizes}) {
    const {data:session,status} = useSession()
+   const {CHECK} = useContext(pathContext)
    const router = useRouter()
    const [addWishList,setAddWishList] = useState(false)
    const [size,setSize] = useState({value : '' , show : false})
@@ -29,17 +31,19 @@ export default function Detail({id,small,big,name,price,category,qte,sizes}) {
                     },
                 body : JSON.stringify({id_product : id,email : session.user.email})
             })
-            if(res.ok){
-                const data = await res.json()
-                setAlert({open : true,message : 'Product add to wishlist',type: 'success'})
-                console.log(res);
-            }else{
-                console.log(`${res.status} - ${res.text}`);
-                throw new Error(`${res.status} - ${res.text}`)
-            }
+            if (!res.ok) {
+                const errorData = await res.json();
+                console.log(errorData);
+                throw new Error(errorData.detail || 'An error occurred');
+              }
+              const data = await res.json();
+              setAlert({ open: true, message: 'Product added to cart', type: 'success' });
+              setTimeout(() => {
+                setAlert(prev => ({open : false,...prev}));
+              }, 3000);
         } catch (error) {
             console.log(error);
-            setAlert({open : true, message : error,type : 'error'})
+            setAlert({open : true, message : error.message,type : 'error'})
             setTimeout(() => {
                 setAlert({open : false, message : '', type: ''})
             }, 3000);
@@ -57,30 +61,42 @@ export default function Detail({id,small,big,name,price,category,qte,sizes}) {
         }))
      }else{
         try {
-            const res = await fetch('http://localhost:8000/products/addcart/',{
-                method : 'POST',
-                headers : {
-                    'Content-Type' : 'application/json'
-                    },
-                body : JSON.stringify({id_product : id,email : session.user.email})
-            })
-            if(res.ok){
-                const data = await res.json()
-                setAlert({open : true,message : 'Product add to cart',type: 'success'})
-                console.log(res);
-            }else{
-                console.log(`${res.status} - ${res.text}`);
-                throw new Error(`${res.status} - ${res.text}`)
+            const res = await fetch('http://localhost:8000/products/addcart/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ id_product: id, email: session.user.email,size:size.value })
+            });
+            if (!res.ok) {
+              const errorData = await res.json();
+              throw new Error(errorData.detail || 'An error occurred');
             }
-        } catch (error) {
-            console.log(error);
-            setAlert({open : true, message : error,type : 'error'})
+            const data = await res.json();
+            setAlert({ open: true, message: 'Product added to cart', type: 'success' });
             setTimeout(() => {
-                setAlert({open : false, message : '', type: ''})
+                setAlert({ open: false, message: '', type: '' });
+              }, 3000);
+          } catch (error) {
+            console.log(error);
+            setAlert({ open: true, message: error.message, type: 'error' });
+            setTimeout(() => {
+              setAlert({ open: false, message: '', type: '' });
             }, 3000);
-        }
+          }
      }
   }
+  const check = async()=>{
+    const bool = await CHECK(id,session.user.email)
+    setAddWishList(bool)
+  }
+  useEffect(()=>{
+    if(id && session){
+        check()
+    }else{
+        setAddWishList(false)
+    }
+  },[session,id])
   return (
     <div className="detail w-full lg:w-1/2">
         {

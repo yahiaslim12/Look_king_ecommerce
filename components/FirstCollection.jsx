@@ -72,7 +72,7 @@ export default function FirstCollection() {
                 <CardsSkeleton/>
               </div>) :  <div className="d-flex gap-3 gap-md-5 mx-2 flex-wrap  md_ta3i:justify-center justify-between mt-4">
                 {products.map((product)=>(
-                  <FirstCard id = {product.id_product} price={product.price} src={product.img1 && product.img1} small={product.desc_small} name={product.name}/>))}
+                  <FirstCard id = {product.id_product} key={product.id_product} price={product.price} src={product.img1 && product.img1} small={product.desc_small} name={product.name}/>))}
                   </div>
                 }
         </Suspense>

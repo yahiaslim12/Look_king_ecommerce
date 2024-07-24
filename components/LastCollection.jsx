@@ -62,7 +62,7 @@ export default function LastCollection() {
                 <CardsSkeleton/>
               </div>) :  <div className="cardContent px-2 d-flex gap-3 gap-md-5 flex-wrap justify-content-center mt-4">
                 {products.map((product)=>(
-                  <FirstCard price={product.price} src={product.img1 && product.img1} small={product.desc_small} name={product.name}/>))}
+                  <FirstCard key={product.id_product} id={product.id_product} price={product.price} src={product.img1 && product.img1} small={product.desc_small} name={product.name}/>))}
                   </div>
                 }
         </Suspense>

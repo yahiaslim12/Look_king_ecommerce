@@ -1,13 +1,14 @@
 'use client'
 import { Rating } from '@mui/material'
-import {useState,useEffect}from 'react'
+import {useState,useEffect, useContext}from 'react'
 import { useSession } from 'next-auth/react'
 import { Cart, Delete } from '../../svg'
 import Title from '../title/Title'
+import { pathContext } from '../providers/GlobalProvider'
 
-export default function Table({favs,handleFav}) {
+export default function Table() {
     const {data : session , status} = useSession()
-  
+    const {handleFavs,favs} = useContext(pathContext)
     const DELETE = async (id)=>{
       try {
           const res = await fetch("http://localhost:8000/products/deletefavorite/",{
@@ -17,7 +18,7 @@ export default function Table({favs,handleFav}) {
           })
           if(res.ok){
             const data = await res.json()
-            handleFav(data)
+            handleFavs(data)
           }else{
             throw new Error(`${res.status} - ${res.statusText}`)
           }
@@ -25,8 +26,8 @@ export default function Table({favs,handleFav}) {
           console.log(error);
         }
     }
-  const addCart = async(id) => {
-    try {
+    const addCart = async(id) => {
+      try {
         const res = await fetch('http://localhost:8000/products/addcart/',{
             method : 'POST',
             headers : {
@@ -84,7 +85,7 @@ export default function Table({favs,handleFav}) {
         </div>
         <div className='tbody'>
             {
-                favs.map((fav,index) => {
+               favs && favs.map((fav,index) => {
                     return (
                         <div key={fav.id_product} className='tr flex px-6 py-2'>
                 <div className='td flex items-center p-0'>

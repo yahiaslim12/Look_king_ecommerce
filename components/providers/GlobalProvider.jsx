@@ -8,11 +8,42 @@ import colors from "../../styles/colors"
 import { throttle } from "lodash"
 import { SessionProvider } from "next-auth/react"
 export const pathContext = createContext()
+
 export default function GlobalProvider({ children }) {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [cursor, setCursor] = useState('default')
   const [path, setPath] = useState(['Home'])
-
+  const [carts,setCarts] = useState([])
+  const [favs,setFavs] = useState([])
+  const [isFav,setIsFav] = useState(false)
+  const handleCarts = (data) => {
+    setCarts(data)
+  }
+  const handleFavs = (data)=>{
+    setFavs(data)
+  }
+  const CHECK = async(id,email) => {
+    try {
+      const res = await fetch('http://localhost:8000/isInFav/',{
+        method : 'POST',
+        headers : {
+          'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({id_product : id,email})
+      })
+      if(res.ok){
+        const data = await res.json()
+        console.log(data);
+        return true
+      }else{
+        const error = await res.json()
+        console.log(error.detail);
+        return false
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const variantsOne = {
     default: {
       x: position.x - 8,
@@ -84,7 +115,7 @@ export default function GlobalProvider({ children }) {
 
   return (
     <SessionProvider>
-      <pathContext.Provider value={{ path, addPath, removePath, textEnter, textLeave, productEnter, productLeave }}>
+      <pathContext.Provider value={{ path, addPath, removePath, textEnter, textLeave, productEnter, productLeave ,handleCarts,handleFavs,carts,favs,CHECK}}>
         <motion.div
           className="fixed rounded-full"
           style={{ zIndex: '2', pointerEvents: 'none' }}

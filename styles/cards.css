@@ -14,7 +14,7 @@
     width: 280px;
     position: relative;
 }
-.firstCard:hover {
+.firstCard img:hover {
     cursor: pointer;
 }
 .firstCard img{

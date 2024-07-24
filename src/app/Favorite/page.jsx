@@ -6,13 +6,14 @@ import { pathContext } from "../../../components/providers/GlobalProvider"
 import colors from "../../../styles/colors"
 import { useContext, useEffect ,useState} from "react"
 import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { bouncy } from "ldrs"
+bouncy.register()
 export default function Favorite() {
   const { textEnter, textLeave, path, addPath, removePath } = useContext(pathContext)
-  const [favs,setFavs] = useState([])
+  const {favs,handleFavs} = useContext(pathContext)
   const {data :session , status} = useSession()
-  const handleFav = (data)=>{
-    setFavs(data)
-  }
+  const router = useRouter()
   const GET = async ()=>{
     try {
       const res = await fetch("http://localhost:8000/products/getFavs/"+session?.user.email,{
@@ -21,7 +22,8 @@ export default function Favorite() {
       })
       if(res.ok){
         const data = await res.json()
-        setFavs(data)
+        if(data.length !== 0) handleFavs(data)
+
       }else{
         throw new Error(`${res.status} - ${res.statusText}`)
       }
@@ -33,7 +35,7 @@ export default function Favorite() {
   }
   useEffect(()=>{
         if (status === 'loading') return
-        if (!session) router.push('/')
+        if (!session) router.push('/login')
         if(session){
           GET()
         }
@@ -50,7 +52,16 @@ export default function Favorite() {
       console.log('Favorite component unmounted')
     }
   }, [])
-
+  if(status === 'loading'){
+    return <div className="flex justify-center items-center gap-2" style={{height : '600px'}}>
+        <h1 className="mb-0">Loading<l-bouncy size="20" speed="1.75" color="black" ></l-bouncy></h1>
+    </div>
+  }
+  if(!session){
+    return <div className="flex justify-center items-center gap-2" style={{height : '600px'}}>
+        <h1 className="mb-0">Loading<l-bouncy size="20" speed="1.75" color="black" ></l-bouncy></h1>
+    </div>
+  }
   return (
     <section className='FavoriteContainer mt-5'>
       <div className="flex justify-start">
@@ -61,7 +72,7 @@ export default function Favorite() {
       <Paths />
       <SearchFilter />
       <div className="table_container">
-        <Table favs={favs} handleFav={handleFav}/>
+        <Table/>
       </div>
     </section>
   )
