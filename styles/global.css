@@ -563,6 +563,17 @@ footer .otherPart {
     top: 50%;
     transform: translate(-50%, -50%);
 }
+.commande_modal{
+    width: 700px;
+    height: auto;
+    background: #ffffff;
+    padding: 1.2rem 2rem;
+    border-radius: 15px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
 /* drawers */
 
 /* product page */

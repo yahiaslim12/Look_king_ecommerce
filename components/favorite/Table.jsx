@@ -1,12 +1,18 @@
 'use client'
 import { Rating } from '@mui/material'
-import {useState,useEffect, useContext}from 'react'
+import {useState,useEffect, useContext, use}from 'react'
 import { useSession } from 'next-auth/react'
-import { Cart, Delete } from '../../svg'
+import { Cart, Delete,NoProduct,Errors,Success } from '../../svg'
 import Title from '../title/Title'
 import { pathContext } from '../providers/GlobalProvider'
 
 export default function Table() {
+    const [inCart,setInCart] = useState(false)
+    const [alert,setAlert] = useState({
+        open : false,
+        message : '',
+        type : ''
+    })
     const {data : session , status} = useSession()
     const {handleFavs,favs} = useContext(pathContext)
     const DELETE = async (id)=>{
@@ -27,32 +33,46 @@ export default function Table() {
         }
     }
     const addCart = async(id) => {
-      try {
-        const res = await fetch('http://localhost:8000/products/addcart/',{
-            method : 'POST',
-            headers : {
-                'Content-Type' : 'application/json'
+        try {
+            const res = await fetch('http://localhost:8000/products/addcart/',{
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
                 },
-            body : JSON.stringify({id_product : id,email : session.user.email})
+                body : JSON.stringify({id_product : id,email : session.user.email})
         })
-        if(res.ok){
-            const data = await res.json()
-            setAlert({open : true,message : 'Product add to cart',type: 'success'})
-            console.log(res);
-        }else{
-            console.log(`${res.status} - ${res.text}`);
-            throw new Error(`${res.status} - ${res.text}`)
+        if(!res.ok){
+            const error = await res.json()
+            throw new Error(`${error.detail}`)
         }
-    } catch (error) {
-        console.log(error);
-        setAlert({open : true, message : error,type : 'error'})
+        const data = await res.json()
+        setAlert(prev => ({...prev,open : true,type : 'success',message : 'Product added to cart'}))
         setTimeout(() => {
-            setAlert({open : false, message : '', type: ''})
+            setAlert(prev =>({
+                ...prev,
+                open : false
+            }))
+        }, 3000);
+    } catch (error) {
+        setAlert(prev => ({...prev,open : true,type : 'error',message : error.message}))
+        setTimeout(() => {
+            setAlert(prev =>({
+                ...prev,
+                open : false
+            }))
         }, 3000);
     }
-  }
+    }
   return (
     <div className='myTable'>
+        {
+                alert.open && (
+                    <div style={{transform : 'translate(-50%,-50%)'}} className={`w-11/12 sm:w-6/12 md:w-auto rounded ${alert.type === 'error' ? 'bg-red-500' : 'bg-green-500'} flex gap-3 items-center fixed top-32 left-1/2 px-3 py-3 text-white`}>
+                        {alert.type !== 'error' ?  <Success width={20} height={20} color={'white'}/> : <Errors  width={20} height={20} color={'white'}/>} 
+                        <span>{alert.message}</span>
+                    </div>
+                )
+        }
         <div className='thead flex items-center bg-gray_table px-6 py-3 rounded-top'>
              <div className='th'>
                 <input type="checkbox" name="" id="" />
@@ -85,13 +105,13 @@ export default function Table() {
         </div>
         <div className='tbody'>
             {
-                favs.length === 0 ? (
+                !Array.isArray(favs) || favs.length === 0 ? (
                     <div className="flex gap-2 flex-col justify-center h-64 items-center">
                       <NoProduct width={40} height={40} color={'black'}/>
                       <small className="text-gray-700 font-medium">No product in the cart</small>
                     </div>
                 ) : (
-                    favs && favs.map((fav,index) => {
+                        favs.map((fav,index) => {
                         return (
                             <div key={fav.id_product} className='tr flex px-6 py-2'>
                     <div className='td flex items-center p-0'>

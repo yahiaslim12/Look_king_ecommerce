@@ -96,7 +96,6 @@ export default function Settings({handleOpenDrawer}) {
                 name : user.name,
                 number : user.number,
             }))
-            console.log(user.number)
             setIsEmptyNumber(user.number !== null && user.number !== '' ?  false : true)
            
         }else{

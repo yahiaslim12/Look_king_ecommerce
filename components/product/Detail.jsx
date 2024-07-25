@@ -51,10 +51,9 @@ export default function Detail({id,small,big,name,price,category,qte,sizes}) {
     }
   }
   const addCart = async() => {
-    console.log(size);
      if(!session){
         router.push('/login')
-     }else if (size.value === ''){
+     }else if (size.value === '' & category !== "electronics"){
         setSize(prev => ({
             ...prev,
             show : true

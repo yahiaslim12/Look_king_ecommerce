@@ -15,7 +15,7 @@ export default function GlobalProvider({ children }) {
   const [path, setPath] = useState(['Home'])
   const [carts,setCarts] = useState([])
   const [favs,setFavs] = useState([])
-  const [isFav,setIsFav] = useState(false)
+  
   const handleCarts = (data) => {
     setCarts(data)
   }

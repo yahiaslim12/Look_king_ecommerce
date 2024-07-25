@@ -51,6 +51,7 @@ export default function FirstCard({id,src,name,small,price}) {
           })
           if(res.ok){
             const data = await res.json()
+            console.log(data);
             handleFavs(data)
             check()
           }else{

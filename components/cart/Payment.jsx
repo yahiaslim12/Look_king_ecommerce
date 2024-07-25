@@ -1,6 +1,103 @@
-import React from 'react'
+'use client'
 
+import { Modal ,Box} from '@mui/material'
+import {useContext, useEffect, useState} from 'react'
+import { Close, Errors } from '../../svg'
+import baladiya from '../../public/baladiya.json'
+import Title from '../title/Title'
+import { lineSpinner } from 'ldrs'
+import { useSession } from 'next-auth/react'
+import { pathContext } from '../providers/GlobalProvider'
+lineSpinner.register()
 export default function Payment({total,subTotal,shipping,tax}) {
+    const {carts} = useContext(pathContext)
+    const [ids,setIds] = useState([])
+    const [open,setOpen] = useState(false)
+    const [wilaya,setWilaya] = useState('')
+    const [mairie,setMairie] = useState([])
+    const [number,setNumber] = useState('')
+    const [date,setDate] = useState(new Date())
+    const [isValidNumber,setIsValidNumber] = useState({
+        empty : false,
+        inValid : false,
+    })
+    const [type,setType] = useState('')
+    const [loading,setLoading] = useState(true)
+    const {data : session,status} = useSession()
+
+    const handleWilaya = (data) => {
+        setWilaya(data)
+        setMairie(baladiya[data])
+    }
+    const handleOpen = () => {
+        if(session){
+            setOpen(true)
+        }
+    }
+    const handleNumber = (value) => {
+        if(!isNaN(Number(value))) setNumber(value)
+    }
+    const isValid = (n)=>{
+        if(n.length < 10 || n.length > 10){
+            return false
+        }else if (n[0] !== 0){
+            return false
+        }else if(n[1] !== 5 || n[1] !== 6 || n[1] !== 7){
+            return false
+        }
+        return true
+    }
+    const handleSubmit = async(e) => {
+        e.preventDefault()
+        if(!isValid(number)){
+            setIsValidNumber(prev =>({
+                ...prev,
+                inValid : true
+            }))
+        }else{
+            try {
+                const res = await fetch('http://localhost:8000/commande/add/',{
+                    method : 'POST',
+                    headers : {'Content-Type' : 'application/json'},
+                    body : JSON.stringify({ids,status : 'Pending', date : `${date.getFullYear}-${date.getMonth - 1}-${date.getDay}`,email : session.user.email,wilaya,mairie,type}),
+            })
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+    const GET_USER = async() => {
+     setLoading(true)
+     let user
+      try {
+        const res = await fetch('http://localhost:8000/getuser/',{method : 'POST',headers : {'Content-Type' : 'application/json'},body : JSON.stringify( {email : session.user.email})})
+        if(res.ok){
+            user = await res.json()
+            console.log(user);
+            setNumber(user.number)
+           
+        }else{
+            console.log(`Error : ${res.status} - ${res.statusText}`);
+        }
+      } catch (error) {
+        console.log(error);
+      }finally{
+          setLoading(false)
+          setIsValidNumber(prev => ({
+            ...prev,
+            empty : user.number === null
+          }))
+      }
+      
+    }
+  useEffect(()=>{
+    GET_USER()
+    const temp = []
+    carts.map(cart =>{
+        temp.push(cart.id_product)
+    })
+    setIds(temp)
+  },[session,status])
   return (
     <div className='lg:w-4/12 w-full '>
         <h1 style={{fontWeight : '500 !important'}} className='text-gray-700 font-medium mb-0 pb-3 border-bottom w-100 text-xl'>Cart Totals</h1>
@@ -28,10 +125,179 @@ export default function Payment({total,subTotal,shipping,tax}) {
                <span className='text-base font-semibold' style={{fontWeight : '500 !important'}}>{total} DA</span>
         </div>
         <div className='flex justify-center items-center mt-3'>
-            <button className='text-capitalize rounded-pill bg-one text-white font-semibold px-2 py-2.5 w-100'>
+            <button onClick = {()=>handleOpen()} className='text-capitalize rounded-pill bg-one text-white font-semibold px-2 py-2.5 w-100'>
                 Proceed to checkout
             </button>
         </div>
+        <Modal open = {open} onClose={()=>setOpen(false)}>
+            <Box className = 'commande_modal'>
+                <div className='flex items-center justify-between'>
+                    <div>
+                        <h1 className='font-medium text-gray-900 mb-0 text-2xl'>Add your information</h1>
+                        <p className='mb-0 text-sm text-gray-500'>you must complete your information to add order</p>
+                    </div>
+                    <button onClick={()=>setOpen(false)}><Close width={15} height={15} color={'black'}/></button>
+                </div>
+                <div>
+                <form action="" className='my-4' onSubmit={(e)=>handleSubmit(e)}>
+                        <div className='flex gap-8 items-center w-full'>
+                            <div className='flex flex-col gap-2 w-1/2'>
+                            <label htmlFor="email" className="text-gray_text font-medium text-sm text-capitalize">
+                                email*
+                            </label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                className={`rounded border px-3 py-2 outline-none`}
+                                value={session.user.email}
+                                readOnly
+                            />
+                            </div>
+                            <div className='flex flex-col gap-2 w-1/2'>
+                                <label htmlFor="name" className="text-gray_text text-sm font-medium text-capitalize">
+                                    name*
+                                </label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    className={`rounded border px-3 py-2 outline-none`}
+                                    value={session.user.name}
+                                    readOnly
+                                />
+                            </div>
+                        </div>
+                        <div className='flex gap-8 items-center w-full mt-3'>
+                            <div className='flex flex-col gap-2 w-1/2'>
+                                <label htmlFor="number" className="text-gray_text text-sm font-medium text-capitalize">
+                                    number*
+                                </label>
+                                <div className="flex gap-2 items-center w-full">
+                                
+                                    <input
+                                        type="text"
+                                        name="number"
+                                        id="number"
+                                        className={`rounded border px-3 py-2 outline-none w-full`}
+                                        value={number}
+                                        onChange={(e)=>handleNumber(e.target.value)}
+                                    />
+                                {loading && <l-line-spinner size = {20} color={'gray'} speed={1}></l-line-spinner>}
+                            </div>
+                            
+                            </div>
+                            <div className='flex flex-col gap-2 w-1/2'>
+                                <label htmlFor="wilaya" className="text-gray_text text-sm font-medium text-capitalize">wilaya</label>
+                                <select id='wilaya' value={wilaya} onChange={(e)=>handleWilaya(e.target.value)} className='w-full px-2 py-2 rounded border-gray-200 border-2 focus-within:border-3 hover:border-one focus-within:border-one outline-none'>
+                                    <option value="" className='text-gray_text'>Select wilaya</option>
+                                    <option value="1">1 - Adrar</option>
+                                    <option value="2">2 - Chlef</option>
+                                    <option value="3">3 - Laghouat</option>
+                                    <option value="4">4 - Oum El Bouaghi</option>
+                                    <option value="5">5 - Batna</option>
+                                    <option value="6">6 - Béjaïa</option>
+                                    <option value="7">7 - Biskra</option>
+                                    <option value="8">8 - Béchar</option>
+                                    <option value="9">9 - Blida</option>
+                                    <option value="10">10 - Bouira</option>
+                                    <option value="11">11 - Tamanrasset</option>
+                                    <option value="12">12 - Tébessa</option>
+                                    <option value="13">13 - Tlemcen</option>
+                                    <option value="14">14 - Tiaret</option>
+                                    <option value="15">15 - Tizi Ouzou</option>
+                                    <option value="16">16 - Alger</option>
+                                    <option value="17">17 - Djelfa</option>
+                                    <option value="18">18 - Jijel</option>
+                                    <option value="19">19 - Sétif</option>
+                                    <option value="20">20 - Saïda</option>
+                                    <option value="21">21 - Skikda</option>
+                                    <option value="22">22 - Sidi Bel Abbès</option>
+                                    <option value="23">23 - Annaba</option>
+                                    <option value="24">24 - Guelma</option>
+                                    <option value="25">25 - Constantine</option>
+                                    <option value="26">26 - Médéa</option>
+                                    <option value="27">27 - Mostaganem</option>
+                                    <option value="28">28 - M'Sila</option>
+                                    <option value="29">29 - Mascara</option>
+                                    <option value="30">30 - Ouargla</option>
+                                    <option value="31">31 - Oran</option>
+                                    <option value="32">32 - El Bayadh</option>
+                                    <option value="33">33 - Illizi</option>
+                                    <option value="34">34 - Bordj Bou Arreridj</option>
+                                    <option value="35">35 - Boumerdès</option>
+                                    <option value="36">36 - El Tarf</option>
+                                    <option value="37">37 - Tindouf</option>
+                                    <option value="38">38 - Tissemsilt</option>
+                                    <option value="39">39 - El Oued</option>
+                                    <option value="40">40 - Khenchela</option>
+                                    <option value="41">41 - Souk Ahras</option>
+                                    <option value="42">42 - Tipaza</option>
+                                    <option value="43">43 - Mila</option>
+                                    <option value="44">44 - Aïn Defla</option>
+                                    <option value="45">45 - Naâma</option>
+                                    <option value="46">46 - Aïn Témouchent</option>
+                                    <option value="47">47 - Ghardaïa</option>
+                                    <option value="48">48 - Relizane</option>
+                                    <option value="49">49 - El M'Ghair</option>
+                                    <option value="50">50 - El Menia</option>
+                                    <option value="51">51 - Ouled Djellal</option>
+                                    <option value="52">52 - Bordj Baji Mokhtar</option>
+                                    <option value="53">53 - Beni Abbes</option>
+                                    <option value="54">54 - Timimoun</option>
+                                    <option value="55">55 - Touggourt</option>
+                                    <option value="56">56 - Djanet</option>
+                                    <option value="57">57 - In Salah</option>
+                                    <option value="58">58 - In Guezzam</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        <div className='flex gap-8 items-center w-full mt-3'>
+                            <div className='flex flex-col gap-2 w-1/2'>
+                                <label htmlFor="b" className="text-gray_text text-sm font-medium text-capitalize">municipal*</label>
+                                {
+                                    mairie.length === 0 ? (
+                                       
+                                        
+                                            <div className='w-full px-2 py-2 rounded border-gray-200 text-gray-400 border-2 cursor-not-allowed'>
+                                                Select municipal
+                                            </div>
+                                        
+
+
+                                    ):(
+                                        <select id='b' className='w-full px-2 py-2 rounded border-gray-200 border-2 focus-within:border-3 hover:border-one focus-within:border-one outline-none'>
+                                            <option value="" className='text-gray_text'>Select municipal</option>
+                                            {
+                                                mairie.map((item,index)=>(
+                                                    <option key={index} value={item} className='text-gray_text'>{item}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    )
+                                }
+                                
+                                
+                            </div>
+                            <div className='flex flex-col gap-2 w-1/2'>
+                                <label htmlFor="wilaya" className="text-gray_text text-sm font-medium text-capitalize">livraison*</label>
+                                <select id='b' className='w-full px-2 py-2 rounded border-gray-200 border-2 focus-within:border-3 hover:border-one focus-within:border-one outline-none'>
+                                    <option value="1" className='text-gray_text'>Select livraison type</option>
+                                    <option value="">To home</option>
+                                    <option value="">To bureau</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        <div className='flex gap-3 mt-3'>
+                            <button className='p-2.5 rounded bg-red-500 text-white font-medium' onClick={()=>setOpen(false)}>Cancel</button>
+                            <button type='submit' className='p-2.5 rounded bg-one text-white font-medium'>Add order</button>
+                        </div>
+                </form>
+                </div>
+            </Box>
+        </Modal>
     </div>
 
   )

@@ -12,6 +12,7 @@ import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector
 import { useRouter } from 'next/navigation';
 import { pathContext } from './providers/GlobalProvider';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 10,
@@ -72,9 +73,8 @@ export default function Nav() {
   
   const router = useRouter()
   const {path,addPath,removePath,carts,favs} = useContext(pathContext)
-  const [count,setCount] = useState({cart : 0,fav : 0})
-  const [change,setChange] = useState(false)
   
+  const {data:session,status} = useSession()
   const [open,setOpen] = useState(false)
   const [openModal,setOpenModal] = useState(false)
   
@@ -211,13 +211,6 @@ export default function Nav() {
       window.removeEventListener('keydown', openModalWithKeyboard);
     };
   }, []);
-  useEffect(()=>{
-    setCount(prev => ({
-      ...prev,
-      cart : carts.length,
-      fav : favs.length,
-    }))
-  },[carts,favs])
   return (
     <header style={{backgroundColor : '#cdd0cb84',backdropFilter : 'blur(15px)',position : 'sticky',top : '0px'}} className='d-flex align-items-center px-4 py-3 justify-content-between flex-row-reverse flex-sm-row'>
       <Link href={'/'} ><Image src={'/images/LOGO_OFFECIAL.png'} width={50} height={50}/></Link>
@@ -238,23 +231,20 @@ export default function Nav() {
             <MenuIcon/>
             </button>
             
-             <Badge badgeContent={count.cart} color='secondary' className='d-none d-sm-block' >
               
-              <svg onClick={()=>handleChangePage('cart')} id='cartIcon' xmlns="http://www.w3.org/2000/svg" width={25}  viewBox="0 -2.55 20.095 20.095">
+              <svg className='d-none d-sm-block' onClick={()=>handleChangePage('cart')} id='cartIcon' xmlns="http://www.w3.org/2000/svg" width={25}  viewBox="0 -2.55 20.095 20.095">
                 <path id="Path_13" dataName="Path 13" d="M437.249,829.36a1.874,1.874,0,0,0,1.72,1.633H447.1c.9,0,1.24-.72,1.626-1.633l1.93-4.382H440l-.136-.964h12.2l-2.262,5.346c-.678,1.556-1.213,2.66-2.709,2.66h-8.128a2.664,2.664,0,0,1-2.71-2.66l-.8-7.36h-3.484v-1h4.406Zm1.225,3.64a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,438.474,833Zm-.531,1.969h1V834h-1ZM446.474,833a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,446.474,833Zm-.531,1.969h1V834h-1Z" transform="translate(-431.973 -821)" fill="#444"/>
                </svg>     
          
-              </Badge>
 
-             <Badge badgeContent={count.fav} color='secondary'  className='d-none d-sm-block'>
-              <div className='hover:cursor-pointer' onClick={()=>handleChangePage('Favorite')}>
+             
+              <div className='hover:cursor-pointer d-none d-sm-block' onClick={()=>handleChangePage('Favorite')}>
 
                 <svg id='favIcon' xmlns="http://www.w3.org/2000/svg" width={25} viewBox="0 0 24 24" fill="none">
                   <path d="M8.96173 18.9109L9.42605 18.3219L8.96173 18.9109ZM12 5.50063L11.4596 6.02073C11.601 6.16763 11.7961 6.25063 12 6.25063C12.2039 6.25063 12.399 6.16763 12.5404 6.02073L12 5.50063ZM15.0383 18.9109L15.5026 19.4999L15.0383 18.9109ZM9.42605 18.3219C7.91039 17.1271 6.25307 15.9603 4.93829 14.4798C3.64922 13.0282 2.75 11.3345 2.75 9.1371H1.25C1.25 11.8026 2.3605 13.8361 3.81672 15.4758C5.24723 17.0866 7.07077 18.3752 8.49742 19.4999L9.42605 18.3219ZM2.75 9.1371C2.75 6.98623 3.96537 5.18252 5.62436 4.42419C7.23607 3.68748 9.40166 3.88258 11.4596 6.02073L12.5404 4.98053C10.0985 2.44352 7.26409 2.02539 5.00076 3.05996C2.78471 4.07292 1.25 6.42503 1.25 9.1371H2.75ZM8.49742 19.4999C9.00965 19.9037 9.55954 20.3343 10.1168 20.6599C10.6739 20.9854 11.3096 21.25 12 21.25V19.75C11.6904 19.75 11.3261 19.6293 10.8736 19.3648C10.4213 19.1005 9.95208 18.7366 9.42605 18.3219L8.49742 19.4999ZM15.5026 19.4999C16.9292 18.3752 18.7528 17.0866 20.1833 15.4758C21.6395 13.8361 22.75 11.8026 22.75 9.1371H21.25C21.25 11.3345 20.3508 13.0282 19.0617 14.4798C17.7469 15.9603 16.0896 17.1271 14.574 18.3219L15.5026 19.4999ZM22.75 9.1371C22.75 6.42503 21.2153 4.07292 18.9992 3.05996C16.7359 2.02539 13.9015 2.44352 11.4596 4.98053L12.5404 6.02073C14.5983 3.88258 16.7639 3.68748 18.3756 4.42419C20.0346 5.18252 21.25 6.98623 21.25 9.1371H22.75ZM14.574 18.3219C14.0479 18.7366 13.5787 19.1005 13.1264 19.3648C12.6739 19.6293 12.3096 19.75 12 19.75V21.25C12.6904 21.25 13.3261 20.9854 13.8832 20.6599C14.4405 20.3343 14.9903 19.9037 15.5026 19.4999L14.574 18.3219Z" fill="#1C274C"/>
                 </svg>             
               </div>
               
-              </Badge>
              
               <Link className='per d-none d-sm-block' href={'/login'}>
                 <svg id='accountIcon' xmlns="http://www.w3.org/2000/svg" width={25} viewBox="0 0 64 64" strokeWidth="3" stroke="#000000" fill="none"><circle cx="32" cy="18.14" r="11.14"/><path d="M54.55,56.85A22.55,22.55,0,0,0,32,34.3h0A22.55,22.55,0,0,0,9.45,56.85Z"/></svg>             
