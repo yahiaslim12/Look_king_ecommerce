@@ -10,6 +10,5 @@ export default function TWO({list,handleOpen}) {
     list.settings ? <Settings handleOpenDrawer={handleOpen}/> : list.commands ? <Order handleOpenDrawer={handleOpen}/> : <div className="flex justify-center items-center gap-2 w-full" style={{height : '600px'}}>
     <l-hourglass size={30} color={colors.one} bg-opacity={0.1} speed={1.75}></l-hourglass>
 </div>
-
   )
 }

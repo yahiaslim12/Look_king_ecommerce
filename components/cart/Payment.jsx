@@ -2,7 +2,7 @@
 
 import { Modal ,Box} from '@mui/material'
 import {useContext, useEffect, useState} from 'react'
-import { Close, Errors } from '../../svg'
+import { Close, Errors ,Success} from '../../svg'
 import baladiya from '../../public/baladiya.json'
 import Title from '../title/Title'
 import { lineSpinner } from 'ldrs'
@@ -10,19 +10,28 @@ import { useSession } from 'next-auth/react'
 import { pathContext } from '../providers/GlobalProvider'
 lineSpinner.register()
 export default function Payment({total,subTotal,shipping,tax}) {
-    const {carts} = useContext(pathContext)
+    const {carts,handleCarts} = useContext(pathContext)
     const [ids,setIds] = useState([])
     const [open,setOpen] = useState(false)
     const [wilaya,setWilaya] = useState('')
     const [mairie,setMairie] = useState([])
+    const [b,setB] = useState('')
     const [number,setNumber] = useState('')
     const [date,setDate] = useState(new Date())
     const [isValidNumber,setIsValidNumber] = useState({
         empty : false,
         inValid : false,
     })
+    const [validB,setValidB] = useState(false)
+    const [validW,setValidW] = useState(false)    
+    const [validT,setValidT] = useState(false)    
     const [type,setType] = useState('')
     const [loading,setLoading] = useState(true)
+    const [alert,setAlert] = useState({
+        open : false,
+        type : '',
+        message : '',
+    })
     const {data : session,status} = useSession()
 
     const handleWilaya = (data) => {
@@ -30,24 +39,33 @@ export default function Payment({total,subTotal,shipping,tax}) {
         setMairie(baladiya[data])
     }
     const handleOpen = () => {
-        if(session){
+        if(session && carts.length > 0){
             setOpen(true)
+        }else{
+            setAlert({
+                open : true,
+                type : 'error',
+                message : 'You have any product in the cart !',
+                })
+            setTimeout(() => {
+                setAlert(prev =>({
+                    ...prev,
+                    open : false
+                }))
+            }, 3000);
         }
     }
     const handleNumber = (value) => {
         if(!isNaN(Number(value))) setNumber(value)
     }
     const isValid = (n)=>{
-        if(n.length < 10 || n.length > 10){
-            return false
-        }else if (n[0] !== 0){
-            return false
-        }else if(n[1] !== 5 || n[1] !== 6 || n[1] !== 7){
-            return false
+        if(n.length === 10 && n[0] == '0' && (n[1] == '5' || n[1] === '7' || n[1] === '6')){
+            return true
         }
-        return true
+        return
     }
     const handleSubmit = async(e) => {
+        console.log(ids);
         e.preventDefault()
         if(!isValid(number)){
             setIsValidNumber(prev =>({
@@ -55,15 +73,64 @@ export default function Payment({total,subTotal,shipping,tax}) {
                 inValid : true
             }))
         }else{
-            try {
-                const res = await fetch('http://localhost:8000/commande/add/',{
-                    method : 'POST',
-                    headers : {'Content-Type' : 'application/json'},
-                    body : JSON.stringify({ids,status : 'Pending', date : `${date.getFullYear}-${date.getMonth - 1}-${date.getDay}`,email : session.user.email,wilaya,mairie,type}),
-            })
-            } catch (error) {
-                console.log(error);
-            }
+            if(wilaya === ''){
+                setValidW(true)
+                setValidB(true)
+            }else if(b === ''){
+                setValidB(true)
+            }else if(type === ''){
+                setValidT(true)
+            }else{
+                setValidB(false)
+                setValidT(false)
+                setValidW(false)
+                try {
+                    setLoading(true);
+                    const date = new Date();
+                    const res = await fetch('http://localhost:8000/commande/add/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            ids,
+                            status: 'pending',
+                            date: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+                            email: session.user.email,
+                            wilaya,
+                            municipal: b,
+                            typee: type,
+                            number,
+                            price: total.toString()
+                        })
+                        
+                    });
+                    
+                    if (!res.ok) {
+                        const error = await res.json();
+                        console.log(res.status + ' - ' + error.detail);
+                        throw new Error(res.status + ' - ' + error.detail);
+                    }
+                    
+                    const data = await res.json();
+                    setAlert({ open: true, type: 'success', message: 'Order added successfully' });
+                    handleCarts([]);
+                    setTimeout(() => {
+                        setAlert(prev => ({ ...prev, open: false }));
+                    }, 3000);
+                } catch (error) {
+                    setOpen(false);
+                    setAlert({ open: true, type: 'error', message: error.message });
+                    console.log(error);
+                    setTimeout(() => {
+                        setAlert(prev => ({ ...prev, open: false }));
+                    }, 3000);
+                } finally {
+                    setTimeout(() => {
+                        setLoading(false);
+                        setOpen(false);
+                    }, 2000);
+                }
+                
+            } 
         }
     }
     const GET_USER = async() => {
@@ -73,9 +140,7 @@ export default function Payment({total,subTotal,shipping,tax}) {
         const res = await fetch('http://localhost:8000/getuser/',{method : 'POST',headers : {'Content-Type' : 'application/json'},body : JSON.stringify( {email : session.user.email})})
         if(res.ok){
             user = await res.json()
-            console.log(user);
             setNumber(user.number)
-           
         }else{
             console.log(`Error : ${res.status} - ${res.statusText}`);
         }
@@ -97,9 +162,24 @@ export default function Payment({total,subTotal,shipping,tax}) {
         temp.push(cart.id_product)
     })
     setIds(temp)
-  },[session,status])
+  },[session,status,carts])
+  useEffect(()=>{
+    const temp = []
+    carts.map(cart =>{
+        temp.push(cart.id_product)
+    })
+    setIds(temp)
+  },[])
   return (
     <div className='lg:w-4/12 w-full '>
+        {
+                alert.open && (
+                    <div style={{transform : 'translate(-50%,-50%)'}} className={`w-11/12 sm:w-6/12 md:w-auto rounded ${alert.type === 'error' ? 'bg-red-500' : 'bg-green-500'} flex gap-3 items-center fixed top-32 left-1/2 px-3 py-3 text-white`}>
+                        {alert.type !== 'error' ?  <Success width={20} height={20} color={'white'}/> : <Errors  width={20} height={20} color={'white'}/>} 
+                        <span>{alert.message}</span>
+                    </div>
+                )
+        }
         <h1 style={{fontWeight : '500 !important'}} className='text-gray-700 font-medium mb-0 pb-3 border-bottom w-100 text-xl'>Cart Totals</h1>
         <ul className='pl-0'>
             <li className='d-flex justify-between items-center mt-4'>
@@ -179,7 +259,7 @@ export default function Payment({total,subTotal,shipping,tax}) {
                                         type="text"
                                         name="number"
                                         id="number"
-                                        className={`rounded border px-3 py-2 outline-none w-full`}
+                                        className={`rounded border px-3 py-2 outline-none w-full ${isValidNumber.inValid && 'border-red-500 border-2'}`}
                                         value={number}
                                         onChange={(e)=>handleNumber(e.target.value)}
                                     />
@@ -189,8 +269,8 @@ export default function Payment({total,subTotal,shipping,tax}) {
                             </div>
                             <div className='flex flex-col gap-2 w-1/2'>
                                 <label htmlFor="wilaya" className="text-gray_text text-sm font-medium text-capitalize">wilaya</label>
-                                <select id='wilaya' value={wilaya} onChange={(e)=>handleWilaya(e.target.value)} className='w-full px-2 py-2 rounded border-gray-200 border-2 focus-within:border-3 hover:border-one focus-within:border-one outline-none'>
-                                    <option value="" className='text-gray_text'>Select wilaya</option>
+                                <select id='wilaya' value={wilaya} onChange={(e)=>handleWilaya(e.target.value)} className={`w-full px-2 py-2 rounded border-gray-200 border-2 ${validW && 'border-red-500 border-2'} focus-within:border-3 hover:border-one focus-within:border-one outline-none`}>
+                                    <option value="" className='text-gray_text' disabled selected>Select wilaya</option>
                                     <option value="1">1 - Adrar</option>
                                     <option value="2">2 - Chlef</option>
                                     <option value="3">3 - Laghouat</option>
@@ -267,8 +347,8 @@ export default function Payment({total,subTotal,shipping,tax}) {
 
 
                                     ):(
-                                        <select id='b' className='w-full px-2 py-2 rounded border-gray-200 border-2 focus-within:border-3 hover:border-one focus-within:border-one outline-none'>
-                                            <option value="" className='text-gray_text'>Select municipal</option>
+                                        <select id='b' value={b} onChange ={(e)=>setB(e.target.value)} className={`w-full px-2 py-2 rounded border-gray-200 border-2 ${validB && 'border-red-500 border-2'} focus-within:border-3 hover:border-one focus-within:border-one outline-none`}>
+                                            <option value="" className='text-gray_text' disabled selected>Select municipal</option>
                                             {
                                                 mairie.map((item,index)=>(
                                                     <option key={index} value={item} className='text-gray_text'>{item}</option>
@@ -282,17 +362,23 @@ export default function Payment({total,subTotal,shipping,tax}) {
                             </div>
                             <div className='flex flex-col gap-2 w-1/2'>
                                 <label htmlFor="wilaya" className="text-gray_text text-sm font-medium text-capitalize">livraison*</label>
-                                <select id='b' className='w-full px-2 py-2 rounded border-gray-200 border-2 focus-within:border-3 hover:border-one focus-within:border-one outline-none'>
-                                    <option value="1" className='text-gray_text'>Select livraison type</option>
-                                    <option value="">To home</option>
-                                    <option value="">To bureau</option>
+                                <select id='b' value={type} onChange={(e)=>setType(e.target.value)} className={`w-full px-2 py-2 rounded border-gray-200 border-2 ${validT && 'border-red-500 border-2'} focus-within:border-3 hover:border-one focus-within:border-one outline-none`}>
+                                    <option value="" className='text-gray_text' disabled selected>Select livraison type</option>
+                                    <option value="to home">To home</option>
+                                    <option value="to agence">To bureau</option>
                                 </select>
                             </div>
                             
                         </div>
                         <div className='flex gap-3 mt-3'>
                             <button className='p-2.5 rounded bg-red-500 text-white font-medium' onClick={()=>setOpen(false)}>Cancel</button>
-                            <button type='submit' className='p-2.5 rounded bg-one text-white font-medium'>Add order</button>
+                            {
+                                loading ? (
+                                    <div className='flex items-center justify-center p-2.5 rounded bg-one text-white font-medium cursor-wait'><l-line-spinner size = {20} color={'white'} speed={1}></l-line-spinner></div>
+                                ) : (
+                                    <button type='submit' className='p-2.5 rounded bg-one text-white font-medium'>Add order</button>
+                                )
+                            }
                         </div>
                 </form>
                 </div>
