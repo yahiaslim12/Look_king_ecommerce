@@ -7,10 +7,11 @@ import { useRouter } from "next/navigation";
 import { lineSpinner } from "ldrs";
 import { pathContext } from "../providers/GlobalProvider";
 lineSpinner.register()
-export default function Detail({id,small,big,name,price,category,qte,sizes}) {
+export default function Detail({id,small,big,name,price,category,qte,sizes,isBuy,ADD_RATING,handleRating,counts,handleCounts}) {
    const {data:session,status} = useSession()
    const {CHECK} = useContext(pathContext)
    const router = useRouter()
+   const [rating,setRating] = useState(0)
    const [addWishList,setAddWishList] = useState(false)
    const [size,setSize] = useState({value : '' , show : false})
    const [alert,setAlert] = useState({
@@ -18,6 +19,21 @@ export default function Detail({id,small,big,name,price,category,qte,sizes}) {
       message : '',
       type: ''
    })
+  
+  const handleADD_RATING = async()=>{
+      const result = await ADD_RATING(id,session.user.email,rating)
+      if(result[0]){
+        setAlert({ open: true, message: result[1], type: 'success' });
+        setTimeout(() => {
+            setAlert({ open: false, message: '', type: '' });
+          }, 3000);
+      }else{
+        setAlert({ open: true, message: result[1], type: 'error' });
+            setTimeout(() => {
+                setAlert({ open: false, message: '', type: '' });
+              }, 3000);
+      }
+  }
   const handleWishList = async() => {
     
     if(!session){
@@ -89,18 +105,27 @@ export default function Detail({id,small,big,name,price,category,qte,sizes}) {
     const bool = await CHECK(id,session.user.email)
     setAddWishList(bool)
   }
+  
+  /* useEffect part*/
   useEffect(()=>{
     if(id && session){
         check()
+        handleRating(id,session.user.email)
     }else{
         setAddWishList(false)
     }
   },[session,id])
+  useEffect(()=>{
+    console.log(isBuy);
+  },[isBuy])
+  useEffect(()=>{
+    handleCounts(id)
+  },[])
   return (
     <div className="detail w-full lg:w-1/2">
         {
                 alert.open && (
-                    <div style={{transform : 'translate(-50%,-50%)'}} className={`w-11/12 sm:w-6/12 md:w-auto rounded ${alert.type === 'error' ? 'bg-red-500' : 'bg-green-500'} flex gap-3 items-center fixed top-32 left-1/2 px-3 py-3 text-white`}>
+                    <div style={{transform : 'translate(-50%,-50%)'}} className={`w-11/12 sm:w-6/12 md:w-auto rounded ${alert.type === 'error' ? 'bg-red-500' : 'bg-green-500'} flex gap-3 items-center fixed top-32 left-1/2 px-3 py-3 text-white z-50`}>
                         {alert.type !== 'error' ?  <Success width={20} height={20} color={'white'}/> : <Errors  width={20} height={20} color={'white'}/>} 
                         <span>{alert.message}</span>
                     </div>
@@ -185,59 +210,68 @@ export default function Detail({id,small,big,name,price,category,qte,sizes}) {
         </div>
         <div className='mt-3 block lg:hidden w-full'>
             <h2 className="text-xl mb-0 font-semibold capitalize py-6">Ratings & Reviews</h2>
-            <h1 className='text-5xl mb-0 mt-3 text-gray-900 font-bold'>4.1</h1>
-            <p className='text-gray-600 text-sm mt-2'>12 Verified Buyers</p>
+            <h1 className='text-5xl mb-0 mt-3 text-gray-900 font-bold'>{counts.value}</h1>
+            <p className='text-gray-600 text-sm mt-2'>{counts.countALL} Verified Buyers</p>
             <div className='w-full flex items-center gap-3'>
                 <span className='flex text-sm items-center gap-1 font-semibold'>5 <Etoile width={15} height={15} color={'orange'}/></span>
                 <div className='h-1 w-full sm:w-1/3 bg-blue-300 relative rounded'>
-                    <div className='h-1 w-1/3 bg-blue-500 absolute top-0 left-0 rounded'>
+                    <div style={{width: `${(counts.five/counts.countALL)*100}%`}} className={`h-1 bg-blue-500 absolute top-0 left-0 rounded`}>
 
                     </div>
                 </div>
-                <span className='text-sm' style={{color :'#484848'}}>4</span>
+                <span className='text-sm' style={{color :'#484848'}}>{counts.five}</span>
             </div>
             <div className='w-full flex items-center gap-3 mt-3'>
                 <span className='flex text-sm items-center gap-1 font-semibold'>4 <Etoile width={15} height={15} color={'orange'}/></span>
                 <div className='h-1 w-full sm:w-1/3 bg-blue-300 relative rounded'>
-                    <div className='h-1 w-2/3 bg-blue-500 absolute top-0 left-0 rounded'>
+                    <div style={{width: `${(counts.four/counts.countALL)*100}%`}} className='h-1 bg-blue-500 absolute top-0 left-0 rounded'>
 
                     </div>
                 </div>
-                <span className='text-sm' style={{color :'#484848'}}>4</span>
+                <span className='text-sm' style={{color :'#484848'}}>{counts.four}</span>
             </div>
             <div className='w-full flex items-center gap-3 mt-3'>
                 <span className='flex text-sm items-center gap-1 font-semibold'>3 <Etoile width={15} height={15} color={'orange'}/></span>
                 <div className='h-1 w-full sm:w-1/3 bg-blue-300 relative rounded'>
-                    <div className='h-1 bg-blue-500 absolute top-0 left-0 rounded'>
+                    <div style={{width: `${(counts.three/counts.countALL)*100}%`}} className='h-1 bg-blue-500 absolute top-0 left-0 rounded'>
 
                     </div>
                 </div>
-                <span className='text-sm' style={{color :'#484848'}}>0</span>
+                <span className='text-sm' style={{color :'#484848'}}>{counts.three}</span>
             </div>
             <div className='w-full flex items-center gap-3 mt-3'>
                 <span className='flex text-sm items-center gap-1 font-semibold'>2 <Etoile width={15} height={15} color={'orange'}/></span>
                 <div className='h-1 w-full sm:w-1/3 bg-blue-300 relative rounded'>
-                    <div className='h-1 bg-blue-500 absolute top-0 left-0 rounded'>
+                    <div style={{width: `${(counts.two/counts.countALL)*100}%`}} className='h-1 bg-blue-500 absolute top-0 left-0 rounded'>
 
                     </div>
                 </div>
-                <span className='text-sm' style={{color :'#484848'}}>0</span>
+                <span className='text-sm' style={{color :'#484848'}}>{counts.two}</span>
             </div>
             <div className='w-full flex items-center gap-3 mt-3 pb-5 border-b-2 border-gray-200'>
                 <span className='flex text-sm items-center gap-1 font-semibold'>1 <Etoile width={15} height={15} color={'orange'}/></span>
                 <div className='h-1 w-full sm:w-1/3 bg-blue-300 relative rounded'>
-                    <div className='h-1 w-8/12 bg-blue-500 absolute top-0 left-0 rounded'>
+                    <div style={{width: `${(counts.one/counts.countALL)*100}%`}} className='h-1 bg-blue-500 absolute top-0 left-0 rounded'>
 
                     </div>
                 </div>
-                <span className='text-sm' style={{color :'#484848'}}>10</span>
+                <span className='text-sm' style={{color :'#484848'}}>{counts.one}</span>
             </div>
             <div className='flex flex-col justify-center py-3'>
                 <h2 className="text-xl mb-0 font-semibold capitalize">Add Ratings</h2>
                 <p className='text-sm mb-0 text-gray-500'>You must buy this product before add a rating</p>
                 <div className='flex gap-3 items-center mt-3'>
-                    <Rating/> 
-                    <button className='bg-one rounded px-4 py-2 text-white font-medium'>Add</button>
+                    <Rating value={rating} onChange={(e)=>setRating(e.target.value)}/> 
+                   {isBuy ? (
+                     <button onClick={handleADD_RATING} className="text-white font-medium rounded px-4 py-2 bg-blue-500">
+                        ADD RATING
+                     </button>
+                   ):
+                   (
+                    <div className="text-white font-medium rounded px-4 py-2 bg-blue-200 cursor-not-allowed">
+                        ADD RATING
+                    </div>
+                   )}
                 </div>
             </div>
         </div>
