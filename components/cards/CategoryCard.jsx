@@ -3,17 +3,19 @@ import { Rating } from "@mui/material";
 import colors from "../../styles/colors";
 import { useContext } from "react";
 import { pathContext } from "../providers/GlobalProvider";
+import { useRouter } from "next/navigation";
 
-export default function CategoryCard() {
+export default function CategoryCard({id,name,category,price,img}) {
    const {productEnter,productLeave} = useContext(pathContext)
+   const router = useRouter()
   return (
-   <div className="categoryCardContent rounded p-2" onMouseEnter={productEnter} onMouseLeave={productLeave}>
-      <img className="rounded" src="./images/T-shirt/nike3.webp" alt="" />
-         <small className="categoryName text-capitalize d-block my-2" style={{color : 'rgb(162, 162, 162)'}}><b>Category Name</b></small>
-         <h6 className="productName text-capitalize fw-bold">product name</h6>
+   <div onClick={()=>router.push('/product/'+id)} className="categoryCardContent rounded p-2" onMouseEnter={productEnter} onMouseLeave={productLeave}>
+      <img className="rounded" src={"."+img} alt="" />
+         <small className="categoryName text-capitalize d-block my-2" style={{color : 'rgb(162, 162, 162)'}}><b>{category}</b></small>
+         <h6 className="productName text-capitalize fw-bold">{name}</h6>
          <Rating value={4} readOnly style={{fontSize : '18px'}}/>
       <div className="d-flex justify-content-between align-items-center flex-wrap">
-         <p className="productPrice text-uppercase" style={{marginBottom : "0"}}><b>2800 da</b></p>
+         <p className="productPrice text-uppercase" style={{marginBottom : "0"}}><b>{price} da</b></p>
          <button className="btn text-capitalize d-flex align-items-center" style={{backgroundColor : colors.one , color : colors.three}}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-plus">
             <line x1="12" y1="5" x2="12" y2="19"></line>
