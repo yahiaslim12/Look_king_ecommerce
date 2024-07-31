@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { pathContext } from "../providers/GlobalProvider";
 import { useRouter } from "next/navigation";
 
-export default function CategoryCard({id,name,category,price,img}) {
+export default function CategoryCard({id,name,category,price,img,rating}) {
    const {productEnter,productLeave} = useContext(pathContext)
    const router = useRouter()
   return (
@@ -13,7 +13,7 @@ export default function CategoryCard({id,name,category,price,img}) {
       <img className="rounded" src={"."+img} alt="" />
          <small className="categoryName text-capitalize d-block my-2" style={{color : 'rgb(162, 162, 162)'}}><b>{category}</b></small>
          <h6 className="productName text-capitalize fw-bold">{name}</h6>
-         <Rating value={4} readOnly style={{fontSize : '18px'}}/>
+         <Rating value={rating} readOnly style={{fontSize : '18px'}}/>
       <div className="d-flex justify-content-between align-items-center flex-wrap">
          <p className="productPrice text-uppercase" style={{marginBottom : "0"}}><b>{price} da</b></p>
          <button className="btn text-capitalize d-flex align-items-center" style={{backgroundColor : colors.one , color : colors.three}}>

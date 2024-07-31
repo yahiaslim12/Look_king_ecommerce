@@ -15,6 +15,9 @@ import Page from "../../../components/category/CustomPagination";
 import { pathContext } from "../../../components/providers/GlobalProvider";
 
 export default function Category() {
+    const [showCount,setShowCount] = useState(6)
+    const [page,setPage] = useState(1)
+    const [countPage,setCountPage] = useState(1)
     const [products,setProducts] = useState([])
     const [filterProducts,setFilterProducts] = useState([])
     const [name,setName] = useState('')
@@ -24,6 +27,7 @@ export default function Category() {
         {id: 3,name :"electronics"},
         {id: 4,name :"women"},
     ])
+    const [filtring,setFiltring] = useState('')
     const [title,setTitle] = useState('Category Page')
     const [value, setValue] = useState([1000, 20000]);
     const [openDrawer,setOpenDrawer] = useState(false)
@@ -209,6 +213,9 @@ export default function Category() {
             four : false,
             five : false,
         })
+        const fp = products.filter((product)=> product.rating === 1)
+        console.log(fp);
+        setFilterProducts(fp)
     }else if(type === 'two'){
         console.log(type);
         setRatings({
@@ -225,6 +232,8 @@ export default function Category() {
             four : false,
             five : false,
         })
+        const fp = products.filter((product)=>product.rating === 2)
+        setFilterProducts(fp)
     }else if(type === 'three'){
         console.log(type);
         setRatings({
@@ -241,6 +250,8 @@ export default function Category() {
             four : false,
             five : false,
         })
+        const fp = products.filter((product)=>product.rating === 3)
+        setFilterProducts(fp)
     }else if(type === 'four'){
         console.log(type);
         setRatings({
@@ -257,6 +268,8 @@ export default function Category() {
             four : true,
             five : false,
         })
+        const fp = products.filter((product)=>product.rating === 4)
+        setFilterProducts(fp)
     }else if(type === 'five'){
         console.log(type);
         setRatings({
@@ -273,6 +286,8 @@ export default function Category() {
             four : false,
             five : true,
         })
+        const fp = products.filter((product)=>product.rating === 5)
+        setFilterProducts(fp)
     }else {
         setRatings({
             one : null,
@@ -331,7 +346,6 @@ export default function Category() {
             body: JSON.stringify(
                 {   
                     category,
-                    
                 }),
         })
         if(!res.ok){
@@ -347,13 +361,33 @@ export default function Category() {
         console.log(error);
     } 
   }
+  const handlePage = (event,value) => {
+    setPage(value)
+  }
+  const handleFiltring = (value)=>{
+    setFiltring(value)
+    
+        
+        if (value === 'lth') {
+            const sortedProducts = products.sort((a, b) => Number(a.price) - Number(b.price));
+            setFilterProducts(sortedProducts);
+        } else if (value === 'htl') {
+            const sortedProducts = products.sort((a, b) => Number(b.price) - Number(a.price));
+            setFilterProducts(sortedProducts);
+        } else {
+            const sortedProducts = products.sort((a, b) => b.rating - a.rating);
+        }
+    
+  }
   const search = () => {
     const fp = products.filter((product) => product.name.toLowerCase().includes(name.toLowerCase()))
     console.log(fp);
     setFilterProducts(fp)
   }
   const {textEnter,textLeave} = useContext(pathContext)
-  
+  useEffect(()=>{
+    setCountPage(Math.ceil((countPage/showCount)))
+  },[products,showCount])
   return (
     <section className="categoryPage d-flex w-100 mt-3">
         <section className="categoryList d-none d-lg-block">
@@ -475,19 +509,18 @@ export default function Category() {
                                 <b>Filter</b>
                             </button>
                             <div className="d-flex gap-2">
-                                <select name="" id="" className="rounded px-1">
-                                    <option value="50">Show : 50</option>
-                                    <option value="40">Show : 40</option>
-                                    <option value="30">Show : 30</option>
-                                    <option value="20">Show : 20</option>
-                                    <option value="10">Show : 10</option>
+                                <select name="" id="" className="rounded px-1" value={showCount} onChange={(e)=>setShowCount(Number(e.target.value))}>
+                                    <option value={6}>Show : 6</option>
+                                    <option value={12}>Show : 12</option>
+                                    <option value={24}>Show : 24</option>
+                                    <option value={30}>Show : 30</option>
+                                    
                                 </select>
-                                <select name="" id="" className="rounded px-1">
-                                    <option value="">Sort by: Featured</option>
-                                    <option value="">Price : Low to high</option>
-                                    <option value="">Price : high to Low</option>
-                                    <option value="">Release Date</option>
-                                    <option value="">Avg. Rating</option>
+                                <select name="" id="" className="rounded px-1" value={filtring} onChange={(e)=>handleFiltring(e.target.value)}>
+                                    <option value={'lth'}>Price : Low to high</option>
+                                    <option value={'htl'}>Price : high to Low</option>
+                                    <option value={'date'}>Release Date</option>
+                                    <option value={'rating'}>Avg. Rating</option>
                                 </select>
                             </div>
                         </div>
@@ -508,14 +541,15 @@ export default function Category() {
                             name = {item.name}
                             category = {item.category}
                             img = {item.img1}
-                            price = {item.price}/>
+                            price = {item.price}
+                            rating = {item.rating ? item.rating : 0}/>
                         ))
                     
                  )
                }
             </div>
             <div className="bg-white w-full flex justify-center items-center px-2 py-2" style={{position : 'sticky',bottom : '0px'}}>
-                <Page count={10} page={1}/>
+                <Page count={countPage} page={page} handleChange={handlePage}/>
             </div>
             </div>
         </section>
