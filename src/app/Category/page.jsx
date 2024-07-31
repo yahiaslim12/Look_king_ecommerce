@@ -1,5 +1,5 @@
 "use client"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../styles/global.css'
 import colors from "../../../styles/colors";
@@ -16,6 +16,7 @@ import { pathContext } from "../../../components/providers/GlobalProvider";
 
 export default function Category() {
     const [products,setProducts] = useState([])
+    const [filterProducts,setFilterProducts] = useState([])
     const [name,setName] = useState('')
     const [list,setList] = useState([
         {id: 1,name :"shoes"},
@@ -289,10 +290,35 @@ export default function Category() {
     }
    
   }
-  const handleChange = (event, newValue) => {
+  const handleChange = async (event, newValue) => {
     setValue(newValue);
-    handleCategory(title)
+    console.log(newValue);
+  
+    const fp = products.filter(
+      (product) => product.price >= newValue[0] && product.price <= newValue[1]
+    );
+  
+    console.log(fp);
+    setFilterProducts(fp)
   };
+  const handleChangeValue = (type,data)=>{
+    if(type === 0){
+        const temp = value
+        temp[0] = Number(data)
+        setValue(temp)
+    }else if(type === 1){
+        const temp = value
+        temp[1] = Number(data)
+        setValue(temp)
+    }
+    console.log(value);
+    const fp = products.filter(
+        (product) => product.price >= value[0] && product.price <= value[1]
+      );
+    
+      console.log(fp);
+      setFilterProducts(fp)
+  }
   const handleCategory = async(category) => {
     setTitle(category)
 
@@ -303,12 +329,9 @@ export default function Category() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(
-                {   category,
-                    size : sizes.one ? sizes.one : sizes.two ? sizes.two : sizes.three ? sizes.three : sizes.four ? sizes.four : sizes.five ? sizes.five : sizes.six ? sizes.six : null,
-                    rating : ratings.one ? ratings.one : ratings.two ? ratings.two : ratings.three ? ratings.three : ratings.four ? ratings.four : ratings.five ? ratings.five : null,
-                    name : name,
-                    price1 : value[0],
-                    price2 : value[1],
+                {   
+                    category,
+                    
                 }),
         })
         if(!res.ok){
@@ -317,13 +340,20 @@ export default function Category() {
             throw new Error(error.detail)
         }
         const data = await res.json()
+        console.log(data);
         setProducts(data)
-
+        setFilterProducts(data)
     } catch (error) {
         console.log(error);
     } 
   }
+  const search = () => {
+    const fp = products.filter((product) => product.name.toLowerCase().includes(name.toLowerCase()))
+    console.log(fp);
+    setFilterProducts(fp)
+  }
   const {textEnter,textLeave} = useContext(pathContext)
+  
   return (
     <section className="categoryPage d-flex w-100 mt-3">
         <section className="categoryList d-none d-lg-block">
@@ -347,16 +377,20 @@ export default function Category() {
                     valueLabelDisplay="auto"
                     style={{color:colors.one}}
                     min = {100}
-                    max={20000}
+                    max={200000}
                 />
             </Box>
            <p>{value[0]}DA - {value[1]}DA</p>
+           <div className="flex gap-3 mb-3">
+                <input type="text" name="" id="" className="rounded w-20 border-gray-200 border-2 px-2 py-2" value={value[0]} onChange={(e)=>handleChangeValue(0,e.target.value)}/>
+                <input type="text" name="" id="" className="rounded w-20 border-gray-200 border-2 px-2 py-2" value={value[1]} onChange={(e)=>handleChangeValue(1,e.target.value)}/>
+           </div>
            </div>
            <div className="three mt-2 ps-3 pb-3">
               <h1>Search</h1>
-              <div className="d-flex gap-2 ">
+              <div className="d-flex gap-2 mt-3">
                 <input className="search rounded px-2" type="search" placeholder="Search for products" value={name} onChange={(e)=>setName(e.target.value)}/>
-                <button className="btn border d-flex gap-1 align-items-center">
+                <button className="btn border d-flex gap-1 align-items-center" onClick ={()=>search()}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-search">
                       <circle cx="11" cy="11" r="8"></circle>
                       <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -368,8 +402,8 @@ export default function Category() {
            </div>
            <div className="four mt-2 ps-3 pb-3">
               <h1>Choose Size</h1>
-              <form action="">
-                <div className="d-flex align-items-center gap-1 ps-3 mb-2">
+              <form action="" className="mt-3">
+                <div className="d-flex align-items-center gap-1 mb-2">
                     <div className="radio d-flex align-items-center justify-content-between rounded py-2 px-2" onClick={()=>!radios.one ? handleSizes('one') : handleSizes('')}>
                         <label htmlFor="">XS :</label>
                         <input type="radio" name="" id="" checked = {radios.one}/>
@@ -379,7 +413,7 @@ export default function Category() {
                         <input type="radio" name="" id="" checked = {radios.two}/>
                     </div>
                 </div>
-                <div className="d-flex align-items-center gap-1 ps-3 mb-2">
+                <div className="d-flex align-items-center gap-1 mb-2">
                     <div className="radio  d-flex align-items-center justify-content-between rounded py-2 px-2" onClick={()=>!radios.three ? handleSizes('three') : handleSizes('')}>
                         <label htmlFor="">M :</label>
                         <input type="radio" name="" id=""  checked = {radios.three}/>
@@ -389,7 +423,7 @@ export default function Category() {
                         <input type="radio" name="" id="" checked = {radios.four} />
                     </div>
                 </div>
-                <div className="d-flex align-items-center gap-1 ps-3">
+                <div className="d-flex align-items-center gap-1">
                     <div className="radio  d-flex align-items-center justify-content-between rounded py-2 px-2" onClick={()=>!radios.five ? handleSizes('five') : handleSizes('')}>
                         <label htmlFor="">XL :</label>
                         <input type="radio" name="" id="" checked = {radios.five}/>
@@ -432,7 +466,7 @@ export default function Category() {
                     <h1 className="text-capitalize fw-bold text-lg" onMouseEnter={textEnter} onMouseLeave={textLeave}>{title}</h1>
                 </div>
                 <div className="selectionElement mt-3 pe-2 d-flex gap-2 align-items-start align-items-lg-center justify-content-between">
-                    <span className="productCount text-capitalize ps-2 text-xs md:text-base"><b>24</b></span>
+                    <span className="productCount text-capitalize ps-2 text-xs md:text-base"><b>{filterProducts.length}</b></span>
                     <div className="d-flex flex-column gap-2 align-items-end">
                         <button className="btn border d-flex align-items-center d-lg-none px-3" onClick={()=>setOpenDrawer(true)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-filter me-2">
@@ -462,17 +496,23 @@ export default function Category() {
 
             <div className="d-flex flex-column gap-3 align-items-center">
 
-            <div className="d-flex flex-wrap align-items-center justify-between  px-2 gap-x-6 xl:gap-x-2 gap-y-6 mt-3">
-                {
-                    products.map((item)=>(
-                        <CategoryCard 
-                        id = {item.id_product}
-                        name = {item.name}
-                        category = {item.category}
-                        img = {item.img1}
-                        price = {item.price}/>
-                    ))
-                }
+            <div className={`d-flex flex-wrap align-items-center ${filterProducts.length === 2 ? 'justify-start' : 'justify-between'}  px-2 gap-x-6 xl:gap-x-2 gap-y-6 mt-3 ${(filterProducts.length === 0 || title === 'Category Page') && 'h-[400px]'}`}>
+               {
+                 products.length === 0 || title === 'Category Page' ? (
+                    <small className="text-red-500">Page Empty</small>
+                 ) : (
+                    
+                        filterProducts.map((item)=>(
+                            <CategoryCard 
+                            id = {item.id_product}
+                            name = {item.name}
+                            category = {item.category}
+                            img = {item.img1}
+                            price = {item.price}/>
+                        ))
+                    
+                 )
+               }
             </div>
             <div className="bg-white w-full flex justify-center items-center px-2 py-2" style={{position : 'sticky',bottom : '0px'}}>
                 <Page count={10} page={1}/>
