@@ -20,7 +20,7 @@ export default function ThirdCard({id,name,price,img,desc_small}) {
   return (
     <div onClick={()=>router.push('/product/'+id)} ref={reference} className="thirdCard rounded hover:border" style={{backgroundColor : 'rgb(246,246,246)'}} onMouseEnter={productEnter} onMouseLeave={productLeave}>
         
-          <img loading="lazy" src={"."+img} className="rounded" alt="" />
+          <img loading="lazy" src={"."+img} className="rounded" alt=""/>
           <div className="d-flex flex-column align-items-center mt-2" >
              <h6 className="productName text-capitalize fw-bold">{name}</h6>
              <p className="productDesc text-capitalize px-2" style={{color : 'rgb(162, 162, 162)'}}>{desc_small}</p>

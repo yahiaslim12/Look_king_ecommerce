@@ -109,7 +109,7 @@ export default function Table({items,handleItems}) {
                 !Array.isArray(items) || items.length === 0 ? (
                     <div className="flex gap-2 flex-col justify-center h-64 items-center">
                       <NoProduct width={40} height={40} color={'black'}/>
-                      <small className="text-gray-700 font-medium">No product in the cart</small>
+                      <small className="text-gray-700 font-medium">Empty list</small>
                     </div>
                 ) : (
                         items.map((fav,index) => {
