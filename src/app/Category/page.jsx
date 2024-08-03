@@ -531,8 +531,8 @@ export default function Category() {
 
             <div className={`d-flex flex-wrap align-items-center ${filterProducts.length === 2 ? 'justify-start' : 'justify-between'}  px-2 gap-x-6 xl:gap-x-2 gap-y-6 mt-3 ${(filterProducts.length === 0 || title === 'Category Page') && 'h-[400px]'}`}>
                {
-                 products.length === 0 || title === 'Category Page' ? (
-                    <small className="text-red-500">Page Empty</small>
+                 filterProducts.length === 0 || title === 'Category Page' ? (
+                    <small className="text-red-500 font-medium">Page Empty</small>
                  ) : (
                     
                         filterProducts.map((item)=>(

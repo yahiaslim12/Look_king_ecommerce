@@ -6,7 +6,7 @@ import { Cart, Delete,NoProduct,Errors,Success } from '../../svg'
 import Title from '../title/Title'
 import { pathContext } from '../providers/GlobalProvider'
 
-export default function Table() {
+export default function Table({items,handleItems}) {
     const [inCart,setInCart] = useState(false)
     const [alert,setAlert] = useState({
         open : false,
@@ -25,6 +25,7 @@ export default function Table() {
           if(res.ok){
             const data = await res.json()
             handleFavs(data)
+            handleItems(data)
           }else{
             throw new Error(`${res.status} - ${res.statusText}`)
           }
@@ -105,13 +106,13 @@ export default function Table() {
         </div>
         <div className='tbody'>
             {
-                !Array.isArray(favs) || favs.length === 0 ? (
+                !Array.isArray(items) || items.length === 0 ? (
                     <div className="flex gap-2 flex-col justify-center h-64 items-center">
                       <NoProduct width={40} height={40} color={'black'}/>
                       <small className="text-gray-700 font-medium">No product in the cart</small>
                     </div>
                 ) : (
-                        favs.map((fav,index) => {
+                        items.map((fav,index) => {
                         return (
                             <div key={fav.id_product} className='tr flex px-6 py-2'>
                     <div className='td flex items-center p-0'>

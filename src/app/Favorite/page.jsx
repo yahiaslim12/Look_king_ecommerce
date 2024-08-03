@@ -14,6 +14,17 @@ export default function Favorite() {
   const {favs,handleFavs} = useContext(pathContext)
   const {data :session , status} = useSession()
   const router = useRouter()
+  const [search,setSearch] = useState('')
+  const [items,setItems] = useState([])
+  const handleSearch = (value) => {
+    setSearch(value)
+    const fp = favs.filter((product)=>product.name.toLowerCase().includes(value.toLowerCase()))
+    console.log(fp);
+    setItems(fp)
+  }
+  const handleItems = (data) => {
+    setItems(data)
+  }
   const GET = async ()=>{
     try {
       const res = await fetch("http://localhost:8000/products/getFavs/"+session?.user.email,{
@@ -22,7 +33,10 @@ export default function Favorite() {
       })
       if(res.ok){
         const data = await res.json()
-        if(data.length !== 0) handleFavs(data)
+        if(data.length !== 0){
+          handleFavs(data)
+          setItems(data)
+        } 
 
       }else{
         throw new Error(`${res.status} - ${res.statusText}`)
@@ -70,9 +84,9 @@ export default function Favorite() {
         </h1>
       </div>
       <Paths />
-      <SearchFilter />
+      <SearchFilter search={search} handleSearch={handleSearch} count={items.length}/>
       <div className="table_container">
-        <Table/>
+        <Table items = {items} handleItems = {handleItems}/>
       </div>
     </section>
   )

@@ -10,7 +10,16 @@ export default function Order({handleOpenDrawer}) {
   const {data: session,status} = useSession()
   const [loading,setLoading] = useState(true)
   const [orders,setOrders] = useState([])
-  const [count,setCount] = useState(0)
+  const [items,setItems] = useState([])
+  const [search,setSearch] = useState('')
+  const handleSearch = (value) => {
+    setSearch(value)
+    const fp = orders.filter((order) => (
+        order.status.toLowerCase().includes(value.toLowerCase())
+    ))
+    console.log(fp);
+    setItems(fp)
+  }
   const GET = async () => {
      try {
         const res = await fetch('http://localhost:8000/commande/get/'+session.user.email,{
@@ -26,6 +35,12 @@ export default function Order({handleOpenDrawer}) {
         const data = await res.json()
         console.log(data);
         setOrders(data.map(item=>{
+            return {
+                ...item,
+                show : false
+            }
+        }))
+        setItems(data.map(item=>{
             return {
                 ...item,
                 show : false
@@ -73,6 +88,19 @@ export default function Order({handleOpenDrawer}) {
                 : item
         )
     );
+    setItems(prevOrders => 
+        prevOrders.map(item => {
+            return {
+                ...item,
+                show: false
+            }
+        }))
+    setItems(prevOrders => 
+        prevOrders.map(item => 
+            item.id_cmd === id 
+                ? { ...item, show: type === 'open' } 
+                : item
+        ))
 };
 
   useEffect(()=>{
@@ -81,9 +109,7 @@ export default function Order({handleOpenDrawer}) {
   useEffect(()=>{
     GET()
   },[])
-  useEffect(()=>{
-    setCount(orders.length)
-  },[orders])
+  
   return (
     <section className='pt-5 pl:2  md:pl-16 md:w-8/12 lg:w-9/12 justify-center flex flex-col md:justify-start w-full'>
          <div className="flex items-center justify-between">
@@ -93,9 +119,9 @@ export default function Order({handleOpenDrawer}) {
         <div className='flex items-center w-full gap-2 mt-3'>
             <div className="Search w-full md:w-6/12 lg:w-4/12  flex gap-2 px-3 py-1.5 border rounded items-center hover:outline hover:outline-one hover:outline-1">
                 <Search width={20} height={20} color="#484848" />
-                <input type="text" name="" id="" placeholder="Search..." className="outline-none bg-transparent w-100" />
+                <input type="text" name="" id="" placeholder="Search..." className="outline-none bg-transparent w-100" value={search} onChange={(e)=>handleSearch(e.target.value)}/>
             </div>
-            <span className='text-gray-700 font-semibold text-sm'>{count}</span>
+            <span className='text-gray-700 font-semibold text-sm'>{items.length}</span>
         </div>
         <div className="order_container mt-3 block">
             <div className='myOrder'>
@@ -129,7 +155,7 @@ export default function Order({handleOpenDrawer}) {
                 <div className='tbody'>
                     {
                        
-                       orders.length >= 1 && orders.map((item,i) => (
+                       items.length >= 1 && items.map((item,i) => (
                         <div className='tr flex px-6 py-2' key={i}>
                         <div className='td flex items-center p-0'>
                             <input type="checkbox" name="" id="" />

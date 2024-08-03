@@ -1,10 +1,12 @@
 'use client'
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import {useEffect, useState} from 'react';
 
 export default function ITEMS({ item, tab }) {
   const [products,setProducts] = useState([])
   const {data:session,status} = useSession()
+  const router = useRouter()
   const GET = async () => {
     try {
         const res = await fetch('http://localhost:8000/commande/products/'+session.user.email+'/'+item.id_cmd,{
@@ -45,6 +47,7 @@ export default function ITEMS({ item, tab }) {
           <div
             key={index}
             className="flex gap-1 border rounded p-2 hover:cursor-pointer w-[48%] border-gray-300"
+            onClick={()=>router.push('/product/'+product.id_product)}
           >
             <img
               src={`.${product.img1}`}

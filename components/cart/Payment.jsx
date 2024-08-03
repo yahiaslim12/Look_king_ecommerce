@@ -111,11 +111,13 @@ export default function Payment({total,subTotal,shipping,tax}) {
                     }
                     
                     const data = await res.json();
-                    setAlert({ open: true, type: 'success', message: 'Order added successfully' });
+                    setTimeout(() => {
+                        setAlert({ open: true, type: 'success', message: 'Order added successfully' });
+                    }, 1000);
                     handleCarts([]);
                     setTimeout(() => {
                         setAlert(prev => ({ ...prev, open: false }));
-                    }, 3000);
+                    }, 2000);
                 } catch (error) {
                     setOpen(false);
                     setAlert({ open: true, type: 'error', message: error.message });
@@ -125,8 +127,10 @@ export default function Payment({total,subTotal,shipping,tax}) {
                     }, 3000);
                 } finally {
                     setTimeout(() => {
-                        setLoading(false);
                         setOpen(false);
+                    }, 1000);
+                    setTimeout(() => {
+                        setLoading(false);
                     }, 2000);
                 }
                 
