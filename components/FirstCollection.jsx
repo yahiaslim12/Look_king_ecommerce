@@ -37,9 +37,7 @@ export default function FirstCollection() {
     } catch (error) {
        console.log(error);
     }finally{
-      setTimeout(() => {
         setLoading(false)
-      }, 500); 
     }
   }
   useEffect(()=>{

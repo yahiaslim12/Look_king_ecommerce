@@ -30,9 +30,8 @@ export default function LastCollection() {
     } catch (error) {
        console.log(error);
     }finally{
-      setTimeout(() => {
+     
         setLoading(false)
-      }, 2000); 
     }
   }
   useEffect(()=>{
