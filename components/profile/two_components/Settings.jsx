@@ -99,10 +99,9 @@ export default function Settings({handleOpenDrawer}) {
             setIsEmptyNumber(user.number !== null && user.number !== '' ?  false : true)
            
         }else{
-            console.log(`Error : ${res.status} - ${res.statusText}`);
+        
         }
       } catch (error) {
-        console.log(error);
       }finally{
           setLoading(false)
           setIsEmptyNumber(user.number === null)
@@ -126,7 +125,7 @@ export default function Settings({handleOpenDrawer}) {
                     name : data.name,
                     number : data.number,
                 }))
-                console.log(data.number)
+            
                 setIsEmptyNumber(data.number !== null && data.number !== '' ?  false : true)
                 setAlert(prev => ({
                     ...prev,
@@ -143,7 +142,6 @@ export default function Settings({handleOpenDrawer}) {
                     }))
                 }, 4000);
             } else {
-                console.log(`Error: ${res.status} - ${res.statusText}`);
                 setAlert(prev => ({
                     ...prev,
                     open : true,
@@ -158,7 +156,6 @@ export default function Settings({handleOpenDrawer}) {
                 }, 4000);
             }
         } catch (error) {
-            console.log(error);
             setAlert(prev => ({
                 ...prev,
                 open : true,
@@ -184,7 +181,6 @@ export default function Settings({handleOpenDrawer}) {
                 }
             )
             const data = await res.json()
-            console.log(data);
             if(res.ok){
                 setAlert(prev => ({
                     ...prev,

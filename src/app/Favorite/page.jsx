@@ -19,7 +19,6 @@ export default function Favorite() {
   const handleSearch = (value) => {
     setSearch(value)
     const fp = favs.filter((product)=>product.name.toLowerCase().includes(value.toLowerCase()))
-    console.log(fp);
     setItems(fp)
   }
   const handleItems = (data) => {
@@ -42,7 +41,6 @@ export default function Favorite() {
         throw new Error(`${res.status} - ${res.statusText}`)
       }
     } catch (error) {
-      console.log(error);
     }
     
 

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import {motion,useInView,useAnimate,useAnimation} from "framer-motion"
 import { useEffect } from 'react';
+import Image from 'next/image';
 export default function Couv2() {
   const [reference,animate] = useAnimate()
   const isInView = useInView(reference)
@@ -20,7 +21,7 @@ export default function Couv2() {
         <h5 className='text-capitalize'>Nike solo swoosh</h5>
         <small>Shop Now</small>
        </div>
-       <img src="./images/T-shirt/nike4.webp" alt="" />
+       <Image src={"/images/T-shirt/nike4.webp"} width={280} height={280} priority alt='couv 2'/>
     </Link>
   )
 }

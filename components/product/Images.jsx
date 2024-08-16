@@ -35,7 +35,6 @@ export default function Images({id,img1,img2,img3,img4,handleRating,isBuy,ADD_RA
       }
     },[session,id])
   useEffect(()=>{
-    console.log(img1,img2,img3,img4);
     if(img1 && img1.includes('/')) setIsLoading(prev => ({...prev,one : false}))
     if(img2 && img2.includes('/')) setIsLoading(prev => ({...prev,two : false}))
     if(img3 && img3.includes('/')) setIsLoading(prev => ({...prev,three : false}))

@@ -22,7 +22,6 @@ export default function ITEMS({ item, tab }) {
         const data = await res.json()
         setProducts(data)
     } catch (error) {
-        console.log(error);
     }
   }
   useEffect(()=>{

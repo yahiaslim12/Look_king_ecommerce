@@ -63,7 +63,6 @@ export default function Category() {
     })
   const handleSizes = (type) => {
     if(type === 'one'){
-        console.log(type);
         setSizes({
             one : 'xs',
             two : null,
@@ -82,7 +81,7 @@ export default function Category() {
             six :  false
         }))
     }else if(type === 'two'){
-        console.log(type);
+    
         setSizes({
             one : null,
             two : 's',
@@ -101,7 +100,7 @@ export default function Category() {
             six :  false
         }))
     }else if(type === 'three'){
-        console.log(type);
+
         setSizes({
             one : null,
             two : null,
@@ -120,7 +119,6 @@ export default function Category() {
             six :  false
         }))
     }else if(type === 'four'){
-        console.log(type);
         setSizes({
             one : null,
             two : null,
@@ -139,7 +137,7 @@ export default function Category() {
             six :  false
         }))
     }else if(type === 'five'){
-        console.log(type);
+       
         setSizes({
             one : null,
             two : null,
@@ -158,7 +156,7 @@ export default function Category() {
             six :  false
         }))
     }else if(type === 'six'){
-        console.log(type);
+        
         setSizes({
             one : null,
             two : null,
@@ -198,7 +196,6 @@ export default function Category() {
   }
   const handleRatings = (type) => {
     if(type === 'one'){
-        console.log(type);
         setRatings({
             one : 1,
             two : null,
@@ -214,10 +211,8 @@ export default function Category() {
             five : false,
         })
         const fp = products.filter((product)=> product.rating === 1)
-        console.log(fp);
         setFilterProducts(fp)
     }else if(type === 'two'){
-        console.log(type);
         setRatings({
             one : null,
             two : 2,
@@ -235,7 +230,6 @@ export default function Category() {
         const fp = products.filter((product)=>product.rating === 2)
         setFilterProducts(fp)
     }else if(type === 'three'){
-        console.log(type);
         setRatings({
             one : null,
             two : null,
@@ -253,7 +247,7 @@ export default function Category() {
         const fp = products.filter((product)=>product.rating === 3)
         setFilterProducts(fp)
     }else if(type === 'four'){
-        console.log(type);
+        
         setRatings({
             one : null,
             two : null,
@@ -271,7 +265,7 @@ export default function Category() {
         const fp = products.filter((product)=>product.rating === 4)
         setFilterProducts(fp)
     }else if(type === 'five'){
-        console.log(type);
+        
         setRatings({
             one : null,
             two : null,
@@ -307,13 +301,10 @@ export default function Category() {
   }
   const handleChange = async (event, newValue) => {
     setValue(newValue);
-    console.log(newValue);
-  
     const fp = products.filter(
       (product) => product.price >= newValue[0] && product.price <= newValue[1]
     );
   
-    console.log(fp);
     setFilterProducts(fp)
   };
   const handleChangeValue = (type,data)=>{
@@ -326,12 +317,10 @@ export default function Category() {
         temp[1] = Number(data)
         setValue(temp)
     }
-    console.log(value);
     const fp = products.filter(
         (product) => product.price >= value[0] && product.price <= value[1]
       );
     
-      console.log(fp);
       setFilterProducts(fp)
   }
   const handleCategory = async(category) => {
@@ -350,15 +339,13 @@ export default function Category() {
         })
         if(!res.ok){
             const error = await res.json()
-            console.log(error);
             throw new Error(error.detail)
         }
         const data = await res.json()
-        console.log(data);
         setProducts(data)
         setFilterProducts(data)
     } catch (error) {
-        console.log(error);
+
     } 
   }
   const handlePage = (event,value) => {
@@ -381,7 +368,6 @@ export default function Category() {
   }
   const search = () => {
     const fp = products.filter((product) => product.name.toLowerCase().includes(name.toLowerCase()))
-    console.log(fp);
     setFilterProducts(fp)
   }
   const {textEnter,textLeave} = useContext(pathContext)

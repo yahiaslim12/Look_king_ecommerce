@@ -184,13 +184,13 @@ export default function Nav() {
   },[search])
   return (
     <header style={{backgroundColor : '#cdd0cb84',backdropFilter : 'blur(15px)',position : 'sticky',top : '0px'}} className='d-flex align-items-center px-4 py-3 justify-content-between'>
-      <Link href={'/'} ><Image src={'/images/LOGO_OFFECIAL.png'} width={50} height={50}/></Link>
+      <Link href={'/'} ><Image src={'/images/LOGO_OFFECIAL.png'} width={50} height={50} alt='LOGO'/></Link>
       <nav className='d-flex '>
          <div className='navbarLinksName nav gap-8 text-capitalize align-items-center d-none d-md-flex'>
            <Link className='mb-0' href={'/'} style={{textDecoration:'none'}}><h6 style = {{color : "black",}}>Home</h6></Link>
            <Link className='mb-0' href={'/Category'} style={{textDecoration:'none'}}><h6 style = {{color : "black",}}>Category</h6></Link>
            <svg className='d-none d-sm-block mb-1' onClick={()=>handleChangePage('cart')} id='cartIcon' xmlns="http://www.w3.org/2000/svg" width={25}  viewBox="0 -2.55 20.095 20.095">
-                <path id="Path_13" dataName="Path 13" d="M437.249,829.36a1.874,1.874,0,0,0,1.72,1.633H447.1c.9,0,1.24-.72,1.626-1.633l1.93-4.382H440l-.136-.964h12.2l-2.262,5.346c-.678,1.556-1.213,2.66-2.709,2.66h-8.128a2.664,2.664,0,0,1-2.71-2.66l-.8-7.36h-3.484v-1h4.406Zm1.225,3.64a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,438.474,833Zm-.531,1.969h1V834h-1ZM446.474,833a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,446.474,833Zm-.531,1.969h1V834h-1Z" transform="translate(-431.973 -821)" fill="#444"/>
+                <path id="Path_13"  d="M437.249,829.36a1.874,1.874,0,0,0,1.72,1.633H447.1c.9,0,1.24-.72,1.626-1.633l1.93-4.382H440l-.136-.964h12.2l-2.262,5.346c-.678,1.556-1.213,2.66-2.709,2.66h-8.128a2.664,2.664,0,0,1-2.71-2.66l-.8-7.36h-3.484v-1h4.406Zm1.225,3.64a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,438.474,833Zm-.531,1.969h1V834h-1ZM446.474,833a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,446.474,833Zm-.531,1.969h1V834h-1Z" transform="translate(-431.973 -821)" fill="#444"/>
            </svg>                
             <Link className='mb-0' href={'/Favorite'} style={{textDecoration:'none'}}><h6 style = {{color : "black",}}>Wishlist</h6></Link>
            <Link  className='mb-0' href={session ? "/profile" : "/login"} style={{textDecoration:'none'}}><h6 style = {{color : "black",}}>{session ? "Profile" : "Sign In"}</h6></Link>

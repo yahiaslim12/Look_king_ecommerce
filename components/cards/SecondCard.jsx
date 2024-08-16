@@ -5,6 +5,7 @@ import { useInView, useAnimation, motion } from "framer-motion";
 import { useEffect, useContext, useState, useRef } from "react";
 import { pathContext } from "../providers/GlobalProvider";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function SecondCard() {
   const [product, setProduct] = useState({});
@@ -21,7 +22,6 @@ export default function SecondCard() {
       });
       if (res.ok) {
         const data = await res.json();
-        console.log(data);
         setProduct(data);
       } else {
         throw new Error(`Error ${res.status} - ${res.statusText}`);
@@ -58,11 +58,14 @@ export default function SecondCard() {
       onClick={()=> router.push('/product/'+product.id_product)}
     >
       <div>
-        <img
+        <Image
+          width={400}
+          height={400}
           loading="lazy"
-          src={"."+product.img1}
+          src={product.img1 || '/images/T-shirt/nike4.webp'}
+          
           className="rounded"
-          alt=""
+          alt="product"
         />
         <div className="d-flex justify-content-between mt-2">
           <h6 className="productName">{product.name}</h6>

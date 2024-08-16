@@ -62,8 +62,8 @@ export default function SecondCollection() {
           <div className="thirdCardContent d-flex gap-3  flex-wrap justify-between md_ta3i:justify-center py-2">
             {
               !loading ? (
-                products.map((item)=>(
-                  <ThirdCard id={item.id_product} name={item.name} desc_small={item.desc_small} img={item.img1} price={item.price}/>
+                products.map((item,index)=>(
+                  <ThirdCard key={index} id={item.id_product} name={item.name} desc_small={item.desc_small} img={item.img1} price={item.price}/>
                 ))
               ) : (
                  <>

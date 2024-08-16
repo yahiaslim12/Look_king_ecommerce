@@ -9,6 +9,7 @@ import { pathContext } from '../providers/GlobalProvider';
 import CardsSkeleton from '../skeleton/cards';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 export default function FirstCard({id,src,name,small,price}) {
   const {productEnter , productLeave,CHECK,handleFavs} = useContext(pathContext)
   const {data : session,status} = useSession()
@@ -93,7 +94,7 @@ export default function FirstCard({id,src,name,small,price}) {
   return (
     <motion.div className="firstCard p-1 rounded hover:border" ref={reference} onMouseEnter={productEnter} onMouseLeave={productLeave} >
       <span className='rounded px-2 py-1 text-uppercase' style={{backgroundColor : statuss === 'new' ? '#28a745' : '#dc3545' }}>{statuss}</span>
-       <img loading='lazy' className='rounded' src={"."+src} alt="" onClick={toDetailPage}/>
+        <Image src={src} width={280} height={280} onClick={toDetailPage} className='rounded' alt={'produit '+id} loading='lazy' placeholder='blur' blurDataURL='/images/loading.jpg'/>
         <div className='d-flex justify-content-between'>
         <div className='pt-2 bg-white'>
           <h6 className='productName'>{name}</h6>

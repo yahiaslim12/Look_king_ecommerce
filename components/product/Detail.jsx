@@ -49,7 +49,6 @@ export default function Detail({id,small,big,name,price,category,qte,sizes,isBuy
             })
             if (!res.ok) {
                 const errorData = await res.json();
-                console.log(errorData);
                 throw new Error(errorData.detail || 'An error occurred');
               }
               const data = await res.json();
@@ -58,7 +57,6 @@ export default function Detail({id,small,big,name,price,category,qte,sizes,isBuy
                 setAlert(prev => ({open : false,...prev}));
               }, 3000);
         } catch (error) {
-            console.log(error);
             setAlert({open : true, message : error.message,type : 'error'})
             setTimeout(() => {
                 setAlert({open : false, message : '', type: ''})
@@ -93,7 +91,6 @@ export default function Detail({id,small,big,name,price,category,qte,sizes,isBuy
                 setAlert({ open: false, message: '', type: '' });
               }, 3000);
           } catch (error) {
-            console.log(error);
             setAlert({ open: true, message: error.message, type: 'error' });
             setTimeout(() => {
               setAlert({ open: false, message: '', type: '' });
@@ -115,9 +112,6 @@ export default function Detail({id,small,big,name,price,category,qte,sizes,isBuy
         setAddWishList(false)
     }
   },[session,id])
-  useEffect(()=>{
-    console.log(isBuy);
-  },[isBuy])
   useEffect(()=>{
     handleCounts(id)
   },[])

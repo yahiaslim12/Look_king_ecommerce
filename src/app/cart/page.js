@@ -32,7 +32,7 @@ export default function Index() {
         throw new Error(`${res.status} - ${res.statusText}`)
       }
     } catch (error) {
-      console.log(error);
+
     }
     
 

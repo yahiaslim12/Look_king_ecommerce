@@ -37,11 +37,10 @@ export default function GlobalProvider({ children }) {
         return true
       } else {
         const error = await res.json()
-        console.log(error.detail);
+        
         return false
       }
     } catch (error) {
-      console.log(error);
     }
   }
   const variantsOne = {

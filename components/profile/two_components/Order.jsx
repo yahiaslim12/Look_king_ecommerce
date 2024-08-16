@@ -17,7 +17,6 @@ export default function Order({handleOpenDrawer}) {
     const fp = orders.filter((order) => (
         order.status.toLowerCase().includes(value.toLowerCase())
     ))
-    console.log(fp);
     setItems(fp)
   }
   const GET = async () => {
@@ -33,7 +32,7 @@ export default function Order({handleOpenDrawer}) {
             throw new Error(res.status+' '+error.detail)
         }
         const data = await res.json()
-        console.log(data);
+    
         setOrders(data.map(item=>{
             return {
                 ...item,
@@ -48,7 +47,7 @@ export default function Order({handleOpenDrawer}) {
         }))
         
      } catch (error) {
-        console.log(error);
+        
      }finally{
         setLoading(false)
      }
@@ -69,7 +68,7 @@ export default function Order({handleOpenDrawer}) {
         GET()
     }
         catch{
-            console.log(error.message);
+            
         }
   }
   const handleShow = (id, type) => {

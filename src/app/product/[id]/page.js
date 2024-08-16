@@ -25,13 +25,12 @@ export default function index({params}) {
         const res = await fetch('http://localhost:8000/products/'+id,{method : 'GET',headers : {'Content-Type' : 'application/json'}})
         if(res.ok){
             const data = await res.json()
-            console.log(data);
             setProduct(data)
         }else{
             throw new Error(`Error ${res.status} - ${res.statusText}`)
         }
     } catch (error) {
-        console.log(error);
+       
     }finally{
         setLoading(false)
     }
@@ -42,13 +41,12 @@ export default function index({params}) {
         const res = await fetch('http://localhost:8000/products/'+id+'/size',{method : 'GET',headers : {'Content-Type' : 'application/json'}})
         if(res.ok){
             const data = await res.json()
-            console.log(data);
             setSizes(data)
         }else{
             throw new Error(`Error ${res.status} - ${res.statusText}`)
         }
     } catch (error) {
-        console.log(error);
+       
     }
   }
   const handleRating = async (id,email) => {
@@ -69,15 +67,15 @@ export default function index({params}) {
         throw new Error(res.status + ' ' + error.detail);
       }
       const data = await res.json();
-      console.log(data);
+     
       setIsBuy(true);
     } catch (error) {
       setIsBuy(false)
-      console.log(error);
+      
     }
   };
   const ADD_RATING = async(id,email,rating) => {
-    console.log('hello');
+   
     try {
         const res = await fetch('http://localhost:8000/rating/add',{
             method : 'POST',
@@ -114,10 +112,10 @@ export default function index({params}) {
             throw new Error(res.status + ' ' + error.detail);
         }
         const data = await res.json();
-        console.log(data);
+       
         setCounts(data);
     } catch (error) {
-        console.log(error);
+      
     }
   }
   useEffect(()=>{
